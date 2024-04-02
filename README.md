@@ -2,8 +2,8 @@
 
 ###  Integrantes:
 
-Anthony Jimenez
-Kevin Varela
+Anthony Jimenez,
+Kevin Varela,
 Fabian Rojas
 
 
