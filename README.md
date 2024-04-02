@@ -2,9 +2,9 @@ Esto es un compilador de go hecho para el proyecto de Compiladores
 
 Integrantes:
 
-***Anthony Jimenez**
-***Kevin Varela**
-***Fabian Rojas**
+**Anthony Jimenez**
+**Kevin Varela**
+**Fabian Rojas**
 
 
 
