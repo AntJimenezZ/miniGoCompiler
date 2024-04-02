@@ -16,18 +16,17 @@ Fabian Rojas
 2.   Ejecutar el main.go
 
 
-------------
 
 
-###**Interfaz Web**
+### **Interfaz Web**
 
 Dentro de la carpeta donde se encuentra la interfaz web, escribir los siguientes comandos en la terminal
-  1) npm create astro@latest
-  2) npm run dev
-  3) copiar la direccion que aparece en la consola (para más información visitar la documentación de Astro https://astro.build/
+1.   npm create astro@latest
+2.   npm run dev
+3.   copiar la direccion que aparece en la consola (para más información visitar la documentación de Astro https://astro.build/
 
 
-###**Funcionamiento**
+### **Funcionamiento**
 
 Una vez realizados los pasos anteriores, se debe mostrar en la terminal del servidor que se está ejecutando correctamente
 lo mismo con la terminal de la interfaz web, que debe mostrar una dirrecion localhost donde se encuentra alojada la página
