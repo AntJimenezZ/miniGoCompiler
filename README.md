@@ -21,7 +21,7 @@ Fabian Rojas
 ### **Interfaz Web**
 
 Dentro de la carpeta donde se encuentra la interfaz web, escribir los siguientes comandos en la terminal
-1.   npm create astro@latest
+1.   npm install astro
 2.   npm run dev
 3.   copiar la direccion que aparece en la consola (para más información visitar la documentación de Astro https://astro.build/
 
