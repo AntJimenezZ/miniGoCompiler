@@ -26,7 +26,7 @@ export default function App() {
   return (
     <div>
       <div className="mb-8 mt-8">
-        <h1 className="mb-8">Enter your code below</h1>
+        <h1 className="mb-8 ite">Enter your code below</h1>
         <Textarea
           label="Code:"
           variant="flat"
@@ -41,7 +41,7 @@ export default function App() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           classNames={{
-            base: "w-full max-w-xl",
+            base: "w-full max-w-7xl",
             input: "resize-y min-h-[270px] font-mono",
           }}
         />
