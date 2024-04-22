@@ -25,8 +25,8 @@ export default function App() {
 
   return (
     <div>
-      <div class="mb-8 mt-8">
-        <h1 class="mb-8">Enter your code below</h1>
+      <div className="mb-8 mt-8">
+        <h1 className="mb-8">Enter your code below</h1>
         <Textarea
           label="Code:"
           variant="flat"
@@ -52,7 +52,7 @@ export default function App() {
         </h1>
       </div>
 
-      <div>
+      <div className="mb-96">
         <h1 className="mb-8">All errors will be displayed here</h1>
         <Textarea
           label="Errors:"
