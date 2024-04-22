@@ -46,7 +46,7 @@ export default function App() {
           }}
         />
         <h1>
-          <Button color="success" variant="shadow" onPress={handleClick}>
+          <Button color="success" variant="solid" size="lg" radius="sm" onPress={handleClick}>
             Compile
           </Button>
         </h1>
@@ -62,7 +62,7 @@ export default function App() {
           disableAnimation
           value={responseText}
           classNames={{
-            base: "w-full max-w-xl text-black",
+            base: "w-full max-w-7xl text-black",
             input: "resize-y min-h-[270px] font-mono",
           }}
         />
