@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Button, Textarea } from "@nextui-org/react";
 
+
 export default function App() {
   const [text, setText] = useState("");
   const [responseText, setResponseText] = useState("");
+  const [backupCode, setBackupCode] = useState("");
+  const [isReadOnly, setIsReadOnly] = useState(false);
 
-  const handleClick = async () => {
+  const handleClickCompile = async () => {
     try {
       const response = await fetch("http://localhost:8080/json", {
         method: "POST",
@@ -14,14 +17,29 @@ export default function App() {
         },
         body: JSON.stringify({ text: text }),
       });
-
+      
       const data = await response.json();
       setResponseText(data.text);
-      console.log(data.text);
+      
+      const newBackupCode = text;
+      setBackupCode(newBackupCode);
+      console.log("Backup code: ", newBackupCode);
+      setIsReadOnly(true);
+
+      setText(text.split('\n').map((line, index) => `${index + 1}- ${line}`).join('\n'));
+      
+      
     } catch (error) {
       console.error("Error:", error);
     }
   };
+
+  const handleClickEdit = async () => {
+    
+    console.log("Backup code: ", backupCode);
+    setText(backupCode);
+    setIsReadOnly(false);
+  }
 
   return (
     <div>
@@ -30,14 +48,9 @@ export default function App() {
         <Textarea
           label="Code:"
           variant="flat"
-          placeholder="Example:
-1 package main;
-2 import fmt;
-3 func main(){ 
-4       fmt.Println('Hello, World!'); 
-5 }"
           disableAnimation
           //disableAutosize
+          isReadOnly={isReadOnly}
           value={text}
           onChange={(e) => setText(e.target.value)}
           classNames={{
@@ -46,8 +59,11 @@ export default function App() {
           }}
         />
         <h1>
-          <Button color="success" variant="solid" size="lg" radius="sm" onPress={handleClick}>
+          <Button color="success" variant="shadow" size="lg" radius="sm" isDisabled ={isReadOnly} onPress={handleClickCompile} style={{marginRight: '20px'}}>
             Compile
+          </Button>
+          <Button color="warning" variant="shadow" size="lg" radius="sm" isDisabled ={!isReadOnly} onPress={(handleClickEdit)}>
+            Edit
           </Button>
         </h1>
       </div>
