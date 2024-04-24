@@ -1,1 +1,3 @@
-package fsdfdsfsdf;
+package main;
+
+var caca = '  ';

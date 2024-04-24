@@ -86,10 +86,13 @@ func compiler() {
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := generated.NewminiGoParser(stream)
 	p.RemoveErrorListeners()                 // Removes default listener
-	p.AddErrorListener(NewMyErrorListener()) // This creates your own listener
-	tree := p.Root()
-	antlr.ParseTreeWalkerDefault.Walk(&miniGoListener{}, tree)
+	listener := NewMyErrorListener()            // This creates your own listener
+	lexer.RemoveErrorListeners()			  // Removes default listener
+	p.AddErrorListener(listener) // This creates your own listener
+	lexer.AddErrorListener(listener)
 
+	p.Root()
+	
 }
 
 func consoleTests(clientMsg Message) {
