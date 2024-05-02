@@ -1,17 +1,17 @@
-// Code generated from C:/Users/noni4/Desktop/miniGoProyect/serverAndCompiler/miniGoParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
+// Code generated from C:/Users/noni4/Desktop/miniGoCompiler/serverAndCompiler/MiniGoParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
 
-package generated // miniGoParser
+package parser // MiniGoParser
 import "github.com/antlr4-go/antlr/v4"
 
-// miniGoParserListener is a complete listener for a parse tree produced by miniGoParser.
-type miniGoParserListener interface {
+// MiniGoParserListener is a complete listener for a parse tree produced by MiniGoParser.
+type MiniGoParserListener interface {
 	antlr.ParseTreeListener
 
-	// EnterRootAST is called when entering the rootAST production.
-	EnterRootAST(c *RootASTContext)
+	// EnterRoot is called when entering the root production.
+	EnterRoot(c *RootContext)
 
-	// EnterTopDeclarationListAST is called when entering the topDeclarationListAST production.
-	EnterTopDeclarationListAST(c *TopDeclarationListASTContext)
+	// EnterTopDeclarationList is called when entering the topDeclarationList production.
+	EnterTopDeclarationList(c *TopDeclarationListContext)
 
 	// EnterVariableDeclAST is called when entering the variableDeclAST production.
 	EnterVariableDeclAST(c *VariableDeclASTContext)
@@ -22,8 +22,8 @@ type miniGoParserListener interface {
 	// EnterVariableDeclEmptyAST is called when entering the variableDeclEmptyAST production.
 	EnterVariableDeclEmptyAST(c *VariableDeclEmptyASTContext)
 
-	// EnterInnerVarDeclsAST is called when entering the innerVarDeclsAST production.
-	EnterInnerVarDeclsAST(c *InnerVarDeclsASTContext)
+	// EnterInnerVarDecls is called when entering the innerVarDecls production.
+	EnterInnerVarDecls(c *InnerVarDeclsContext)
 
 	// EnterSingleVarDeclAST is called when entering the singleVarDeclAST production.
 	EnterSingleVarDeclAST(c *SingleVarDeclASTContext)
@@ -34,8 +34,8 @@ type miniGoParserListener interface {
 	// EnterSingleVarDeclNoExpsAST is called when entering the singleVarDeclNoExpsAST production.
 	EnterSingleVarDeclNoExpsAST(c *SingleVarDeclNoExpsASTContext)
 
-	// EnterSingleVarDeclNoExpsDeclTypeAST is called when entering the singleVarDeclNoExpsDeclTypeAST production.
-	EnterSingleVarDeclNoExpsDeclTypeAST(c *SingleVarDeclNoExpsDeclTypeASTContext)
+	// EnterSingleVarDeclNoExps is called when entering the singleVarDeclNoExps production.
+	EnterSingleVarDeclNoExps(c *SingleVarDeclNoExpsContext)
 
 	// EnterTypeDeclAST is called when entering the typeDeclAST production.
 	EnterTypeDeclAST(c *TypeDeclASTContext)
@@ -46,20 +46,32 @@ type miniGoParserListener interface {
 	// EnterTypeDeclEmptyAST is called when entering the typeDeclEmptyAST production.
 	EnterTypeDeclEmptyAST(c *TypeDeclEmptyASTContext)
 
-	// EnterInnerTypeDeclsAST is called when entering the innerTypeDeclsAST production.
-	EnterInnerTypeDeclsAST(c *InnerTypeDeclsASTContext)
+	// EnterInnerTypeDecls is called when entering the innerTypeDecls production.
+	EnterInnerTypeDecls(c *InnerTypeDeclsContext)
 
-	// EnterSingleTypeDeclAST is called when entering the singleTypeDeclAST production.
-	EnterSingleTypeDeclAST(c *SingleTypeDeclASTContext)
+	// EnterSingleTypeDecl is called when entering the singleTypeDecl production.
+	EnterSingleTypeDecl(c *SingleTypeDeclContext)
 
-	// EnterFuncDeclAST is called when entering the funcDeclAST production.
-	EnterFuncDeclAST(c *FuncDeclASTContext)
+	// EnterFuncDecl is called when entering the funcDecl production.
+	EnterFuncDecl(c *FuncDeclContext)
 
-	// EnterFuncFrontDeclAST is called when entering the funcFrontDeclAST production.
-	EnterFuncFrontDeclAST(c *FuncFrontDeclASTContext)
+	// EnterFuncFrontDecl is called when entering the funcFrontDecl production.
+	EnterFuncFrontDecl(c *FuncFrontDeclContext)
 
-	// EnterFuncArgDeclsAST is called when entering the funcArgDeclsAST production.
-	EnterFuncArgDeclsAST(c *FuncArgDeclsASTContext)
+	// EnterMultipleReturnTypes is called when entering the multipleReturnTypes production.
+	EnterMultipleReturnTypes(c *MultipleReturnTypesContext)
+
+	// EnterReturnTypeList is called when entering the returnTypeList production.
+	EnterReturnTypeList(c *ReturnTypeListContext)
+
+	// EnterSingleReturnTypeAST is called when entering the singleReturnTypeAST production.
+	EnterSingleReturnTypeAST(c *SingleReturnTypeASTContext)
+
+	// EnterSingleReturnTypeEmptyAST is called when entering the singleReturnTypeEmptyAST production.
+	EnterSingleReturnTypeEmptyAST(c *SingleReturnTypeEmptyASTContext)
+
+	// EnterFuncArgDecls is called when entering the funcArgDecls production.
+	EnterFuncArgDecls(c *FuncArgDeclsContext)
 
 	// EnterDeclTypeParenAST is called when entering the declTypeParenAST production.
 	EnterDeclTypeParenAST(c *DeclTypeParenASTContext)
@@ -76,20 +88,20 @@ type miniGoParserListener interface {
 	// EnterDeclTypeStructAST is called when entering the declTypeStructAST production.
 	EnterDeclTypeStructAST(c *DeclTypeStructASTContext)
 
-	// EnterSliceDeclTypeAST is called when entering the sliceDeclTypeAST production.
-	EnterSliceDeclTypeAST(c *SliceDeclTypeASTContext)
+	// EnterSliceDeclType is called when entering the sliceDeclType production.
+	EnterSliceDeclType(c *SliceDeclTypeContext)
 
-	// EnterArrayDeclTypeAST is called when entering the arrayDeclTypeAST production.
-	EnterArrayDeclTypeAST(c *ArrayDeclTypeASTContext)
+	// EnterArrayDeclType is called when entering the arrayDeclType production.
+	EnterArrayDeclType(c *ArrayDeclTypeContext)
 
-	// EnterStructDeclTypeAST is called when entering the structDeclTypeAST production.
-	EnterStructDeclTypeAST(c *StructDeclTypeASTContext)
+	// EnterStructDeclType is called when entering the structDeclType production.
+	EnterStructDeclType(c *StructDeclTypeContext)
 
-	// EnterStructMemDeclsAST is called when entering the structMemDeclsAST production.
-	EnterStructMemDeclsAST(c *StructMemDeclsASTContext)
+	// EnterStructMemDecls is called when entering the structMemDecls production.
+	EnterStructMemDecls(c *StructMemDeclsContext)
 
-	// EnterIdentifierListAST is called when entering the identifierListAST production.
-	EnterIdentifierListAST(c *IdentifierListASTContext)
+	// EnterIdentifierList is called when entering the identifierList production.
+	EnterIdentifierList(c *IdentifierListContext)
 
 	// EnterExpressionNotUnaryAST is called when entering the expressionNotUnaryAST production.
 	EnterExpressionNotUnaryAST(c *ExpressionNotUnaryASTContext)
@@ -163,8 +175,8 @@ type miniGoParserListener interface {
 	// EnterExpressionShiftLeftAST is called when entering the expressionShiftLeftAST production.
 	EnterExpressionShiftLeftAST(c *ExpressionShiftLeftASTContext)
 
-	// EnterExpressionListAST is called when entering the expressionListAST production.
-	EnterExpressionListAST(c *ExpressionListASTContext)
+	// EnterExpressionList is called when entering the expressionList production.
+	EnterExpressionList(c *ExpressionListContext)
 
 	// EnterPrimaryExpressionLengthAST is called when entering the primaryExpressionLengthAST production.
 	EnterPrimaryExpressionLengthAST(c *PrimaryExpressionLengthASTContext)
@@ -211,8 +223,8 @@ type miniGoParserListener interface {
 	// EnterLiteralInterpretedStringAST is called when entering the literalInterpretedStringAST production.
 	EnterLiteralInterpretedStringAST(c *LiteralInterpretedStringASTContext)
 
-	// EnterIndexAST is called when entering the indexAST production.
-	EnterIndexAST(c *IndexASTContext)
+	// EnterIndex is called when entering the index production.
+	EnterIndex(c *IndexContext)
 
 	// EnterArgumentsAST is called when entering the argumentsAST production.
 	EnterArgumentsAST(c *ArgumentsASTContext)
@@ -220,23 +232,23 @@ type miniGoParserListener interface {
 	// EnterArgumentsEmptyAST is called when entering the argumentsEmptyAST production.
 	EnterArgumentsEmptyAST(c *ArgumentsEmptyASTContext)
 
-	// EnterSelectorAST is called when entering the selectorAST production.
-	EnterSelectorAST(c *SelectorASTContext)
+	// EnterSelector is called when entering the selector production.
+	EnterSelector(c *SelectorContext)
 
-	// EnterAppendExpressionAST is called when entering the appendExpressionAST production.
-	EnterAppendExpressionAST(c *AppendExpressionASTContext)
+	// EnterAppendExpression is called when entering the appendExpression production.
+	EnterAppendExpression(c *AppendExpressionContext)
 
-	// EnterLengthExpressionAST is called when entering the lengthExpressionAST production.
-	EnterLengthExpressionAST(c *LengthExpressionASTContext)
+	// EnterLengthExpression is called when entering the lengthExpression production.
+	EnterLengthExpression(c *LengthExpressionContext)
 
-	// EnterCapExpressionAST is called when entering the capExpressionAST production.
-	EnterCapExpressionAST(c *CapExpressionASTContext)
+	// EnterCapExpression is called when entering the capExpression production.
+	EnterCapExpression(c *CapExpressionContext)
 
-	// EnterStatementListAST is called when entering the statementListAST production.
-	EnterStatementListAST(c *StatementListASTContext)
+	// EnterStatementList is called when entering the statementList production.
+	EnterStatementList(c *StatementListContext)
 
-	// EnterBlockAST is called when entering the blockAST production.
-	EnterBlockAST(c *BlockASTContext)
+	// EnterBlock is called when entering the block production.
+	EnterBlock(c *BlockContext)
 
 	// EnterStatementPrintAST is called when entering the statementPrintAST production.
 	EnterStatementPrintAST(c *StatementPrintASTContext)
@@ -370,8 +382,8 @@ type miniGoParserListener interface {
 	// EnterExpressionCaseClauseListAST is called when entering the expressionCaseClauseListAST production.
 	EnterExpressionCaseClauseListAST(c *ExpressionCaseClauseListASTContext)
 
-	// EnterExpressionCaseClauseAST is called when entering the expressionCaseClauseAST production.
-	EnterExpressionCaseClauseAST(c *ExpressionCaseClauseASTContext)
+	// EnterExpressionCaseClause is called when entering the expressionCaseClause production.
+	EnterExpressionCaseClause(c *ExpressionCaseClauseContext)
 
 	// EnterExpressionSwitchCaseAST is called when entering the expressionSwitchCaseAST production.
 	EnterExpressionSwitchCaseAST(c *ExpressionSwitchCaseASTContext)
@@ -379,14 +391,14 @@ type miniGoParserListener interface {
 	// EnterExpressionSwitchDefaultAST is called when entering the expressionSwitchDefaultAST production.
 	EnterExpressionSwitchDefaultAST(c *ExpressionSwitchDefaultASTContext)
 
-	// EnterEpsilonAST is called when entering the epsilonAST production.
-	EnterEpsilonAST(c *EpsilonASTContext)
+	// EnterEpsilon is called when entering the epsilon production.
+	EnterEpsilon(c *EpsilonContext)
 
-	// ExitRootAST is called when exiting the rootAST production.
-	ExitRootAST(c *RootASTContext)
+	// ExitRoot is called when exiting the root production.
+	ExitRoot(c *RootContext)
 
-	// ExitTopDeclarationListAST is called when exiting the topDeclarationListAST production.
-	ExitTopDeclarationListAST(c *TopDeclarationListASTContext)
+	// ExitTopDeclarationList is called when exiting the topDeclarationList production.
+	ExitTopDeclarationList(c *TopDeclarationListContext)
 
 	// ExitVariableDeclAST is called when exiting the variableDeclAST production.
 	ExitVariableDeclAST(c *VariableDeclASTContext)
@@ -397,8 +409,8 @@ type miniGoParserListener interface {
 	// ExitVariableDeclEmptyAST is called when exiting the variableDeclEmptyAST production.
 	ExitVariableDeclEmptyAST(c *VariableDeclEmptyASTContext)
 
-	// ExitInnerVarDeclsAST is called when exiting the innerVarDeclsAST production.
-	ExitInnerVarDeclsAST(c *InnerVarDeclsASTContext)
+	// ExitInnerVarDecls is called when exiting the innerVarDecls production.
+	ExitInnerVarDecls(c *InnerVarDeclsContext)
 
 	// ExitSingleVarDeclAST is called when exiting the singleVarDeclAST production.
 	ExitSingleVarDeclAST(c *SingleVarDeclASTContext)
@@ -409,8 +421,8 @@ type miniGoParserListener interface {
 	// ExitSingleVarDeclNoExpsAST is called when exiting the singleVarDeclNoExpsAST production.
 	ExitSingleVarDeclNoExpsAST(c *SingleVarDeclNoExpsASTContext)
 
-	// ExitSingleVarDeclNoExpsDeclTypeAST is called when exiting the singleVarDeclNoExpsDeclTypeAST production.
-	ExitSingleVarDeclNoExpsDeclTypeAST(c *SingleVarDeclNoExpsDeclTypeASTContext)
+	// ExitSingleVarDeclNoExps is called when exiting the singleVarDeclNoExps production.
+	ExitSingleVarDeclNoExps(c *SingleVarDeclNoExpsContext)
 
 	// ExitTypeDeclAST is called when exiting the typeDeclAST production.
 	ExitTypeDeclAST(c *TypeDeclASTContext)
@@ -421,20 +433,32 @@ type miniGoParserListener interface {
 	// ExitTypeDeclEmptyAST is called when exiting the typeDeclEmptyAST production.
 	ExitTypeDeclEmptyAST(c *TypeDeclEmptyASTContext)
 
-	// ExitInnerTypeDeclsAST is called when exiting the innerTypeDeclsAST production.
-	ExitInnerTypeDeclsAST(c *InnerTypeDeclsASTContext)
+	// ExitInnerTypeDecls is called when exiting the innerTypeDecls production.
+	ExitInnerTypeDecls(c *InnerTypeDeclsContext)
 
-	// ExitSingleTypeDeclAST is called when exiting the singleTypeDeclAST production.
-	ExitSingleTypeDeclAST(c *SingleTypeDeclASTContext)
+	// ExitSingleTypeDecl is called when exiting the singleTypeDecl production.
+	ExitSingleTypeDecl(c *SingleTypeDeclContext)
 
-	// ExitFuncDeclAST is called when exiting the funcDeclAST production.
-	ExitFuncDeclAST(c *FuncDeclASTContext)
+	// ExitFuncDecl is called when exiting the funcDecl production.
+	ExitFuncDecl(c *FuncDeclContext)
 
-	// ExitFuncFrontDeclAST is called when exiting the funcFrontDeclAST production.
-	ExitFuncFrontDeclAST(c *FuncFrontDeclASTContext)
+	// ExitFuncFrontDecl is called when exiting the funcFrontDecl production.
+	ExitFuncFrontDecl(c *FuncFrontDeclContext)
 
-	// ExitFuncArgDeclsAST is called when exiting the funcArgDeclsAST production.
-	ExitFuncArgDeclsAST(c *FuncArgDeclsASTContext)
+	// ExitMultipleReturnTypes is called when exiting the multipleReturnTypes production.
+	ExitMultipleReturnTypes(c *MultipleReturnTypesContext)
+
+	// ExitReturnTypeList is called when exiting the returnTypeList production.
+	ExitReturnTypeList(c *ReturnTypeListContext)
+
+	// ExitSingleReturnTypeAST is called when exiting the singleReturnTypeAST production.
+	ExitSingleReturnTypeAST(c *SingleReturnTypeASTContext)
+
+	// ExitSingleReturnTypeEmptyAST is called when exiting the singleReturnTypeEmptyAST production.
+	ExitSingleReturnTypeEmptyAST(c *SingleReturnTypeEmptyASTContext)
+
+	// ExitFuncArgDecls is called when exiting the funcArgDecls production.
+	ExitFuncArgDecls(c *FuncArgDeclsContext)
 
 	// ExitDeclTypeParenAST is called when exiting the declTypeParenAST production.
 	ExitDeclTypeParenAST(c *DeclTypeParenASTContext)
@@ -451,20 +475,20 @@ type miniGoParserListener interface {
 	// ExitDeclTypeStructAST is called when exiting the declTypeStructAST production.
 	ExitDeclTypeStructAST(c *DeclTypeStructASTContext)
 
-	// ExitSliceDeclTypeAST is called when exiting the sliceDeclTypeAST production.
-	ExitSliceDeclTypeAST(c *SliceDeclTypeASTContext)
+	// ExitSliceDeclType is called when exiting the sliceDeclType production.
+	ExitSliceDeclType(c *SliceDeclTypeContext)
 
-	// ExitArrayDeclTypeAST is called when exiting the arrayDeclTypeAST production.
-	ExitArrayDeclTypeAST(c *ArrayDeclTypeASTContext)
+	// ExitArrayDeclType is called when exiting the arrayDeclType production.
+	ExitArrayDeclType(c *ArrayDeclTypeContext)
 
-	// ExitStructDeclTypeAST is called when exiting the structDeclTypeAST production.
-	ExitStructDeclTypeAST(c *StructDeclTypeASTContext)
+	// ExitStructDeclType is called when exiting the structDeclType production.
+	ExitStructDeclType(c *StructDeclTypeContext)
 
-	// ExitStructMemDeclsAST is called when exiting the structMemDeclsAST production.
-	ExitStructMemDeclsAST(c *StructMemDeclsASTContext)
+	// ExitStructMemDecls is called when exiting the structMemDecls production.
+	ExitStructMemDecls(c *StructMemDeclsContext)
 
-	// ExitIdentifierListAST is called when exiting the identifierListAST production.
-	ExitIdentifierListAST(c *IdentifierListASTContext)
+	// ExitIdentifierList is called when exiting the identifierList production.
+	ExitIdentifierList(c *IdentifierListContext)
 
 	// ExitExpressionNotUnaryAST is called when exiting the expressionNotUnaryAST production.
 	ExitExpressionNotUnaryAST(c *ExpressionNotUnaryASTContext)
@@ -538,8 +562,8 @@ type miniGoParserListener interface {
 	// ExitExpressionShiftLeftAST is called when exiting the expressionShiftLeftAST production.
 	ExitExpressionShiftLeftAST(c *ExpressionShiftLeftASTContext)
 
-	// ExitExpressionListAST is called when exiting the expressionListAST production.
-	ExitExpressionListAST(c *ExpressionListASTContext)
+	// ExitExpressionList is called when exiting the expressionList production.
+	ExitExpressionList(c *ExpressionListContext)
 
 	// ExitPrimaryExpressionLengthAST is called when exiting the primaryExpressionLengthAST production.
 	ExitPrimaryExpressionLengthAST(c *PrimaryExpressionLengthASTContext)
@@ -586,8 +610,8 @@ type miniGoParserListener interface {
 	// ExitLiteralInterpretedStringAST is called when exiting the literalInterpretedStringAST production.
 	ExitLiteralInterpretedStringAST(c *LiteralInterpretedStringASTContext)
 
-	// ExitIndexAST is called when exiting the indexAST production.
-	ExitIndexAST(c *IndexASTContext)
+	// ExitIndex is called when exiting the index production.
+	ExitIndex(c *IndexContext)
 
 	// ExitArgumentsAST is called when exiting the argumentsAST production.
 	ExitArgumentsAST(c *ArgumentsASTContext)
@@ -595,23 +619,23 @@ type miniGoParserListener interface {
 	// ExitArgumentsEmptyAST is called when exiting the argumentsEmptyAST production.
 	ExitArgumentsEmptyAST(c *ArgumentsEmptyASTContext)
 
-	// ExitSelectorAST is called when exiting the selectorAST production.
-	ExitSelectorAST(c *SelectorASTContext)
+	// ExitSelector is called when exiting the selector production.
+	ExitSelector(c *SelectorContext)
 
-	// ExitAppendExpressionAST is called when exiting the appendExpressionAST production.
-	ExitAppendExpressionAST(c *AppendExpressionASTContext)
+	// ExitAppendExpression is called when exiting the appendExpression production.
+	ExitAppendExpression(c *AppendExpressionContext)
 
-	// ExitLengthExpressionAST is called when exiting the lengthExpressionAST production.
-	ExitLengthExpressionAST(c *LengthExpressionASTContext)
+	// ExitLengthExpression is called when exiting the lengthExpression production.
+	ExitLengthExpression(c *LengthExpressionContext)
 
-	// ExitCapExpressionAST is called when exiting the capExpressionAST production.
-	ExitCapExpressionAST(c *CapExpressionASTContext)
+	// ExitCapExpression is called when exiting the capExpression production.
+	ExitCapExpression(c *CapExpressionContext)
 
-	// ExitStatementListAST is called when exiting the statementListAST production.
-	ExitStatementListAST(c *StatementListASTContext)
+	// ExitStatementList is called when exiting the statementList production.
+	ExitStatementList(c *StatementListContext)
 
-	// ExitBlockAST is called when exiting the blockAST production.
-	ExitBlockAST(c *BlockASTContext)
+	// ExitBlock is called when exiting the block production.
+	ExitBlock(c *BlockContext)
 
 	// ExitStatementPrintAST is called when exiting the statementPrintAST production.
 	ExitStatementPrintAST(c *StatementPrintASTContext)
@@ -745,8 +769,8 @@ type miniGoParserListener interface {
 	// ExitExpressionCaseClauseListAST is called when exiting the expressionCaseClauseListAST production.
 	ExitExpressionCaseClauseListAST(c *ExpressionCaseClauseListASTContext)
 
-	// ExitExpressionCaseClauseAST is called when exiting the expressionCaseClauseAST production.
-	ExitExpressionCaseClauseAST(c *ExpressionCaseClauseASTContext)
+	// ExitExpressionCaseClause is called when exiting the expressionCaseClause production.
+	ExitExpressionCaseClause(c *ExpressionCaseClauseContext)
 
 	// ExitExpressionSwitchCaseAST is called when exiting the expressionSwitchCaseAST production.
 	ExitExpressionSwitchCaseAST(c *ExpressionSwitchCaseASTContext)
@@ -754,6 +778,6 @@ type miniGoParserListener interface {
 	// ExitExpressionSwitchDefaultAST is called when exiting the expressionSwitchDefaultAST production.
 	ExitExpressionSwitchDefaultAST(c *ExpressionSwitchDefaultASTContext)
 
-	// ExitEpsilonAST is called when exiting the epsilonAST production.
-	ExitEpsilonAST(c *EpsilonASTContext)
+	// ExitEpsilon is called when exiting the epsilon production.
+	ExitEpsilon(c *EpsilonContext)
 }

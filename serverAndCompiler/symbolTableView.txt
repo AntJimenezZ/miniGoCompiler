@@ -1,0 +1,5 @@
+----- SYMBOL TABLE ------
+|    Name    |  Level  |  Type  |
+|------------|---------|--------|
+|  persona   |    0   |   string|
+----- END TABLE ------

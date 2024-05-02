@@ -1,39 +1,50 @@
 // Parser Rules
-parser grammar miniGoParser;
+parser grammar MiniGoParser;
 
 options {
-  tokenVocab=miniGoScanner;
+  tokenVocab=MiniGoScanner;
 }
 
-root            : PACKAGE IDENTIFIER SEMICOLON topDeclarationList                                                       #rootAST
+root            : PACKAGE IDENTIFIER SEMICOLON topDeclarationList
                             ;
-topDeclarationList : ( variableDecl | typeDecl | funcDecl )*                                                            #topDeclarationListAST
+topDeclarationList : ( variableDecl | typeDecl | funcDecl )*
                             ;
 variableDecl    :   VAR singleVarDecl SEMICOLON                                                                         #variableDeclAST
                   | VAR LPAREN innerVarDecls RPAREN SEMICOLON                                                           #variableDeclBlockAST
                   | VAR LPAREN RPAREN SEMICOLON                                                                         #variableDeclEmptyAST
                             ;
-innerVarDecls   : singleVarDecl SEMICOLON ( singleVarDecl SEMICOLON )*                                                  #innerVarDeclsAST
+innerVarDecls   : singleVarDecl SEMICOLON ( singleVarDecl SEMICOLON )*
                             ;
 singleVarDecl   : identifierList declType ASSIGN expressionList                                                         #singleVarDeclAST
                   | identifierList ASSIGN expressionList                                                                #singleVarDeclAssignAST
                   | singleVarDeclNoExps                                                                                 #singleVarDeclNoExpsAST
                             ;
-singleVarDeclNoExps : identifierList declType                                                                           #singleVarDeclNoExpsDeclTypeAST
+singleVarDeclNoExps : identifierList declType
                             ;
 typeDecl        :   TYPE singleTypeDecl SEMICOLON                                                                       #typeDeclAST
                   | TYPE LPAREN innerTypeDecls RPAREN SEMICOLON                                                         #typeDeclBlockAST
                   | TYPE LPAREN RPAREN SEMICOLON                                                                        #typeDeclEmptyAST
                             ;
-innerTypeDecls  : singleTypeDecl SEMICOLON ( singleTypeDecl SEMICOLON )*                                                #innerTypeDeclsAST
+innerTypeDecls  : singleTypeDecl SEMICOLON ( singleTypeDecl SEMICOLON )*
                             ;
-singleTypeDecl  : IDENTIFIER declType                                                                                   #singleTypeDeclAST
+singleTypeDecl  : IDENTIFIER declType
                             ;
-funcDecl        : funcFrontDecl block SEMICOLON                                                                         #funcDeclAST
+funcDecl        : funcFrontDecl block SEMICOLON
                             ;
-funcFrontDecl   : FUNC IDENTIFIER LPAREN ( funcArgDecls | epsilon ) RPAREN ( declType | epsilon )                       #funcFrontDeclAST
-                            ;
-funcArgDecls    : singleVarDeclNoExps ( COMMA singleVarDeclNoExps )*                                                    #funcArgDeclsAST
+funcFrontDecl   : FUNC IDENTIFIER LPAREN ( funcArgDecls | epsilon ) RPAREN ( multipleReturnTypes | singleReturnType )
+                ;
+
+multipleReturnTypes : LPAREN returnTypeList RPAREN
+                     ;
+
+returnTypeList  : declType ( COMMA declType )*
+                ;
+
+singleReturnType: declType                                                                                              #singleReturnTypeAST
+                 | epsilon                                                                                              #singleReturnTypeEmptyAST
+                 ;
+
+funcArgDecls    : singleVarDeclNoExps ( COMMA singleVarDeclNoExps )*
                             ;
 declType        : LPAREN declType RPAREN                                                                                #declTypeParenAST
                   | IDENTIFIER                                                                                          #declTypeIdentifierAST
@@ -41,15 +52,15 @@ declType        : LPAREN declType RPAREN                                        
                   | arrayDeclType                                                                                       #declTypeArrayAST
                   | structDeclType                                                                                      #declTypeStructAST
                             ;
-sliceDeclType   : LBRACKET RBRACKET declType                                                                            #sliceDeclTypeAST
+sliceDeclType   : LBRACKET RBRACKET declType
                             ;
-arrayDeclType   : LBRACKET INTLITERAL RBRACKET declType                                                                 #arrayDeclTypeAST
+arrayDeclType   : LBRACKET INTLITERAL RBRACKET declType
                             ;
-structDeclType  : STRUCT LBRACE ( structMemDecls | epsilon ) RBRACE                                                     #structDeclTypeAST
+structDeclType  : STRUCT LBRACE ( structMemDecls | epsilon ) RBRACE
                             ;
-structMemDecls  : singleVarDeclNoExps SEMICOLON ( singleVarDeclNoExps SEMICOLON )*                                      #structMemDeclsAST
+structMemDecls  : singleVarDeclNoExps SEMICOLON ( singleVarDeclNoExps SEMICOLON )*
                             ;
-identifierList  : IDENTIFIER ( COMMA IDENTIFIER )*                                                                      #identifierListAST
+identifierList  : IDENTIFIER ( COMMA IDENTIFIER )*
                             ;
 expression      : primaryExpression                                                                                     #expressionPrimaryAST
                       | expression MULTIPLY expression                                                                  #expressionMultiplyAST
@@ -76,7 +87,7 @@ expression      : primaryExpression                                             
                   | NOT expression                                                                                      #expressionNotUnaryAST
                   | BITWISEXOR expression                                                                               #expressionBitwiseXorUnaryAST
                            ;
-expressionList  : expression ( COMMA expression )*                                                                      #expressionListAST
+expressionList  : expression ( COMMA expression )*
                             ;
 primaryExpression : operand                                                                                             #primaryExpressionOperandAST
                   | primaryExpression selector                                                                          #primaryExpressionSelectorAST
@@ -96,22 +107,22 @@ literal         :   INTLITERAL                                                  
                   | RAWSTRINGLITERAL                                                                                    #literalRawStringAST
                   | INTERPRETEDSTRINGLITERAL                                                                            #literalInterpretedStringAST
                         ;
-index           : LBRACKET expression RBRACKET                                                                          #indexAST
+index           : LBRACKET expression RBRACKET
                         ;
 arguments       : LPAREN expressionList                                                                                 #argumentsAST
                   | epsilon RPAREN                                                                                      #argumentsEmptyAST
                         ;
-selector        : DOT IDENTIFIER                                                                                        #selectorAST
+selector        : DOT IDENTIFIER
                         ;
-appendExpression : APPEND LPAREN expression COMMA expression RPAREN                                                     #appendExpressionAST
+appendExpression : APPEND LPAREN expression COMMA expression RPAREN
                         ;
-lengthExpression: LEN LPAREN expression RPAREN                                                                          #lengthExpressionAST
+lengthExpression: LEN LPAREN expression RPAREN
                         ;
-capExpression   : CAP LPAREN expression RPAREN                                                                          #capExpressionAST
+capExpression   : CAP LPAREN expression RPAREN
                         ;
-statementList   : statement*                                                                                            #statementListAST
+statementList   : statement*
                         ;
-block           : LBRACE statementList RBRACE                                                                           #blockAST
+block           : LBRACE statementList RBRACE
                         ;
 statement       : PRINT LPAREN ( expressionList | epsilon ) RPAREN SEMICOLON                                            #statementPrintAST
                   | PRINTLN LPAREN ( expressionList | epsilon ) RPAREN SEMICOLON                                        #statementPrintlnAST
@@ -164,10 +175,10 @@ switchStmt      :   SWITCH simpleStatement SEMICOLON expression LBRACE expressio
 expressionCaseClauseList : epsilon                                                                                      #expressionCaseClauseListEmptyAST
                   | expressionCaseClauseList expressionCaseClause                                                       #expressionCaseClauseListAST
                         ;
-expressionCaseClause : expressionSwitchCase COLON statementList                                                         #expressionCaseClauseAST
+expressionCaseClause : expressionSwitchCase COLON statementList
                         ;
 expressionSwitchCase : CASE expressionList                                                                              #expressionSwitchCaseAST
                   | DEFAULT                                                                                             #expressionSwitchDefaultAST
                         ;
-epsilon           :                                                                                                     #epsilonAST
+epsilon           :
                         ;

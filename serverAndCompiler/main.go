@@ -1,7 +1,8 @@
 package main
 
 import (
-	"Proyecto_Compiladores/generated"
+	"Proyecto_Compiladores/checker"
+	"Proyecto_Compiladores/parser"
 	"encoding/json"
 	"fmt"
 	"github.com/antlr4-go/antlr/v4"
@@ -17,16 +18,24 @@ func NewMyErrorListener() *MyErrorListener {
 	return new(MyErrorListener)
 }
 
-type miniGoListener struct {
-	*generated.BaseminiGoParserListener
-}
-
 var errors []string
 
 func (d *MyErrorListener) SyntaxError(_ antlr.Recognizer, _ interface{}, line, column int, msg string, _ antlr.RecognitionException) {
 	err := fmt.Sprintf("Error in line %d:%d %s\n", line, column, msg)
 	errors = append(errors, err)
-	//fmt.Printf("Error in line %d:%d %s\n", line, column, msg) //el error
+	// Abre el archivo en modo append
+	f, errFile := os.OpenFile("errors.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if errFile != nil {
+		fmt.Println(errFile)
+		return
+	}
+	defer f.Close()
+
+	// Escribe el error en el archivo
+	if _, errFile := f.WriteString(err); errFile != nil {
+		fmt.Println(errFile)
+		return
+	}
 }
 
 type Message struct {
@@ -54,6 +63,13 @@ func handler(w http.ResponseWriter, r *http.Request) { // In this function are a
 		fmt.Println(err)
 		return
 	}
+	file2, err := os.OpenFile("errors.txt", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
+	if err != nil {
+		fmt.Println("Error al abrir el archivo:", err)
+		return
+	}
+	defer file2.Close()
+
 	defer file.Close()
 	_, _ = file.WriteString(clientMsg.Text)
 	//Call the function where is all the compiler logic
@@ -61,7 +77,7 @@ func handler(w http.ResponseWriter, r *http.Request) { // In this function are a
 	formatError := ""
 
 	if len(errors) == 0 {
-		formatError = "No errors found!!! :)"
+		formatError = "No errors.txt found!!! :)"
 	} else {
 		for i, err := range errors {
 			formatError += fmt.Sprintf("\n%d) %s", i+1, err)
@@ -82,20 +98,28 @@ func compiler() {
 
 	//Send the file to parser
 	input, _ := antlr.NewFileStream("test.txt")
-	lexer := generated.NewminiGoScanner(input)
+	lexer := parser.NewMiniGoScanner(input)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
-	p := generated.NewminiGoParser(stream)
-	p.RemoveErrorListeners()                 // Removes default listener
-	listener := NewMyErrorListener()            // This creates your own listener
-	lexer.RemoveErrorListeners()			  // Removes default listener
-	p.AddErrorListener(listener) // This creates your own listener
+	p := parser.NewMiniGoParser(stream)
+	p.RemoveErrorListeners()         // Removes default listener
+	listener := NewMyErrorListener() // This creates your own listener
+	lexer.RemoveErrorListeners()     // Removes default listener
+	p.AddErrorListener(listener)     // This creates your own listener
 	lexer.AddErrorListener(listener)
 
-	p.Root()
-	
+	tree := p.Root()
+	globalSymbolTable := checker.NewSymbolTable()
+	check := &checker.Checker{
+		SymbolTable: globalSymbolTable,
+	}
+
+	check.Visit(tree)
+
 }
 
 func consoleTests(clientMsg Message) {
+
+	//DEPRECATED
 	fmt.Printf("Message from client:\n%s\n", clientMsg.Text)
 	fmt.Println("----------------------")
 	fmt.Printf("Errors list:\n %v\n", errors)

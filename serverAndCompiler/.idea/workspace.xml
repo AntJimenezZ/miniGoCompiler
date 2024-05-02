@@ -5,7 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17aab168-0f5f-440e-a9d0-4648a029dbf9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/errors.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/symbolTableView.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.antlr/miniGoParser.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.antlr/miniGoParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.antlr/miniGoParser.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.antlr/miniGoParserBaseListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.antlr/miniGoParserListener.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.antlr/miniGoScanner.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.antlr/miniGoScanner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.antlr/miniGoScanner.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/miniGoParser.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/miniGoParser.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/miniGoScanner.interp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/miniGoScanner.tokens" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/minigo_parser.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/minigoparser_base_listener.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/minigoparser_base_visitor.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/minigoparser_listener.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/minigoparser_visitor.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/generated/minigoscanner_lexer.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miniGoParser.g4" beforeDir="false" afterPath="$PROJECT_DIR$/miniGoParser.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miniGoScanner.g4" beforeDir="false" afterPath="$PROJECT_DIR$/miniGoScanner.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

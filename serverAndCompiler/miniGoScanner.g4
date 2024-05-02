@@ -1,4 +1,4 @@
-lexer grammar miniGoScanner;
+lexer grammar MiniGoScanner;
 
 // Tokens
 
@@ -50,7 +50,7 @@ SHIFTLEFT       : '<<';
 SHIFTRIGHT      : '>>';
 INCREMENT       : '++';
 DECREMENT       : '--';
-ASSIGN          : '=';
+ASSIGN          : ':=';
 PLUSEQUAL       : '+=';
 MINUSEQUAL      : '-=';
 MULTIPLYEQUAL   : '*=';
