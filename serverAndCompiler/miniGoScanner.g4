@@ -50,7 +50,7 @@ SHIFTLEFT       : '<<';
 SHIFTRIGHT      : '>>';
 INCREMENT       : '++';
 DECREMENT       : '--';
-ASSIGN          : ':=';
+ASSIGN          : '=';
 PLUSEQUAL       : '+=';
 MINUSEQUAL      : '-=';
 MULTIPLYEQUAL   : '*=';
