@@ -26,6 +26,8 @@ Dentro de la carpeta donde se encuentra la interfaz web, escribir los siguientes
 3.   copiar la direccion que aparece en la consola (para más información visitar la documentación de Astro https://astro.build/
 
 
+NOTA: Si se desea usar el bloc de notas, comentar el handler en el main e invocar la funcion compiler
+
 ### **Funcionamiento**
 
 Una vez realizados los pasos anteriores, se debe mostrar en la terminal del servidor que se está ejecutando correctamente
