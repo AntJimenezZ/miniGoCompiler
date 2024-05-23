@@ -1,1 +1,4 @@
 /webInterface/node_modules
+/serverAndCompiler/symbolTableView.txt
+/serverAndCompiler/test.txt
+/serverAndCompiler/erorrs.txt
