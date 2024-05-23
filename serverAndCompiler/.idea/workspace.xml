@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17aab168-0f5f-440e-a9d0-4648a029dbf9" name="Changes" comment="" />
+    <list default="true" id="17aab168-0f5f-440e-a9d0-4648a029dbf9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/checker/Checker.go" beforeDir="false" afterPath="$PROJECT_DIR$/checker/Checker.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/checker/SymbolTable.go" beforeDir="false" afterPath="$PROJECT_DIR$/checker/SymbolTable.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/errors.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symbolTableView.txt" beforeDir="false" afterPath="$PROJECT_DIR$/symbolTableView.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +59,7 @@
     "RunOnceActivity.go.modules.automatic.dependencies.download": "true",
     "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "FixVisits",
+    "git-widget-placeholder": "fixVisits",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
     "last_opened_file_path": "C:/Users/noni4/Desktop/miniGoCompiler/serverAndCompiler",
@@ -107,7 +114,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="DlvLineBreakpoint">
           <url>file://$PROJECT_DIR$/checker/Checker.go</url>
-          <line>577</line>
+          <line>606</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

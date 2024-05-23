@@ -1,12 +1,8 @@
 package main;
 
-var culito = 3;
 
-func ComputeFac(num int) int {
-	var numaux = 2;
-	var caracter = 3; //validación de que se permita declarar un identificador con el mismo nombre de uno global     NO SIRVE
-	var culito = 4;
-	return 0; //validar el error de tipos con el retorno
-};
+
+type arregloT [1,2,3]int;
+
 
 var ano = 2;

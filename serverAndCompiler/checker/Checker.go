@@ -182,13 +182,33 @@ func (c *Checker) VisitSingleTypeDecl(ctx *parser.SingleTypeDeclContext) interfa
 	//METER LOS STRUCTS A LA SYMBOL TABLE, Y DESPUÉS FIJARSE QUE NO SE PUEDA HACER p.edad si es un "string"
 	//vamos noni que se puede :V
 
+	//this actually bullshit, sorry
 	structNameString := fmt.Sprintf("%v", structName)
 
-	c.SymbolTable.InsertStruct(structNameString, 7, structValuesList)
-	//c.SymbolTable.PrintTable()
-	c.SymbolTable.ExportTable()
-	return c.VisitChildren(ctx)
+	if strings.HasPrefix(structValues, "[") {
+		endIndex := strings.Index(structValues, "]")
+		if endIndex != -1 {
+			insideBrackets := structValues[1:endIndex]
+			afterBrackets := structValues[endIndex+1:]
 
+			fmt.Println("Slice name: ", structName)
+			fmt.Println("Inside brackets:", insideBrackets)
+			fmt.Println("After brackets:", afterBrackets)
+
+			//var name, type, inside values
+			c.SymbolTable.InsertSlice(structNameString, afterBrackets, insideBrackets)
+
+		} else {
+			fmt.Println("No closing bracket found")
+		}
+		return c.VisitChildren(ctx)
+	} else {
+
+		c.SymbolTable.InsertStruct(structNameString, 7, structValuesList)
+		//c.SymbolTable.PrintTable()
+		c.SymbolTable.ExportTable()
+		return c.VisitChildren(ctx)
+	}
 	//panic("implement me")
 }
 
@@ -260,13 +280,18 @@ func (c *Checker) VisitDeclTypeIdentifierAST(ctx *parser.DeclTypeIdentifierASTCo
 }
 
 func (c *Checker) VisitDeclTypeSliceAST(ctx *parser.DeclTypeSliceASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitDeclTypeSliceAST:", ctx.GetText())
+
+	return c.VisitChildren(ctx)
+	//panic("implement me")
 }
 
 func (c *Checker) VisitDeclTypeArrayAST(ctx *parser.DeclTypeArrayASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitDeclTypeArrayAST:", ctx.GetText())
+	return c.VisitChildren(ctx)
+
 }
 
 func (c *Checker) VisitDeclTypeStructAST(ctx *parser.DeclTypeStructASTContext) interface{} {
@@ -278,12 +303,16 @@ func (c *Checker) VisitDeclTypeStructAST(ctx *parser.DeclTypeStructASTContext) i
 
 func (c *Checker) VisitSliceDeclType(ctx *parser.SliceDeclTypeContext) interface{} {
 	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitSliceDeclType:", ctx.GetText())
+
+	return ctx.GetText()
 }
 
 func (c *Checker) VisitArrayDeclType(ctx *parser.ArrayDeclTypeContext) interface{} {
 	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitArrayDeclType:", ctx.GetText())
+
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitStructDeclType(ctx *parser.StructDeclTypeContext) interface{} {

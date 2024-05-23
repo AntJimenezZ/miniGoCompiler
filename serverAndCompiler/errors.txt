@@ -2,3 +2,18 @@ ERROR, MULTIPLE VAR DECLARATION
 Variable: 'culito' its declared multiple times
 ERROR, MULTIPLE VAR DECLARATION 
 Variable: 'culito' its declared multiple times
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:15 no viable alternative at input '[""'
+Error in line 5:15 no viable alternative at input '[""'
+Error in line 5:15 no viable alternative at input '[""'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 5:16 mismatched input ',' expecting ']'
