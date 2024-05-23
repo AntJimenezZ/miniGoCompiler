@@ -4,7 +4,6 @@ import (
 	parser "Proyecto_Compiladores/parser"
 	"fmt"
 	"github.com/antlr4-go/antlr/v4"
-	"regexp"
 	"strconv"
 	"strings"
 )
@@ -118,7 +117,7 @@ func (c *Checker) VisitSingleVarDeclAssignAST(ctx *parser.SingleVarDeclAssignAST
 		}
 
 	}
-	c.SymbolTable.PrintTable()
+	//c.SymbolTable.PrintTable()
 	c.SymbolTable.ExportTable()
 
 	return nil
@@ -186,7 +185,7 @@ func (c *Checker) VisitSingleTypeDecl(ctx *parser.SingleTypeDeclContext) interfa
 	structNameString := fmt.Sprintf("%v", structName)
 
 	c.SymbolTable.InsertStruct(structNameString, 7, structValuesList)
-	c.SymbolTable.PrintTable()
+	//c.SymbolTable.PrintTable()
 	c.SymbolTable.ExportTable()
 	return c.VisitChildren(ctx)
 
@@ -195,6 +194,7 @@ func (c *Checker) VisitSingleTypeDecl(ctx *parser.SingleTypeDeclContext) interfa
 
 func (c *Checker) VisitFuncDecl(ctx *parser.FuncDeclContext) interface{} {
 
+	c.SymbolTable.OpenScope()
 	fmt.Println("Soy peruano: " + ctx.GetText())
 
 	return c.VisitChildren(ctx)
@@ -547,219 +547,8 @@ func (c *Checker) VisitCapExpression(ctx *parser.CapExpressionContext) interface
 }
 
 func (c *Checker) VisitStatementList(ctx *parser.StatementListContext) interface{} {
-	// Obtén los statements del bloque
-	statements := ctx.GetText()
 
-	// Divide los statements en base al punto y coma
-	statementsList := strings.Split(statements, ";")
-
-	// Define las palabras clave y símbolos para dividir los statements
-	keywords := []string{"var", ":=", "\\+", "-", "\\*", "/", "%", "return", "int", "float", "string", "bool", "print", "println"}
-
-	// Crea una expresión regular que coincida con cualquier palabra clave o símbolo
-	re := regexp.MustCompile(`(\s*(` + strings.Join(keywords, "|") + `)\s*)`)
-
-	// Itera sobre los statements divididos
-	for _, stmt := range statementsList {
-		// Encuentra todos los índices de inicio y fin de las coincidencias en el statement
-		indexes := re.FindAllStringIndex(stmt, -1)
-
-		// Divide el statement en base a los índices encontrados
-		var splitElements []string
-		lastIndex := 0
-		for _, indexPair := range indexes {
-			splitElements = append(splitElements, stmt[lastIndex:indexPair[0]])
-			splitElements = append(splitElements, stmt[indexPair[0]:indexPair[1]])
-			lastIndex = indexPair[1]
-		}
-		splitElements = append(splitElements, stmt[lastIndex:])
-
-		// Elimina elementos vacíos y espacios adicionales
-		var cleanedElements []string
-		for _, elem := range splitElements {
-			if elem != "" && elem != " " {
-				cleanedElements = append(cleanedElements, strings.TrimSpace(elem))
-			}
-		}
-
-		// Une los elementos divididos en un solo string, separado por espacios
-		finalStatement := strings.Join(cleanedElements, " ")
-
-		if strings.Contains(finalStatement, "var") {
-			// Divide el statement en base a la palabra clave "var"
-			varElements := strings.Split(finalStatement, "var ")
-			// Itera sobre los elementos divididos
-			for _, elem := range varElements {
-				// Elimina los espacios adicionales
-				elem = strings.TrimSpace(elem)
-				// Si el elemento no es vacío
-				if elem != "" {
-					// Divide el elemento en base a los espacios
-					elemSplit := strings.Split(elem, " ")
-					// Si el elemento tiene más de 2 partes
-					if len(elemSplit) >= 2 {
-						// Si la segunda parte del elemento es ":="
-						if elemSplit[1] == ":=" {
-							// Divide la tercera parte del elemento en base a las comas
-							identifier := elemSplit[:1]
-							// Si la primera parte del elemento es "int"
-							if elemSplit[1] == "bool" {
-								for _, id := range identifier {
-									c.SymbolTable.InsertVar(id, 1)
-								}
-							} else if elemSplit[1] == "int" {
-								for _, id := range identifier {
-									c.SymbolTable.InsertVar(id, 2)
-								}
-							} else if elemSplit[1] == "float" {
-								for _, id := range identifier {
-									c.SymbolTable.InsertVar(id, 3)
-								}
-							} else if elemSplit[1] == "string" {
-								for _, id := range identifier {
-									c.SymbolTable.InsertVar(id, 4)
-								}
-							}
-						} else {
-							// Divide la tercera parte del elemento en base a las comas
-							identifier := elemSplit[:1]
-							// Si la primera parte del elemento es "int"
-							if elemSplit[1] == "bool" {
-								for _, id := range identifier {
-									c.SymbolTable.InsertVar(id, 1)
-								}
-							} else if elemSplit[1] == "int" {
-								for _, id := range identifier {
-									c.SymbolTable.InsertVar(id, 2)
-								}
-							} else if elemSplit[1] == "float" {
-								for _, id := range identifier {
-									c.SymbolTable.InsertVar(id, 3)
-								}
-							} else if elemSplit[1] == "string" {
-								for _, id := range identifier {
-									c.SymbolTable.InsertVar(id, 4)
-								}
-							}
-						}
-					}
-				}
-			}
-		} else if strings.Contains(finalStatement, "return") {
-			//comprobar tipo de retorno
-
-			returnElements := strings.Split(finalStatement, "return ")
-
-			returnVar := c.SymbolTable.FindFunc(returnElements[1])
-			if returnVar == nil {
-				return nil
-			}
-			if len(returnElements) > 1 {
-				returnValues := strings.Split(returnElements[1], ",")
-				for _, value := range returnValues {
-					if returnVar.Type == 1 {
-						fmt.Println("Tipo de retorno: " + value)
-					} else if returnVar.Type == 2 {
-						fmt.Println("Tipo de retorno: " + value)
-					} else if returnVar.Type == 3 {
-						fmt.Println("Tipo de retorno: " + value)
-					} else if returnVar.Type == 4 {
-						fmt.Println("Tipo de retorno: " + value)
-					} else if returnVar.Type == 5 {
-						fmt.Println("Tipo de retorno: " + value)
-					} else {
-						fmt.Println("Error: Tipo de retorno incorrecto")
-					}
-				}
-			}
-		} else if strings.Contains(finalStatement, "print") {
-			// Divide el statement en base a "print"
-			printElements := strings.Split(finalStatement, "print")
-			// Si el statement tiene más de 1 parte
-			if len(printElements) > 1 {
-				// Divide la segunda parte del statement en base a las comas
-				printValues := strings.Split(printElements[1], ",")
-				// Itera sobre los valores divididos
-				for _, value := range printValues {
-					// Elimina los espacios adicionales
-					value = strings.TrimSpace(value)
-					value = strings.Trim(value, "()")
-					// Si el valor no es vacío
-					if value != "" {
-						// Si el valor es un número
-						if _, err := strconv.Atoi(value); err == nil {
-							// Imprime el valor
-							fmt.Println(value)
-						} else {
-							// Si el valor es una variable
-							if c.SymbolTable.FindFunc(value) != nil {
-								// Imprime el valor de la variable
-								fmt.Println(c.SymbolTable.FindFunc(value))
-							}
-						}
-					}
-				}
-			}
-
-		} else if strings.Contains(finalStatement, "println") {
-			// Divide el statement en base a "println"
-			printElements := strings.Split(finalStatement, "println")
-			// Si el statement tiene más de 1 parte
-			if len(printElements) > 1 {
-				// Divide la segunda parte del statement en base a las comas
-				printValues := strings.Split(printElements[1], ",")
-				// Itera sobre los valores divididos
-				for _, value := range printValues {
-					// Elimina los espacios adicionales
-					value = strings.TrimSpace(value)
-					value = strings.Trim(value, "()")
-					// Si el valor no es vacío
-					if value != "" {
-						// Si el valor es un número
-						if _, err := strconv.Atoi(value); err == nil {
-							// Imprime el valor
-							fmt.Println(value)
-						} else {
-							// Si el valor es una variable
-							if c.SymbolTable.FindFunc(value) != nil {
-								// Imprime el valor de la variable
-								fmt.Println(c.SymbolTable.Find(value))
-							}
-						}
-					}
-				}
-			}
-		} else if strings.Contains(finalStatement, ":=") {
-			// Divide el statement en base a ":="
-			assignElements := strings.Split(finalStatement, " := ")
-			// Si el statement tiene más de 1 parte
-			if len(assignElements) > 1 {
-				id := c.SymbolTable.FindFunc(assignElements[0])
-
-				if id != nil {
-					idType := id.Type
-					assign := assignElements[1]
-					re := regexp.MustCompile(`[\+\-\*/]`)
-					assigns := re.Split(assign, -1)
-
-					for _, value := range assigns {
-						// Elimina los espacios adicionales
-						value = strings.TrimSpace(value)
-						// Si el valor no es vacío
-						varAssign := c.SymbolTable.FindFunc(value)
-						varType := varAssign.Type
-						if varType != idType {
-							fmt.Println("Error: The variable type does not match the assigned value type")
-						}
-					}
-				}
-			}
-		}
-	}
-
-	c.SymbolTable.PrintTable()
-	c.SymbolTable.ExportTable()
-
+	fmt.Println("Peruano: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 
 }
@@ -783,7 +572,10 @@ func (c *Checker) VisitStatementPrintlnAST(ctx *parser.StatementPrintlnASTContex
 
 func (c *Checker) VisitStatementReturnAST(ctx *parser.StatementReturnASTContext) interface{} {
 	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitStatementReturn", ctx.GetText())
+	c.SymbolTable.CloseScope()
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitStatementBreakAST(ctx *parser.StatementBreakASTContext) interface{} {
@@ -829,7 +621,11 @@ func (c *Checker) VisitStatementTypeDeclAST(ctx *parser.StatementTypeDeclASTCont
 func (c *Checker) VisitStatementVariableDeclAST(ctx *parser.StatementVariableDeclASTContext) interface{} {
 	//TODO implement me
 	//JUM
-	panic("implement me")
+
+	fmt.Println("VisitStatmentVariableDecl: ", ctx.GetText())
+
+	//panic("implement me")
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitSimpleStatementEmptyAST(ctx *parser.SimpleStatementEmptyASTContext) interface{} {

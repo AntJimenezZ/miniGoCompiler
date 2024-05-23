@@ -1,0 +1,6 @@
+----- SYMBOL TABLE ------
+|    Name    |  Level  |  Type  |
+|------------|---------|--------|
+|  culito    |    0   |   int |
+|  ano       |    0   |   int |
+----- END TABLE ------

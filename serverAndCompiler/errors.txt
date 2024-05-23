@@ -1,0 +1,4 @@
+ERROR, MULTIPLE VAR DECLARATION 
+Variable: 'culito' its declared multiple times
+ERROR, MULTIPLE VAR DECLARATION 
+Variable: 'culito' its declared multiple times

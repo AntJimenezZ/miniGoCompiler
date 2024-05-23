@@ -158,7 +158,7 @@ func (t *SymbolTable) InsertObject(token string, _type string) {
 
 func (t *SymbolTable) Find(name string) bool {
 	for _, id := range t.table {
-		if id.token == name {
+		if id.token == name && id.level == t.actualLevel{
 			fmt.Printf("ERROR, MULTIPLE VAR DECLARATION \nVariable: '%s' its declared multiple times\n", id.token)
 			errorMsg := fmt.Sprintf("ERROR, MULTIPLE VAR DECLARATION \nVariable: '%s' its declared multiple times", id.token)
 			t.WriteErrorToFile(errorMsg)
