@@ -1,4 +1,0 @@
-ERROR, MULTIPLE VAR DECLARATION 
-Variable: 'persona' its declared multiple times
-ERROR, MULTIPLE VAR DECLARATION 
-Variable: 'persona' its declared multiple times

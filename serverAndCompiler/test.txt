@@ -1,3 +1,10 @@
 package main;
-var persona := "hola";
-var persona := "adios";
+
+
+func ComputeFac(num int) int {
+	var numaux = 2;
+	var caracter = 3; //validación de que se permita declarar un identificador con el mismo nombre de uno global     NO SIRVE
+	
+	return 0; //validar el error de tipos con el retorno
+	
+};

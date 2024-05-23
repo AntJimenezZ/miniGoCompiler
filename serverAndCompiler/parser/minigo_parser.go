@@ -1,4 +1,4 @@
-// Code generated from C:/Users/noni4/Desktop/miniGoCompiler/serverAndCompiler/MiniGoParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
+// Code generated from C:/Users/noni/Desktop/miniGoProyect/serverAndCompiler/MiniGoParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
 
 package parser // MiniGoParser
 import (
@@ -9,7 +9,7 @@ import (
 	"github.com/antlr4-go/antlr/v4"
 )
 
-// Suppress unused import errors.txt
+// Suppress unused import errors
 var _ = fmt.Printf
 var _ = strconv.Itoa
 var _ = sync.Once{}
@@ -37,7 +37,7 @@ func minigoparserParserInit() {
 		"'append'", "'if'", "'else'", "'for'", "'switch'", "'case'", "'default'",
 		"", "'+'", "'-'", "'*'", "'/'", "'%'", "'<'", "'<='", "'>'", "'>='",
 		"'=='", "'!='", "'&&'", "'||'", "'!'", "'&'", "'|'", "'^'", "'&^'",
-		"'<<'", "'>>'", "'++'", "'--'", "':='", "'+='", "'-='", "'*='", "'/='",
+		"'<<'", "'>>'", "'++'", "'--'", "'='", "'+='", "'-='", "'*='", "'/='",
 		"'%='", "'&='", "'|='", "'^='", "'<<='", "'>>='", "'&^='", "':'", "';'",
 		"','", "'.'", "'('", "')'", "'['", "']'", "'{'", "'}'",
 	}

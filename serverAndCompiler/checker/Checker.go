@@ -58,6 +58,8 @@ func (c *Checker) VisitRoot(ctx *parser.RootContext) interface{} {
 
 func (c *Checker) VisitTopDeclarationList(ctx *parser.TopDeclarationListContext) interface{} {
 
+	fmt.Println("primer lugar de debug")
+
 	return c.VisitChildren(ctx)
 }
 
@@ -129,6 +131,8 @@ func (c *Checker) VisitSingleVarDeclNoExpsAST(ctx *parser.SingleVarDeclNoExpsAST
 
 func (c *Checker) VisitSingleVarDeclNoExps(ctx *parser.SingleVarDeclNoExpsContext) interface{} {
 	//TODO implement me
+
+	fmt.Println("test")
 	return c.VisitChildren(ctx)
 }
 
@@ -191,6 +195,8 @@ func (c *Checker) VisitSingleTypeDecl(ctx *parser.SingleTypeDeclContext) interfa
 
 func (c *Checker) VisitFuncDecl(ctx *parser.FuncDeclContext) interface{} {
 
+	fmt.Println("Soy peruano: " + ctx.GetText())
+
 	return c.VisitChildren(ctx)
 }
 
@@ -202,80 +208,10 @@ func (c *Checker) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) interface
 	// Get the function arguments
 	args := ctx.FuncArgDecls().GetText()
 
-	argListTemp := strings.Split(args, ",")
+	fmt.Println("Func args: " + args)
+	fmt.Println("func name: " + funcName)
 
-	argList := make([][]string, 0)
-
-	for _, arg := range argListTemp {
-		argList = append(argList, []string{arg})
-	}
-
-	keywords := []string{"int", "float", "string", "rune", "bool"}
-	for i, list := range argList {
-		for _, arg := range list {
-			for _, keyword := range keywords {
-				if strings.Contains(arg, keyword) {
-					varName := strings.Split(arg, keyword)
-					varType := keyword
-					newArg := []string{varName[0], varType}
-					if varType == "bool" {
-						c.SymbolTable.InsertVar(varName[0], 1)
-						argList[i] = newArg
-						break
-					} else if varType == "int" {
-						c.SymbolTable.InsertVar(varName[0], 2)
-						argList[i] = newArg
-						break
-					} else if varType == "float" {
-						c.SymbolTable.InsertVar(varName[0], 3)
-						argList[i] = newArg
-						break
-					} else if varType == "string" {
-						c.SymbolTable.InsertVar(varName[0], 4)
-						argList[i] = newArg
-						break
-					} else if varType == "rune" {
-						c.SymbolTable.InsertVar(varName[0], 5)
-						argList[i] = newArg
-						break
-					} else if varType == "func" {
-						c.SymbolTable.InsertVar(varName[0], 6)
-						argList[i] = newArg
-						break
-					}
-				}
-			}
-		}
-	}
-	argTypes := []int{}
-	// Iterate over the arguments and visit each one
-	for _, list := range argList {
-		for i, arg := range list {
-			if i == 0 {
-				continue
-			} else {
-				switch arg {
-				case "int":
-					argTypes = append(argTypes, 1)
-				case "float":
-					argTypes = append(argTypes, 2)
-				case "string":
-					argTypes = append(argTypes, 3)
-				default:
-					argTypes = append(argTypes, 0)
-				}
-			}
-		}
-	}
-
-	// Insert the function into the symbol table
-	c.SymbolTable.InsertMethod(funcName, 6, argTypes)
-
-	c.SymbolTable.PrintTable()
-	c.SymbolTable.ExportTable()
-
-	// Visit the children of this node
-	return nil
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitMultipleReturnTypes(ctx *parser.MultipleReturnTypesContext) interface{} {
@@ -290,7 +226,9 @@ func (c *Checker) VisitReturnTypeList(ctx *parser.ReturnTypeListContext) interfa
 
 func (c *Checker) VisitSingleReturnTypeAST(ctx *parser.SingleReturnTypeASTContext) interface{} {
 	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("visit single return typeast: " + ctx.GetText())
+	return nil
 }
 
 func (c *Checker) VisitSingleReturnTypeEmptyAST(ctx *parser.SingleReturnTypeEmptyASTContext) interface{} {
@@ -300,7 +238,13 @@ func (c *Checker) VisitSingleReturnTypeEmptyAST(ctx *parser.SingleReturnTypeEmpt
 
 func (c *Checker) VisitFuncArgDecls(ctx *parser.FuncArgDeclsContext) interface{} {
 	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("sexo tilin:" + ctx.GetText())
+
+	return c.VisitChildren(ctx)
+	//panic("implement me")
+	//TODO WIP
+
 }
 
 func (c *Checker) VisitDeclTypeParenAST(ctx *parser.DeclTypeParenASTContext) interface{} {
@@ -822,6 +766,8 @@ func (c *Checker) VisitStatementList(ctx *parser.StatementListContext) interface
 
 func (c *Checker) VisitBlock(ctx *parser.BlockContext) interface{} {
 
+	fmt.Println("GG")
+	fmt.Println(ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
