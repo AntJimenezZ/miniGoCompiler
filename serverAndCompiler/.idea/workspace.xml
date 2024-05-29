@@ -5,16 +5,31 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17aab168-0f5f-440e-a9d0-4648a029dbf9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/ANTLRv4ToolGrammarProperties.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../.idea/miniGoProyect.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../gen/MiniGoScanner.interp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../gen/MiniGoScanner.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../gen/MiniGoScanner.tokens" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/encoder/BlockVariableTable.go" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/encoder/EncoderLLVM.go" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/encoder/Stack.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/errors.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/symbolTableView.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/errors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/errors.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/checker/Checker.go" beforeDir="false" afterPath="$PROJECT_DIR$/checker/Checker.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/checker/SymbolTable.go" beforeDir="false" afterPath="$PROJECT_DIR$/checker/SymbolTable.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/symbolTableView.txt" beforeDir="false" afterPath="$PROJECT_DIR$/symbolTableView.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miniGoParser.g4" beforeDir="false" afterPath="$PROJECT_DIR$/MiniGoParser.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/miniGoScanner.g4" beforeDir="false" afterPath="$PROJECT_DIR$/MiniGoScanner.g4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/minigo_parser.go" beforeDir="false" afterPath="$PROJECT_DIR$/parser/minigo_parser.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/minigoparser_base_listener.go" beforeDir="false" afterPath="$PROJECT_DIR$/parser/minigoparser_base_listener.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/minigoparser_base_visitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/parser/minigoparser_base_visitor.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/minigoparser_listener.go" beforeDir="false" afterPath="$PROJECT_DIR$/parser/minigoparser_listener.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/parser/minigoparser_visitor.go" beforeDir="false" afterPath="$PROJECT_DIR$/parser/minigoparser_visitor.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +60,9 @@
     &quot;accountId&quot;: &quot;d89d0d5e-2696-4871-860e-bb8b17c06824&quot;
   }
 }</component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="true" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -64,7 +82,7 @@
     &quot;RunOnceActivity.go.modules.automatic.dependencies.download&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;fixVisits&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging main&quot;,
     &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
     &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/fabia/Desktop/Compiladores/miniGoCompiler/serverAndCompiler&quot;,
