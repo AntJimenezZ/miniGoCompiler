@@ -24,3 +24,19 @@ Error in line 5:16 mismatched input ',' expecting ']'
 Error in line 5:16 mismatched input ',' expecting ']'
 Error in line 5:16 mismatched input ',' expecting ']'
 Error in line 5:16 mismatched input ',' expecting ']'
+Error in line 21:0 mismatched input 'func' expecting ')'
+Error in line 21:0 mismatched input 'func' expecting ')'
+Error in line 3:20 mismatched input '.' expecting ';'
+Error in line 32:26 token recognition error at: '";
+
+    //var a bool;
+
+    if (x == 10){
+        var z int ;
+     };
+    return 0;
+};
+
+
+'
+Error in line 3:20 mismatched input '.' expecting ';'

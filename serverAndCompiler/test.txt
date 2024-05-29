@@ -1,8 +1,42 @@
 package main;
 
-var x int = 1;
+//var ( c int; a = 1; b int = 19; k float; l = 10.0; h float = 11.0; b string; f = "kevin"; s string = "oscar";);
+
+//var a bool;
+
+//var d int;
+//var e = 10;
+//var z int = 15;
+
+//var g float;
+//var k = 10.0;
+//var h float = 12.0;
+
+//var w string;
+//var q = "hello";
+//var r string = "hola";
+
+//var x int = 1;
+//var ();
+type a int;
+
 func main() int{
     var y int;
+    //var e = 10;
+    //var z int = 15;
+
+    //var g float;
+    //var k = 10.0;
+    //var h float = 12.0;
+
+    //var w string;
+    //var q = "hello";
+    //var r string = "hola";
+
+    //var a bool;
+
+    //var ( c int; a = 1; b int = 19; k float; l = 10.0; h float = 11.0; b string; f = "kevin"; s string = "oscar";);
+
     if (x == 10){
         var z int ;
      };

@@ -6,17 +6,17 @@ import (
 )
 
 // Stack define una estructura de pila
-type Stack struct {
+type forStack struct {
 	items []*ir.Block
 }
 
 // Push agrega un elemento al tope de la pila
-func (s *Stack) Push(item *ir.Block) {
+func (s *forStack) Push(item *ir.Block) {
 	s.items = append(s.items, item)
 }
 
 // Pop elimina y devuelve el elemento al tope de la pila
-func (s *Stack) Pop() (*ir.Block, error) {
+func (s *forStack) Pop() (*ir.Block, error) {
 	if len(s.items) == 0 {
 		return nil, errors.New("la pila está vacía")
 	}
@@ -26,7 +26,7 @@ func (s *Stack) Pop() (*ir.Block, error) {
 }
 
 // Peek devuelve el elemento al tope de la pila sin eliminarlo
-func (s *Stack) Peek() (*ir.Block, error) {
+func (s *forStack) Peek() (*ir.Block, error) {
 	if len(s.items) == 0 {
 		return nil, errors.New("la pila está vacía")
 	}
@@ -34,7 +34,7 @@ func (s *Stack) Peek() (*ir.Block, error) {
 }
 
 // GetFromTop devuelve el elemento en el índice especificado desde el tope de la pila
-func (s *Stack) GetFromTop(index int) (*ir.Block, error) {
+func (s *forStack) GetFromTop(index int) (*ir.Block, error) {
 	if index < 0 || index >= len(s.items) {
 		return nil, errors.New("índice fuera de rango")
 	}
@@ -42,11 +42,16 @@ func (s *Stack) GetFromTop(index int) (*ir.Block, error) {
 }
 
 // IsEmpty verifica si la pila está vacía
-func (s *Stack) IsEmpty() bool {
+func (s *forStack) IsEmpty() bool {
 	return len(s.items) == 0
 }
 
 // Size devuelve el número de elementos en la pila
-func (s *Stack) Size() int {
+func (s *forStack) Size() int {
 	return len(s.items)
+}
+
+// Empty elimina todos los elementos de la pila
+func (s *forStack) Empty() {
+	s.items = nil
 }
