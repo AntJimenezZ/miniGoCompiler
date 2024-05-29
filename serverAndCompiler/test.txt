@@ -1,8 +1,12 @@
 package main;
 
+var x int = 1;
+func main() int{
+    var y int;
+    if (x == 10){
+        var z int ;
+     };
+    return 0;
+};
 
 
-type arregloT [1,2,3]int;
-
-
-var ano = 2;

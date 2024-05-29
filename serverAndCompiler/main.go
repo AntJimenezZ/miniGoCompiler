@@ -2,6 +2,7 @@ package main
 
 import (
 	"Proyecto_Compiladores/checker"
+	"Proyecto_Compiladores/encoder"
 	"Proyecto_Compiladores/parser"
 	"encoding/json"
 	"fmt"
@@ -108,6 +109,13 @@ func compiler() {
 	lexer.AddErrorListener(listener)
 
 	tree := p.Root()
+
+	encoder := encoder.NewEncoderLLVM()
+	module := encoder.Visit(tree)
+	fmt.Println(module)
+
+	fmt.Println("Compilation failed")
+
 	globalSymbolTable := checker.NewSymbolTable()
 	check := &checker.Checker{
 		SymbolTable: globalSymbolTable,

@@ -1,6 +1,5 @@
 ----- SYMBOL TABLE ------
 |    Name    |  Level  |  Type  |
 |------------|---------|--------|
-|  arregloT  |    0   |   []int|
-|  ano       |    0   |   int |
+|  x         |    0   |   int |
 ----- END TABLE ------
