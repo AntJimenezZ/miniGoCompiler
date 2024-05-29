@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17aab168-0f5f-440e-a9d0-4648a029dbf9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/encoder/forStacks.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/encoder/funcStack.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/encoder/ifStack.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MiniGoParser.g4" beforeDir="false" afterPath="$PROJECT_DIR$/MiniGoParser.g4" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/encoder/EncoderLLVM.go" beforeDir="false" afterPath="$PROJECT_DIR$/encoder/EncoderLLVM.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/encoder/Stack.go" beforeDir="false" afterPath="$PROJECT_DIR$/encoder/generalStack.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/errors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/errors.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

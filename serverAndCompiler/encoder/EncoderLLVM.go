@@ -9,6 +9,7 @@ import (
 	"github.com/llir/llvm/ir/enum"
 	"github.com/llir/llvm/ir/types"
 	"github.com/llir/llvm/ir/value"
+	"strconv"
 )
 
 var v parser.MiniGoParserVisitor = &EncoderLLVM{}
@@ -52,6 +53,13 @@ var funcStackBlocks funcStack
 var ifStackBlocks ifStack
 var forStackBlocks forStack
 var localVariables BlockVariableTable
+var typeConversion map[string]types.Type = map[string]types.Type{
+	"int":    types.I32,
+	"float":  types.Float,
+	"string": types.I8Ptr,
+	"rune":   types.I8,
+	"bool":   types.I1,
+}
 
 func (v *EncoderLLVM) VisitTerminal(node antlr.TerminalNode) interface{} {
 	return nil
@@ -110,7 +118,8 @@ func (v *EncoderLLVM) VisitSingleVarDeclAST(ctx *parser.SingleVarDeclASTContext)
 		exprs := ctx.ExpressionList().(*parser.ExpressionListContext).AllExpression()
 		for i := 0; i < len(ids); i++ {
 			value := v.Visit(exprs[i]).(value.Value)
-			if v.Visit(ctx.DeclType()) == "int" {
+			v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
+			/*if v.Visit(ctx.DeclType()) == "int" {
 				v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
 			} else if v.Visit(ctx.DeclType()) == "float" {
 				v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
@@ -120,33 +129,38 @@ func (v *EncoderLLVM) VisitSingleVarDeclAST(ctx *parser.SingleVarDeclASTContext)
 				v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
 			} else if v.Visit(ctx.DeclType()) == "bool" {
 				v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
-			}
+			}*/
 		}
 	} else {
 		blockactual, _ := generalStackBlocks.Peek()
 		ids := ctx.IdentifierList().(*parser.IdentifierListContext).AllIDENTIFIER()
 		exprs := ctx.ExpressionList().(*parser.ExpressionListContext).AllExpression()
 		for i := 0; i < len(ids); i++ {
-			if v.Visit(exprs[i]).(value.Value).Type() == types.I32 {
-				vActual := blockactual.NewAlloca(types.I32)
-				blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			} else if v.Visit(exprs[i]).(value.Value).Type() == types.Float {
-				vActual := blockactual.NewAlloca(types.Float)
-				blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			} else if v.Visit(exprs[i]).(value.Value).Type() == types.I8 {
-				vActual := blockactual.NewAlloca(types.I8)
-				blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			} else if arrayType, ok := v.Visit(exprs[i]).(value.Value).Type().(*types.ArrayType); ok && arrayType.ElemType == types.I8 {
-				value := v.Visit(exprs[i]).(value.Value)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), v.mainModule.NewGlobalDef("", value.(constant.Constant)))
-			} else if v.Visit(exprs[i]).(value.Value).Type() == types.I1 {
-				vActual := blockactual.NewAlloca(types.I1)
-				blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			}
+			value := v.Visit(exprs[i]).(value.Value)
+			vActual := blockactual.NewAlloca(value.Type())
+			blockactual.NewStore(value, vActual)
+			localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+			/*
+				if v.Visit(exprs[i]).(value.Value).Type() == types.I32 {
+					vActual := blockactual.NewAlloca(types.I32)
+					blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				} else if v.Visit(exprs[i]).(value.Value).Type() == types.Float {
+					vActual := blockactual.NewAlloca(types.Float)
+					blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				} else if v.Visit(exprs[i]).(value.Value).Type() == types.I8 {
+					vActual := blockactual.NewAlloca(types.I8)
+					blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				} else if arrayType, ok := v.Visit(exprs[i]).(value.Value).Type().(*types.ArrayType); ok && arrayType.ElemType == types.I8 {
+					value := v.Visit(exprs[i]).(value.Value)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), v.mainModule.NewGlobalDef("", value.(constant.Constant)))
+				} else if v.Visit(exprs[i]).(value.Value).Type() == types.I1 {
+					vActual := blockactual.NewAlloca(types.I1)
+					blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				}*/
 		}
 	}
 	return v.VisitChildren(ctx)
@@ -158,43 +172,50 @@ func (v *EncoderLLVM) VisitSingleVarDeclAssignAST(ctx *parser.SingleVarDeclAssig
 		exprs := ctx.ExpressionList().(*parser.ExpressionListContext).AllExpression()
 		for i := 0; i < len(ids); i++ {
 			value := v.Visit(exprs[i]).(value.Value)
-			if value.Type() == types.I32 {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
-			} else if value.Type() == types.Float {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
-			} else if value.Type() == types.I8 {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
-			} else if arrayType, ok := value.Type().(*types.ArrayType); ok && arrayType.ElemType == types.I8 {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
-			} else if value.Type() == types.I1 {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
-			}
+			v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
+			/*
+				if value.Type() == types.I32 {
+					v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
+				} else if value.Type() == types.Float {
+					v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
+				} else if value.Type() == types.I8 {
+					v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
+				} else if arrayType, ok := value.Type().(*types.ArrayType); ok && arrayType.ElemType == types.I8 {
+					v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
+				} else if value.Type() == types.I1 {
+					v.mainModule.NewGlobalDef(ids[i].GetText(), value.(constant.Constant))
+				}*/
 		}
 	} else {
 		blockactual, _ := generalStackBlocks.Peek()
 		ids := ctx.IdentifierList().(*parser.IdentifierListContext).AllIDENTIFIER()
 		exprs := ctx.ExpressionList().(*parser.ExpressionListContext).AllExpression()
 		for i := 0; i < len(ids); i++ {
-			if v.Visit(exprs[i]).(value.Value).Type() == types.I32 {
-				vActual := blockactual.NewAlloca(types.I32)
-				blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			} else if v.Visit(exprs[i]).(value.Value).Type() == types.Float {
-				vActual := blockactual.NewAlloca(types.Float)
-				blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			} else if v.Visit(exprs[i]).(value.Value).Type() == types.I8 {
-				vActual := blockactual.NewAlloca(types.I8)
-				blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			} else if arrayType, ok := v.Visit(exprs[i]).(value.Value).Type().(*types.ArrayType); ok && arrayType.ElemType == types.I8 {
-				value := v.Visit(exprs[i]).(value.Value)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), v.mainModule.NewGlobalDef("", value.(constant.Constant)))
-			} else if v.Visit(exprs[i]).(value.Value).Type() == types.I1 {
-				vActual := blockactual.NewAlloca(types.I1)
-				blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			}
+			value := v.Visit(exprs[i]).(value.Value)
+			vActual := blockactual.NewAlloca(value.Type())
+			blockactual.NewStore(value, vActual)
+			localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+			/*
+				if v.Visit(exprs[i]).(value.Value).Type() == types.I32 {
+					vActual := blockactual.NewAlloca(types.I32)
+					blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				} else if v.Visit(exprs[i]).(value.Value).Type() == types.Float {
+					vActual := blockactual.NewAlloca(types.Float)
+					blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				} else if v.Visit(exprs[i]).(value.Value).Type() == types.I8 {
+					vActual := blockactual.NewAlloca(types.I8)
+					blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				} else if arrayType, ok := v.Visit(exprs[i]).(value.Value).Type().(*types.ArrayType); ok && arrayType.ElemType == types.I8 {
+					value := v.Visit(exprs[i]).(value.Value)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), v.mainModule.NewGlobalDef("", value.(constant.Constant)))
+				} else if v.Visit(exprs[i]).(value.Value).Type() == types.I1 {
+					vActual := blockactual.NewAlloca(types.I1)
+					blockactual.NewStore(v.Visit(exprs[i]).(value.Value), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				}*/
 		}
 	}
 	return v.VisitChildren(ctx)
@@ -208,53 +229,44 @@ func (v *EncoderLLVM) VisitSingleVarDeclNoExps(ctx *parser.SingleVarDeclNoExpsCo
 	if generalStackBlocks.IsEmpty() {
 		ids := ctx.IdentifierList().(*parser.IdentifierListContext).AllIDENTIFIER()
 		for i := 0; i < len(ids); i++ {
-			if v.Visit(ctx.DeclType()) == "int" {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), constant.NewInt(types.I32, 0))
-			} else if v.Visit(ctx.DeclType()) == "float" {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), constant.NewFloat(types.Float, 0.0))
-			} else if v.Visit(ctx.DeclType()) == "string" {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), constant.NewCharArrayFromString(""))
-			} else if v.Visit(ctx.DeclType()) == "rune" {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), constant.NewInt(types.I8, 0))
-			} else if v.Visit(ctx.DeclType()) == "bool" {
-				v.mainModule.NewGlobalDef(ids[i].GetText(), constant.NewInt(types.I1, 0))
-			}
+			value := v.Visit(ctx.DeclType()).(types.Type)
+			v.mainModule.NewGlobalDef(ids[i].GetText(), constant.NewZeroInitializer(value))
 		}
 	} else {
 		blockactual, _ := generalStackBlocks.Peek()
 		ids := ctx.IdentifierList().(*parser.IdentifierListContext).AllIDENTIFIER()
 		for i := 0; i < len(ids); i++ {
-			if v.Visit(ctx.DeclType()) == "int" {
-				vActual := blockactual.NewAlloca(types.I32)
-				blockactual.NewStore(constant.NewInt(types.I32, 0), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			} else if v.Visit(ctx.DeclType()) == "float" {
-				vActual := blockactual.NewAlloca(types.Float)
-				blockactual.NewStore(constant.NewFloat(types.Float, 0.0), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			} else if v.Visit(ctx.DeclType()) == "string" {
-				localVariables.AddVariable(blockactual, ids[i].GetText(), v.mainModule.NewGlobalDef("", constant.NewCharArrayFromString("")))
-			} else if v.Visit(ctx.DeclType()) == "rune" {
-				vActual := blockactual.NewAlloca(types.I8)
-				blockactual.NewStore(constant.NewInt(types.I8, 0), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			} else if v.Visit(ctx.DeclType()) == "bool" {
-				vActual := blockactual.NewAlloca(types.I1)
-				blockactual.NewStore(constant.NewInt(types.I1, 0), vActual)
-				localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
-			}
+			value := v.Visit(ctx.DeclType()).(types.Type)
+			vActual := blockactual.NewAlloca(value)
+			blockactual.NewStore(constant.NewZeroInitializer(value), vActual)
+			localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+			/*
+				if v.Visit(ctx.DeclType()) == "int" {
+					vActual := blockactual.NewAlloca(types.I32)
+					blockactual.NewStore(constant.NewInt(types.I32, 0), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				} else if v.Visit(ctx.DeclType()) == "float" {
+					vActual := blockactual.NewAlloca(types.Float)
+					blockactual.NewStore(constant.NewFloat(types.Float, 0.0), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				} else if v.Visit(ctx.DeclType()) == "string" {
+					localVariables.AddVariable(blockactual, ids[i].GetText(), v.mainModule.NewGlobalDef("", constant.NewCharArrayFromString("")))
+				} else if v.Visit(ctx.DeclType()) == "rune" {
+					vActual := blockactual.NewAlloca(types.I8)
+					blockactual.NewStore(constant.NewInt(types.I8, 0), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				} else if v.Visit(ctx.DeclType()) == "bool" {
+					vActual := blockactual.NewAlloca(types.I1)
+					blockactual.NewStore(constant.NewInt(types.I1, 0), vActual)
+					localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+				}*/
 		}
 	}
 	return v.VisitChildren(ctx)
 }
 
 func (v *EncoderLLVM) VisitTypeDeclAST(ctx *parser.TypeDeclASTContext) interface{} {
-
-	typeDecl := ctx.SingleTypeDecl().(*parser.SingleTypeDeclContext)
-	declName := typeDecl.IDENTIFIER().GetText()
-	declType := v.Visit(typeDecl.DeclType()).(string)
-	v.mainModule.NewTypeDef(declName, declType)
-
+	return v.VisitChildren(ctx)
 }
 
 func (v *EncoderLLVM) VisitTypeDeclBlockAST(ctx *parser.TypeDeclBlockASTContext) interface{} {
@@ -290,22 +302,17 @@ func (v *EncoderLLVM) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) inter
 	}
 
 	// Procesar el tipo de retorno
-	var returnType interface{}
+	var returnType types.Type
 	if ctx.SingleReturnType() != nil {
-		returnType = v.Visit(ctx.SingleReturnType()).(string)
+		returnType = v.Visit(ctx.SingleReturnType()).(types.Type)
 	} else if ctx.MultipleReturnTypes() != nil {
 		// Manejo de múltiples tipos de retorno si es necesario en el futuro
-		returnType = v.Visit(ctx.MultipleReturnTypes())
+		returnType = v.Visit(ctx.MultipleReturnTypes()).(types.Type)
 	}
 
 	// Crear la función con el tipo de retorno procesado
-	if returnType == "int" {
-		funcActual = v.mainModule.NewFunc(funcName, types.I32)
-	} else if returnType == "float" {
-		funcActual = v.mainModule.NewFunc(funcName, types.Float)
-	} else if returnType == "string" {
-		funcActual = v.mainModule.NewFunc(funcName, types.I8Ptr)
-	}
+
+	funcActual = v.mainModule.NewFunc(funcName, returnType)
 
 	// Visitar los hijos para procesar el bloque de la función
 	return v.VisitChildren(ctx)
@@ -342,7 +349,8 @@ func (v *EncoderLLVM) VisitDeclTypeParenAST(ctx *parser.DeclTypeParenASTContext)
 }
 
 func (v *EncoderLLVM) VisitDeclTypeIdentifierAST(ctx *parser.DeclTypeIdentifierASTContext) interface{} {
-	return ctx.IDENTIFIER().GetText()
+
+	return typeConversion[ctx.IDENTIFIER().GetText()]
 }
 
 func (v *EncoderLLVM) VisitDeclTypeSliceAST(ctx *parser.DeclTypeSliceASTContext) interface{} {
@@ -351,8 +359,7 @@ func (v *EncoderLLVM) VisitDeclTypeSliceAST(ctx *parser.DeclTypeSliceASTContext)
 }
 
 func (v *EncoderLLVM) VisitDeclTypeArrayAST(ctx *parser.DeclTypeArrayASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	return v.Visit(ctx.ArrayDeclType())
 }
 
 func (v *EncoderLLVM) VisitDeclTypeStructAST(ctx *parser.DeclTypeStructASTContext) interface{} {
@@ -366,8 +373,11 @@ func (v *EncoderLLVM) VisitSliceDeclType(ctx *parser.SliceDeclTypeContext) inter
 }
 
 func (v *EncoderLLVM) VisitArrayDeclType(ctx *parser.ArrayDeclTypeContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	arrayType := v.Visit(ctx.DeclType()).(types.Type)
+	size, _ := strconv.Atoi(ctx.INTLITERAL().GetText())
+
+	return types.NewArray(uint64(size), arrayType)
 }
 
 func (v *EncoderLLVM) VisitStructDeclType(ctx *parser.StructDeclTypeContext) interface{} {
@@ -553,8 +563,6 @@ func (v *EncoderLLVM) VisitOperandLiteralAST(ctx *parser.OperandLiteralASTContex
 }
 
 func (v *EncoderLLVM) VisitOperandIdentifierAST(ctx *parser.OperandIdentifierASTContext) interface{} {
-	//se busca en el almacen de variables locales del bloque actual la variable del contexto para devolverla
-	//TODO: se debe considerar qué pasa si la variable no fue declarado en el bloque del tope, por ejemplo variables globales al contexto o parámetros
 	blockActual, _ := generalStackBlocks.Peek()
 	val, _ := localVariables.GetVariable(blockActual, ctx.IDENTIFIER().GetText())
 	valReturn := blockActual.NewLoad(types.I32, val)

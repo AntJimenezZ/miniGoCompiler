@@ -63,7 +63,7 @@ structMemDecls  : singleVarDeclNoExps SEMICOLON ( singleVarDeclNoExps SEMICOLON 
 identifierList  : IDENTIFIER ( COMMA IDENTIFIER )*
                             ;
 expression      : primaryExpression                                                                                     #expressionPrimaryAST
-                      | expression MULTIPLY expression                                                                  #expressionMultiplyAST
+                  | expression MULTIPLY expression                                                                      #expressionMultiplyAST
                   | expression DIVIDE expression                                                                        #expressionDivideAST
                   | expression MODULO expression                                                                        #expressionModuloAST
                   | expression SHIFTLEFT expression                                                                     #expressionShiftLeftAST
