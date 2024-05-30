@@ -534,7 +534,10 @@ func (v *EncoderLLVM) VisitPrimaryExpressionOperandAST(ctx *parser.PrimaryExpres
 }
 
 func (v *EncoderLLVM) VisitPrimaryExpressionIndexAST(ctx *parser.PrimaryExpressionIndexASTContext) interface{} {
-	//TODO implement me
+	//primaryExp := v.Visit(ctx.PrimaryExpression()).(value.Value)
+	//primaryExpName := ctx.PrimaryExpression().GetText()
+	//index := v.Visit(ctx.Index()).(value.Value)
+	//finalArray := constant.NewArray()
 	panic("implement me")
 }
 
