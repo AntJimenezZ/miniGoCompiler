@@ -1,5 +1,7 @@
 package main;
 
+//var c int;
+
 var arr [5]int;
 //arr[0] = 1;
 
@@ -40,9 +42,28 @@ func main() int{
 
     //var ( c int; a = 1; b int = 19; k float; l = 10.0; h float = 11.0; b string; f = "kevin"; s string = "oscar";);
 
+    //var x int = 10 * 2;
+    //var y int = 10 / 2;
+    //var z int = 10 % 2;
+    //var w int = 10 + 2;
+    //var q int = 10 - 2;
+
+    //var c int;
+    //c = 10;
+
+    //var caca [6]int;
+    //caca[0] = 1;
+    //caca[1] = 2;
+    //caca[2] = 3;
+    //caca[3] = 4;
+
+    println(2);
+
+    var x int = 10 * 2;
+
     if (x == 10){
-        var z int ;
-     };
+        var z int;
+    };
     return 0;
 };
 

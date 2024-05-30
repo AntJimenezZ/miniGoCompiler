@@ -7,6 +7,8 @@
     <list default="true" id="17aab168-0f5f-440e-a9d0-4648a029dbf9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/encoder/EncoderLLVM.go" beforeDir="false" afterPath="$PROJECT_DIR$/encoder/EncoderLLVM.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/errors.txt" beforeDir="false" afterPath="$PROJECT_DIR$/errors.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -66,11 +68,11 @@
     "git-widget-placeholder": "LLVM",
     "go.import.settings.migrated": "true",
     "go.sdk.automatically.set": "true",
-    "last_opened_file_path": "D:/Proyecto Compi/miniGoCompiler/serverAndCompiler",
+    "last_opened_file_path": "E:/Académico/Universidad/2024/I Semestre/Compiladores e Interpretes/Semana 14/Tarea",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -140,6 +142,16 @@
           <url>file://$PROJECT_DIR$/checker/Checker.go</url>
           <line>606</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/encoder/EncoderLLVM.go</url>
+          <line>783</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/encoder/EncoderLLVM.go</url>
+          <line>326</line>
+          <option name="timeStamp" value="35" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

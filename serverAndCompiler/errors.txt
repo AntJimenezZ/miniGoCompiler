@@ -40,3 +40,5 @@ Error in line 32:26 token recognition error at: '";
 
 '
 Error in line 3:20 mismatched input '.' expecting ';'
+Error in line 5:10 extraneous input '[' expecting {INTLITERAL, FLOATLITERAL, RUNELITERAL, RAWSTRINGLITERAL, INTERPRETEDSTRINGLITERAL, 'len', 'cap', 'append', IDENTIFIER, '+', '-', '!', '^', '('}
+Error in line 5:12 mismatched input ']' expecting ';'
