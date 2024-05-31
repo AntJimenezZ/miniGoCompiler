@@ -153,6 +153,8 @@ func runModule(module *ir.Module) {
 
 	// Compilar el módulo LLVM a código objeto
 	cmd := exec.Command("clang", "", "module.ll", "-o", "module.exe")
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
 	if err := cmd.Run(); err != nil {
 		fmt.Println("Error al compilar el módulo:", err)
 		return
@@ -160,10 +162,16 @@ func runModule(module *ir.Module) {
 
 	fmt.Println("El archivo ejecutable .exe ha sido generado correctamente.")
 
+	if _, err := os.Stat("module.exe"); os.IsNotExist(err) {
+		fmt.Println("Error: module.exe no existe")
+		return
+	}
+
 	//ejecute el programa
-	cmd = exec.Command("module.exe")
+	cmd = exec.Command("./module.exe")
 	var out bytes.Buffer
 	cmd.Stdout = &out
+	cmd.Stderr = os.Stderr
 
 	if err := cmd.Run(); err != nil {
 		log.Fatal(err)
@@ -177,7 +185,11 @@ func runModule(module *ir.Module) {
 func main() {
 
 	module := compiler()
-	runModule(module)
+	if module != nil {
+		runModule(module)
+	} else {
+		fmt.Println("No module generated")
+	}
 	/*
 		http.HandleFunc("/json", handler)
 

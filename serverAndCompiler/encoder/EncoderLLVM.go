@@ -76,6 +76,14 @@ var typeConversion map[string]types.Type = map[string]types.Type{
 	"bool":   types.I1,
 }
 var printFunction *ir.Func
+var declaringFunc = false
+
+type funcArg struct {
+	name string
+	typ  types.Type
+}
+
+var list []funcArg
 
 func (v *EncoderLLVM) VisitTerminal(node antlr.TerminalNode) interface{} {
 	return nil
@@ -167,6 +175,8 @@ func (v *EncoderLLVM) VisitSingleVarDeclAssignAST(ctx *parser.SingleVarDeclAssig
 			vActual := blockactual.NewAlloca(value.Type())
 			blockactual.NewStore(value, vActual)
 			localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
+			loadedValue := blockactual.NewLoad(value.Type(), vActual)
+			return loadedValue
 		}
 	}
 	return v.VisitChildren(ctx)
@@ -177,23 +187,28 @@ func (v *EncoderLLVM) VisitSingleVarDeclNoExpsAST(ctx *parser.SingleVarDeclNoExp
 }
 
 func (v *EncoderLLVM) VisitSingleVarDeclNoExps(ctx *parser.SingleVarDeclNoExpsContext) interface{} {
+
 	if generalStackBlocks.IsEmpty() {
 		ids := ctx.IdentifierList().(*parser.IdentifierListContext).AllIDENTIFIER()
+		value := v.Visit(ctx.DeclType()).(types.Type)
 		for i := 0; i < len(ids); i++ {
-			value := v.Visit(ctx.DeclType()).(types.Type)
-			v.mainModule.NewGlobalDef(ids[i].GetText(), constant.NewZeroInitializer(value))
+			if !declaringFunc {
+				v.mainModule.NewGlobalDef(ids[i].GetText(), constant.NewZeroInitializer(value))
+			}
+			list = append(list, funcArg{name: ids[i].GetText(), typ: value})
 		}
+		return list
 	} else {
 		blockactual, _ := generalStackBlocks.Peek()
 		ids := ctx.IdentifierList().(*parser.IdentifierListContext).AllIDENTIFIER()
+		value := v.Visit(ctx.DeclType()).(types.Type)
 		for i := 0; i < len(ids); i++ {
-			value := v.Visit(ctx.DeclType()).(types.Type)
 			vActual := blockactual.NewAlloca(value)
 			blockactual.NewStore(constant.NewZeroInitializer(value), vActual)
 			localVariables.AddVariable(blockactual, ids[i].GetText(), vActual)
 		}
 	}
-	return v.VisitChildren(ctx)
+	return nil
 }
 
 func (v *EncoderLLVM) VisitTypeDeclAST(ctx *parser.TypeDeclASTContext) interface{} {
@@ -226,10 +241,6 @@ func (v *EncoderLLVM) VisitFuncDecl(ctx *parser.FuncDeclContext) interface{} {
 func (v *EncoderLLVM) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) interface{} {
 	funcName := ctx.IDENTIFIER().GetText()
 
-	if ctx.FuncArgDecls() != nil {
-		v.Visit(ctx.FuncArgDecls())
-	}
-
 	var returnType types.Type
 	if ctx.SingleReturnType() != nil {
 		returnType = v.Visit(ctx.SingleReturnType()).(types.Type)
@@ -238,6 +249,18 @@ func (v *EncoderLLVM) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) inter
 	}
 
 	funcActual = v.mainModule.NewFunc(funcName, returnType)
+
+	declaringFunc = true
+	if ctx.FuncArgDecls() != nil {
+		args, ok := v.Visit(ctx.FuncArgDecls()).([]funcArg)
+		if ok {
+			for _, arg := range args {
+				funcActual.Params = append(funcActual.Params, ir.NewParam(arg.name, arg.typ))
+			}
+		}
+		//list = nil
+	}
+	declaringFunc = false
 
 	return v.VisitChildren(ctx)
 }
@@ -263,8 +286,7 @@ func (v *EncoderLLVM) VisitSingleReturnTypeEmptyAST(ctx *parser.SingleReturnType
 }
 
 func (v *EncoderLLVM) VisitFuncArgDecls(ctx *parser.FuncArgDeclsContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	return v.VisitChildren(ctx)
 }
 
 func (v *EncoderLLVM) VisitDeclTypeParenAST(ctx *parser.DeclTypeParenASTContext) interface{} {
@@ -623,7 +645,6 @@ func (v *EncoderLLVM) VisitStatementPrintAST(ctx *parser.StatementPrintASTContex
 
 func (v *EncoderLLVM) VisitStatementPrintlnAST(ctx *parser.StatementPrintlnASTContext) interface{} {
 	exprList := ctx.ExpressionList().(*parser.ExpressionListContext).AllExpression()
-
 	for _, expr := range exprList {
 		value := v.Visit(expr).(value.Value)
 		blockActual, _ := generalStackBlocks.Peek()
@@ -709,10 +730,8 @@ func (v *EncoderLLVM) VisitSimpleStatementExpressionAST(ctx *parser.SimpleStatem
 }
 
 func (v *EncoderLLVM) VisitSimpleStatementAssignmentAST(ctx *parser.SimpleStatementAssignmentASTContext) interface{} {
-	/*assignment := ctx.AssignmentStatement().(*parser.AssignmentStatementASTContext)
-	return v.Visit(assignment)*/
-	//TODO implement me
-	panic("implement me")
+	assignment := ctx.AssignmentStatement().(*parser.AssignmentStatementASTContext)
+	return v.Visit(assignment)
 }
 
 func (v *EncoderLLVM) VisitSimpleStatementExpressionListAssignAST(ctx *parser.SimpleStatementExpressionListAssignASTContext) interface{} {
