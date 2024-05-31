@@ -27,6 +27,7 @@ package main;
 
 func caca() int{
     var x int = 10 * 2;
+    println(x);
     return 0;
 };
 

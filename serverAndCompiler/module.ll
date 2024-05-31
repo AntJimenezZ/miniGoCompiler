@@ -11,17 +11,19 @@ define i32 @caca() {
 	%2 = alloca i32
 	store i32 %1, i32* %2
 	%3 = mul i32 10, 2
-	br label %4
+	%4 = load i32, i32* %2
+	%5 = call i32 (i8*, ...) @printf([4 x i8]* @0, i32 %4)
+	br label %6
 
-4:
-	%5 = alloca i32
-	store i32 zeroinitializer, i32* %5
-	%6 = alloca i32
-	store i32 zeroinitializer, i32* %6
+6:
 	%7 = alloca i32
 	store i32 zeroinitializer, i32* %7
 	%8 = alloca i32
 	store i32 zeroinitializer, i32* %8
+	%9 = alloca i32
+	store i32 zeroinitializer, i32* %9
+	%10 = alloca i32
+	store i32 zeroinitializer, i32* %10
 	ret i32 0
 }
 
