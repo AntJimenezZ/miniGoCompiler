@@ -2,44 +2,28 @@
 @1 = global [4 x i8] c"%f\0A\00"
 @2 = global [4 x i8] c"%s\0A\00"
 @3 = global [4 x i8] c"%c\0A\00"
+@x = global i32 10
 
 declare i32 @printf(i8* %0, ...)
 
-define i32 @caca() {
-0:
-	%1 = mul i32 10, 2
-	%2 = alloca i32
-	store i32 %1, i32* %2
-	%3 = mul i32 10, 2
-	%4 = load i32, i32* %2
-	%5 = call i32 (i8*, ...) @printf([4 x i8]* @0, i32 %4)
-	br label %6
-
-6:
-	%7 = alloca i32
-	store i32 zeroinitializer, i32* %7
-	%8 = alloca i32
-	store i32 zeroinitializer, i32* %8
-	%9 = alloca i32
-	store i32 zeroinitializer, i32* %9
-	%10 = alloca i32
-	store i32 zeroinitializer, i32* %10
-	ret i32 0
-}
-
-define i32 @main() {
-0:
-	%1 = alloca i32
-	store i32 10, i32* %1
-	%2 = load i32, i32* %1
-	%3 = icmp eq i32 %2, 10
-	br i1 %3, label %4, label %6
-
-4:
+define i32 @main(i32 %0, i32 %1) {
+2:
+	%3 = alloca i32
+	store i32 %0, i32* %3
+	%4 = alloca i32
+	store i32 %1, i32* %4
+	store i32 10, i32* %3
 	%5 = alloca i32
-	store i32 zeroinitializer, i32* %5
-	br label %6
+	store i32 10, i32* %5
+	%6 = load i32, i32* %3
+	%7 = icmp eq i32 %6, 10
+	br i1 %7, label %8, label %10
 
-6:
+8:
+	%9 = alloca i32
+	store i32 20, i32* %9
+	br label %10
+
+10:
 	ret i32 0
 }

@@ -26,10 +26,15 @@ func (bvt *BlockVariableTable) AddVariable(block *ir.Block, name string, val val
 }
 
 // GetVariable obtiene el valor de una variable en un bloque específico
-func (bvt *BlockVariableTable) GetVariable(block *ir.Block, name string) (value.Value, bool) {
-	if vars, exists := bvt.table[block]; exists {
-		val, found := vars[name]
-		return val, found
+func (bvt *BlockVariableTable) GetVariable(blocks GeneralStack, name string) (value.Value, bool) {
+	for i := 0; i < blocks.Size(); i++ {
+		block, _ := blocks.GetFromTop(i)
+		if vars, exists := bvt.table[block]; exists {
+			val, found := vars[name]
+			if found {
+				return val, found
+			}
+		}
 	}
 	return nil, false
 }

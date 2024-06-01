@@ -1,78 +1,17 @@
 package main;
 
-//var c int;
 
-//var arr [5]int;
-//arr[0] = 1;
-
-//var a,b,c int;
-//var a,b,c int = 1,2,3;
-//var ();
-
-//var ( c int; a = 1; b int = 19; k float; l = 10.0; h float = 11.0; b string; f = "kevin"; s string = "oscar";);
-
-//var d int;
-//var e = 10;
-//var z int = 15;
-//var a bool;
+var x int = 10;
 
 
-//var g float;
-//var k = 10.0;
-//var h float = 12.0;
-
-//var w string;
-//var q = "hello";
-//var r string = "hola";
-
-func caca() int{
-    var x int = 10 * 2;
-    println(x);
-    return 0;
-};
 
 func main(z int, q int) int{
-    //z = 10;
-    //var y int;
-    //var e = 10;
-    //var z int = 15;
+    z = 10;
 
-    //var g float;
-    //var k = 10.0;
-    //var h float = 12.0;
-
-    //var w string;
-    //var q = "hello";
-    //var r string = "hola";
-
-    //var a bool;
-
-    //var ( c int; a = 1; b int = 19; k float; l = 10.0; h float = 11.0; b string; f = "kevin"; s string = "oscar";);
-
-    //var x int = 10 * 2;
-    //var y int = 10 / 2;
-    //var z int = 10 % 2;
-    //var w int = 10 + 2;
-    //var q int = 10 - 2;
-
-    //var c int;
-    //c = 10;
-
-    //var caca [6]int;
-    //caca[0] = 1;
-    //caca[1] = 2;
-    //caca[2] = 3;
-    //caca[3] = 4;
-
-    //println(2);
-    //println(k);
-    //println(q);
-
-    //var x int = 10 * 2;
-    //var x int = 10;
-    var z int = 10;
+    var x int = 10;
     if (z == 10){
-        var z int;
+        var x int = 20;
+        println(x);
     };
     return 0;
 };

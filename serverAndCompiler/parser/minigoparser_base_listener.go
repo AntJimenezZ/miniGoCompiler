@@ -1,4 +1,4 @@
-// Code generated from C:/Users/noni/Desktop/miniGoProyect/serverAndCompiler/MiniGoParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
+// Code generated from D:/Proyecto Compi/miniGoCompiler/serverAndCompiler/MiniGoParser.g4 by ANTLR 4.13.1. DO NOT EDIT.
 
 package parser // MiniGoParser
 import "github.com/antlr4-go/antlr/v4"
@@ -141,12 +141,10 @@ func (s *BaseMiniGoParserListener) EnterSingleReturnTypeAST(ctx *SingleReturnTyp
 func (s *BaseMiniGoParserListener) ExitSingleReturnTypeAST(ctx *SingleReturnTypeASTContext) {}
 
 // EnterSingleReturnTypeEmptyAST is called when production singleReturnTypeEmptyAST is entered.
-func (s *BaseMiniGoParserListener) EnterSingleReturnTypeEmptyAST(ctx *SingleReturnTypeEmptyASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterSingleReturnTypeEmptyAST(ctx *SingleReturnTypeEmptyASTContext) {}
 
 // ExitSingleReturnTypeEmptyAST is called when production singleReturnTypeEmptyAST is exited.
-func (s *BaseMiniGoParserListener) ExitSingleReturnTypeEmptyAST(ctx *SingleReturnTypeEmptyASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitSingleReturnTypeEmptyAST(ctx *SingleReturnTypeEmptyASTContext) {}
 
 // EnterFuncArgDecls is called when production funcArgDecls is entered.
 func (s *BaseMiniGoParserListener) EnterFuncArgDecls(ctx *FuncArgDeclsContext) {}
@@ -245,8 +243,7 @@ func (s *BaseMiniGoParserListener) EnterExpressionAndAST(ctx *ExpressionAndASTCo
 func (s *BaseMiniGoParserListener) ExitExpressionAndAST(ctx *ExpressionAndASTContext) {}
 
 // EnterExpressionBitwiseXorAST is called when production expressionBitwiseXorAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionBitwiseXorAST(ctx *ExpressionBitwiseXorASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionBitwiseXorAST(ctx *ExpressionBitwiseXorASTContext) {}
 
 // ExitExpressionBitwiseXorAST is called when production expressionBitwiseXorAST is exited.
 func (s *BaseMiniGoParserListener) ExitExpressionBitwiseXorAST(ctx *ExpressionBitwiseXorASTContext) {}
@@ -258,12 +255,10 @@ func (s *BaseMiniGoParserListener) EnterExpressionMinusAST(ctx *ExpressionMinusA
 func (s *BaseMiniGoParserListener) ExitExpressionMinusAST(ctx *ExpressionMinusASTContext) {}
 
 // EnterExpressionBitwiseXorUnaryAST is called when production expressionBitwiseXorUnaryAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionBitwiseXorUnaryAST(ctx *ExpressionBitwiseXorUnaryASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionBitwiseXorUnaryAST(ctx *ExpressionBitwiseXorUnaryASTContext) {}
 
 // ExitExpressionBitwiseXorUnaryAST is called when production expressionBitwiseXorUnaryAST is exited.
-func (s *BaseMiniGoParserListener) ExitExpressionBitwiseXorUnaryAST(ctx *ExpressionBitwiseXorUnaryASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitExpressionBitwiseXorUnaryAST(ctx *ExpressionBitwiseXorUnaryASTContext) {}
 
 // EnterExpressionEqualAST is called when production expressionEqualAST is entered.
 func (s *BaseMiniGoParserListener) EnterExpressionEqualAST(ctx *ExpressionEqualASTContext) {}
@@ -272,27 +267,22 @@ func (s *BaseMiniGoParserListener) EnterExpressionEqualAST(ctx *ExpressionEqualA
 func (s *BaseMiniGoParserListener) ExitExpressionEqualAST(ctx *ExpressionEqualASTContext) {}
 
 // EnterExpressionMinusUnaryAST is called when production expressionMinusUnaryAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionMinusUnaryAST(ctx *ExpressionMinusUnaryASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionMinusUnaryAST(ctx *ExpressionMinusUnaryASTContext) {}
 
 // ExitExpressionMinusUnaryAST is called when production expressionMinusUnaryAST is exited.
 func (s *BaseMiniGoParserListener) ExitExpressionMinusUnaryAST(ctx *ExpressionMinusUnaryASTContext) {}
 
 // EnterExpressionBitwiseClearAST is called when production expressionBitwiseClearAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionBitwiseClearAST(ctx *ExpressionBitwiseClearASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionBitwiseClearAST(ctx *ExpressionBitwiseClearASTContext) {}
 
 // ExitExpressionBitwiseClearAST is called when production expressionBitwiseClearAST is exited.
-func (s *BaseMiniGoParserListener) ExitExpressionBitwiseClearAST(ctx *ExpressionBitwiseClearASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitExpressionBitwiseClearAST(ctx *ExpressionBitwiseClearASTContext) {}
 
 // EnterExpressionGreaterEqualAST is called when production expressionGreaterEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionGreaterEqualAST(ctx *ExpressionGreaterEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionGreaterEqualAST(ctx *ExpressionGreaterEqualASTContext) {}
 
 // ExitExpressionGreaterEqualAST is called when production expressionGreaterEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitExpressionGreaterEqualAST(ctx *ExpressionGreaterEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitExpressionGreaterEqualAST(ctx *ExpressionGreaterEqualASTContext) {}
 
 // EnterExpressionLessEqualAST is called when production expressionLessEqualAST is entered.
 func (s *BaseMiniGoParserListener) EnterExpressionLessEqualAST(ctx *ExpressionLessEqualASTContext) {}
@@ -313,8 +303,7 @@ func (s *BaseMiniGoParserListener) EnterExpressionPrimaryAST(ctx *ExpressionPrim
 func (s *BaseMiniGoParserListener) ExitExpressionPrimaryAST(ctx *ExpressionPrimaryASTContext) {}
 
 // EnterExpressionBitwiseAndAST is called when production expressionBitwiseAndAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionBitwiseAndAST(ctx *ExpressionBitwiseAndASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionBitwiseAndAST(ctx *ExpressionBitwiseAndASTContext) {}
 
 // ExitExpressionBitwiseAndAST is called when production expressionBitwiseAndAST is exited.
 func (s *BaseMiniGoParserListener) ExitExpressionBitwiseAndAST(ctx *ExpressionBitwiseAndASTContext) {}
@@ -356,8 +345,7 @@ func (s *BaseMiniGoParserListener) EnterExpressionLessAST(ctx *ExpressionLessAST
 func (s *BaseMiniGoParserListener) ExitExpressionLessAST(ctx *ExpressionLessASTContext) {}
 
 // EnterExpressionShiftRightAST is called when production expressionShiftRightAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionShiftRightAST(ctx *ExpressionShiftRightASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionShiftRightAST(ctx *ExpressionShiftRightASTContext) {}
 
 // ExitExpressionShiftRightAST is called when production expressionShiftRightAST is exited.
 func (s *BaseMiniGoParserListener) ExitExpressionShiftRightAST(ctx *ExpressionShiftRightASTContext) {}
@@ -375,59 +363,46 @@ func (s *BaseMiniGoParserListener) EnterExpressionList(ctx *ExpressionListContex
 func (s *BaseMiniGoParserListener) ExitExpressionList(ctx *ExpressionListContext) {}
 
 // EnterPrimaryExpressionLengthAST is called when production primaryExpressionLengthAST is entered.
-func (s *BaseMiniGoParserListener) EnterPrimaryExpressionLengthAST(ctx *PrimaryExpressionLengthASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterPrimaryExpressionLengthAST(ctx *PrimaryExpressionLengthASTContext) {}
 
 // ExitPrimaryExpressionLengthAST is called when production primaryExpressionLengthAST is exited.
-func (s *BaseMiniGoParserListener) ExitPrimaryExpressionLengthAST(ctx *PrimaryExpressionLengthASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitPrimaryExpressionLengthAST(ctx *PrimaryExpressionLengthASTContext) {}
 
 // EnterPrimaryExpressionOperandAST is called when production primaryExpressionOperandAST is entered.
-func (s *BaseMiniGoParserListener) EnterPrimaryExpressionOperandAST(ctx *PrimaryExpressionOperandASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterPrimaryExpressionOperandAST(ctx *PrimaryExpressionOperandASTContext) {}
 
 // ExitPrimaryExpressionOperandAST is called when production primaryExpressionOperandAST is exited.
-func (s *BaseMiniGoParserListener) ExitPrimaryExpressionOperandAST(ctx *PrimaryExpressionOperandASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitPrimaryExpressionOperandAST(ctx *PrimaryExpressionOperandASTContext) {}
 
 // EnterPrimaryExpressionIndexAST is called when production primaryExpressionIndexAST is entered.
-func (s *BaseMiniGoParserListener) EnterPrimaryExpressionIndexAST(ctx *PrimaryExpressionIndexASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterPrimaryExpressionIndexAST(ctx *PrimaryExpressionIndexASTContext) {}
 
 // ExitPrimaryExpressionIndexAST is called when production primaryExpressionIndexAST is exited.
-func (s *BaseMiniGoParserListener) ExitPrimaryExpressionIndexAST(ctx *PrimaryExpressionIndexASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitPrimaryExpressionIndexAST(ctx *PrimaryExpressionIndexASTContext) {}
 
 // EnterPrimaryExpressionAppendAST is called when production primaryExpressionAppendAST is entered.
-func (s *BaseMiniGoParserListener) EnterPrimaryExpressionAppendAST(ctx *PrimaryExpressionAppendASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterPrimaryExpressionAppendAST(ctx *PrimaryExpressionAppendASTContext) {}
 
 // ExitPrimaryExpressionAppendAST is called when production primaryExpressionAppendAST is exited.
-func (s *BaseMiniGoParserListener) ExitPrimaryExpressionAppendAST(ctx *PrimaryExpressionAppendASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitPrimaryExpressionAppendAST(ctx *PrimaryExpressionAppendASTContext) {}
 
 // EnterPrimaryExpressionArgumentsAST is called when production primaryExpressionArgumentsAST is entered.
-func (s *BaseMiniGoParserListener) EnterPrimaryExpressionArgumentsAST(ctx *PrimaryExpressionArgumentsASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterPrimaryExpressionArgumentsAST(ctx *PrimaryExpressionArgumentsASTContext) {}
 
 // ExitPrimaryExpressionArgumentsAST is called when production primaryExpressionArgumentsAST is exited.
-func (s *BaseMiniGoParserListener) ExitPrimaryExpressionArgumentsAST(ctx *PrimaryExpressionArgumentsASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitPrimaryExpressionArgumentsAST(ctx *PrimaryExpressionArgumentsASTContext) {}
 
 // EnterPrimaryExpressionCapAST is called when production primaryExpressionCapAST is entered.
-func (s *BaseMiniGoParserListener) EnterPrimaryExpressionCapAST(ctx *PrimaryExpressionCapASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterPrimaryExpressionCapAST(ctx *PrimaryExpressionCapASTContext) {}
 
 // ExitPrimaryExpressionCapAST is called when production primaryExpressionCapAST is exited.
 func (s *BaseMiniGoParserListener) ExitPrimaryExpressionCapAST(ctx *PrimaryExpressionCapASTContext) {}
 
 // EnterPrimaryExpressionSelectorAST is called when production primaryExpressionSelectorAST is entered.
-func (s *BaseMiniGoParserListener) EnterPrimaryExpressionSelectorAST(ctx *PrimaryExpressionSelectorASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterPrimaryExpressionSelectorAST(ctx *PrimaryExpressionSelectorASTContext) {}
 
 // ExitPrimaryExpressionSelectorAST is called when production primaryExpressionSelectorAST is exited.
-func (s *BaseMiniGoParserListener) ExitPrimaryExpressionSelectorAST(ctx *PrimaryExpressionSelectorASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitPrimaryExpressionSelectorAST(ctx *PrimaryExpressionSelectorASTContext) {}
 
 // EnterOperandLiteralAST is called when production operandLiteralAST is entered.
 func (s *BaseMiniGoParserListener) EnterOperandLiteralAST(ctx *OperandLiteralASTContext) {}
@@ -472,12 +447,10 @@ func (s *BaseMiniGoParserListener) EnterLiteralRawStringAST(ctx *LiteralRawStrin
 func (s *BaseMiniGoParserListener) ExitLiteralRawStringAST(ctx *LiteralRawStringASTContext) {}
 
 // EnterLiteralInterpretedStringAST is called when production literalInterpretedStringAST is entered.
-func (s *BaseMiniGoParserListener) EnterLiteralInterpretedStringAST(ctx *LiteralInterpretedStringASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterLiteralInterpretedStringAST(ctx *LiteralInterpretedStringASTContext) {}
 
 // ExitLiteralInterpretedStringAST is called when production literalInterpretedStringAST is exited.
-func (s *BaseMiniGoParserListener) ExitLiteralInterpretedStringAST(ctx *LiteralInterpretedStringASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitLiteralInterpretedStringAST(ctx *LiteralInterpretedStringASTContext) {}
 
 // EnterIndex is called when production index is entered.
 func (s *BaseMiniGoParserListener) EnterIndex(ctx *IndexContext) {}
@@ -600,43 +573,34 @@ func (s *BaseMiniGoParserListener) EnterStatementTypeDeclAST(ctx *StatementTypeD
 func (s *BaseMiniGoParserListener) ExitStatementTypeDeclAST(ctx *StatementTypeDeclASTContext) {}
 
 // EnterStatementVariableDeclAST is called when production statementVariableDeclAST is entered.
-func (s *BaseMiniGoParserListener) EnterStatementVariableDeclAST(ctx *StatementVariableDeclASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterStatementVariableDeclAST(ctx *StatementVariableDeclASTContext) {}
 
 // ExitStatementVariableDeclAST is called when production statementVariableDeclAST is exited.
-func (s *BaseMiniGoParserListener) ExitStatementVariableDeclAST(ctx *StatementVariableDeclASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitStatementVariableDeclAST(ctx *StatementVariableDeclASTContext) {}
 
 // EnterSimpleStatementEmptyAST is called when production simpleStatementEmptyAST is entered.
-func (s *BaseMiniGoParserListener) EnterSimpleStatementEmptyAST(ctx *SimpleStatementEmptyASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterSimpleStatementEmptyAST(ctx *SimpleStatementEmptyASTContext) {}
 
 // ExitSimpleStatementEmptyAST is called when production simpleStatementEmptyAST is exited.
 func (s *BaseMiniGoParserListener) ExitSimpleStatementEmptyAST(ctx *SimpleStatementEmptyASTContext) {}
 
 // EnterSimpleStatementExpressionAST is called when production simpleStatementExpressionAST is entered.
-func (s *BaseMiniGoParserListener) EnterSimpleStatementExpressionAST(ctx *SimpleStatementExpressionASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterSimpleStatementExpressionAST(ctx *SimpleStatementExpressionASTContext) {}
 
 // ExitSimpleStatementExpressionAST is called when production simpleStatementExpressionAST is exited.
-func (s *BaseMiniGoParserListener) ExitSimpleStatementExpressionAST(ctx *SimpleStatementExpressionASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitSimpleStatementExpressionAST(ctx *SimpleStatementExpressionASTContext) {}
 
 // EnterSimpleStatementAssignmentAST is called when production simpleStatementAssignmentAST is entered.
-func (s *BaseMiniGoParserListener) EnterSimpleStatementAssignmentAST(ctx *SimpleStatementAssignmentASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterSimpleStatementAssignmentAST(ctx *SimpleStatementAssignmentASTContext) {}
 
 // ExitSimpleStatementAssignmentAST is called when production simpleStatementAssignmentAST is exited.
-func (s *BaseMiniGoParserListener) ExitSimpleStatementAssignmentAST(ctx *SimpleStatementAssignmentASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitSimpleStatementAssignmentAST(ctx *SimpleStatementAssignmentASTContext) {}
 
 // EnterSimpleStatementExpressionListAssignAST is called when production simpleStatementExpressionListAssignAST is entered.
-func (s *BaseMiniGoParserListener) EnterSimpleStatementExpressionListAssignAST(ctx *SimpleStatementExpressionListAssignASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterSimpleStatementExpressionListAssignAST(ctx *SimpleStatementExpressionListAssignASTContext) {}
 
 // ExitSimpleStatementExpressionListAssignAST is called when production simpleStatementExpressionListAssignAST is exited.
-func (s *BaseMiniGoParserListener) ExitSimpleStatementExpressionListAssignAST(ctx *SimpleStatementExpressionListAssignASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitSimpleStatementExpressionListAssignAST(ctx *SimpleStatementExpressionListAssignASTContext) {}
 
 // EnterAssignmentStatementAST is called when production assignmentStatementAST is entered.
 func (s *BaseMiniGoParserListener) EnterAssignmentStatementAST(ctx *AssignmentStatementASTContext) {}
@@ -645,92 +609,70 @@ func (s *BaseMiniGoParserListener) EnterAssignmentStatementAST(ctx *AssignmentSt
 func (s *BaseMiniGoParserListener) ExitAssignmentStatementAST(ctx *AssignmentStatementASTContext) {}
 
 // EnterAssignmentStatementPlusEqualAST is called when production assignmentStatementPlusEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementPlusEqualAST(ctx *AssignmentStatementPlusEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementPlusEqualAST(ctx *AssignmentStatementPlusEqualASTContext) {}
 
 // ExitAssignmentStatementPlusEqualAST is called when production assignmentStatementPlusEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementPlusEqualAST(ctx *AssignmentStatementPlusEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementPlusEqualAST(ctx *AssignmentStatementPlusEqualASTContext) {}
 
 // EnterAssignmentStatementMinusEqualAST is called when production assignmentStatementMinusEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementMinusEqualAST(ctx *AssignmentStatementMinusEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementMinusEqualAST(ctx *AssignmentStatementMinusEqualASTContext) {}
 
 // ExitAssignmentStatementMinusEqualAST is called when production assignmentStatementMinusEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementMinusEqualAST(ctx *AssignmentStatementMinusEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementMinusEqualAST(ctx *AssignmentStatementMinusEqualASTContext) {}
 
 // EnterAssignmentStatementBitwiseAndEqualAST is called when production assignmentStatementBitwiseAndEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementBitwiseAndEqualAST(ctx *AssignmentStatementBitwiseAndEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementBitwiseAndEqualAST(ctx *AssignmentStatementBitwiseAndEqualASTContext) {}
 
 // ExitAssignmentStatementBitwiseAndEqualAST is called when production assignmentStatementBitwiseAndEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementBitwiseAndEqualAST(ctx *AssignmentStatementBitwiseAndEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementBitwiseAndEqualAST(ctx *AssignmentStatementBitwiseAndEqualASTContext) {}
 
 // EnterAssignmentStatementBitwiseOrEqualAST is called when production assignmentStatementBitwiseOrEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementBitwiseOrEqualAST(ctx *AssignmentStatementBitwiseOrEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementBitwiseOrEqualAST(ctx *AssignmentStatementBitwiseOrEqualASTContext) {}
 
 // ExitAssignmentStatementBitwiseOrEqualAST is called when production assignmentStatementBitwiseOrEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementBitwiseOrEqualAST(ctx *AssignmentStatementBitwiseOrEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementBitwiseOrEqualAST(ctx *AssignmentStatementBitwiseOrEqualASTContext) {}
 
 // EnterAssignmentStatementMultiplyEqualAST is called when production assignmentStatementMultiplyEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementMultiplyEqualAST(ctx *AssignmentStatementMultiplyEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementMultiplyEqualAST(ctx *AssignmentStatementMultiplyEqualASTContext) {}
 
 // ExitAssignmentStatementMultiplyEqualAST is called when production assignmentStatementMultiplyEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementMultiplyEqualAST(ctx *AssignmentStatementMultiplyEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementMultiplyEqualAST(ctx *AssignmentStatementMultiplyEqualASTContext) {}
 
 // EnterAssignmentStatementBitwiseXorEqualAST is called when production assignmentStatementBitwiseXorEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementBitwiseXorEqualAST(ctx *AssignmentStatementBitwiseXorEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementBitwiseXorEqualAST(ctx *AssignmentStatementBitwiseXorEqualASTContext) {}
 
 // ExitAssignmentStatementBitwiseXorEqualAST is called when production assignmentStatementBitwiseXorEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementBitwiseXorEqualAST(ctx *AssignmentStatementBitwiseXorEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementBitwiseXorEqualAST(ctx *AssignmentStatementBitwiseXorEqualASTContext) {}
 
 // EnterAssignmentStatementShiftLeftEqualAST is called when production assignmentStatementShiftLeftEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementShiftLeftEqualAST(ctx *AssignmentStatementShiftLeftEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementShiftLeftEqualAST(ctx *AssignmentStatementShiftLeftEqualASTContext) {}
 
 // ExitAssignmentStatementShiftLeftEqualAST is called when production assignmentStatementShiftLeftEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementShiftLeftEqualAST(ctx *AssignmentStatementShiftLeftEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementShiftLeftEqualAST(ctx *AssignmentStatementShiftLeftEqualASTContext) {}
 
 // EnterAssignmentStatementShiftRightEqualAST is called when production assignmentStatementShiftRightEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementShiftRightEqualAST(ctx *AssignmentStatementShiftRightEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementShiftRightEqualAST(ctx *AssignmentStatementShiftRightEqualASTContext) {}
 
 // ExitAssignmentStatementShiftRightEqualAST is called when production assignmentStatementShiftRightEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementShiftRightEqualAST(ctx *AssignmentStatementShiftRightEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementShiftRightEqualAST(ctx *AssignmentStatementShiftRightEqualASTContext) {}
 
 // EnterAssignmentStatementBitwiseClearEqualAST is called when production assignmentStatementBitwiseClearEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementBitwiseClearEqualAST(ctx *AssignmentStatementBitwiseClearEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementBitwiseClearEqualAST(ctx *AssignmentStatementBitwiseClearEqualASTContext) {}
 
 // ExitAssignmentStatementBitwiseClearEqualAST is called when production assignmentStatementBitwiseClearEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementBitwiseClearEqualAST(ctx *AssignmentStatementBitwiseClearEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementBitwiseClearEqualAST(ctx *AssignmentStatementBitwiseClearEqualASTContext) {}
 
 // EnterAssignmentStatementModuloEqualAST is called when production assignmentStatementModuloEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementModuloEqualAST(ctx *AssignmentStatementModuloEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementModuloEqualAST(ctx *AssignmentStatementModuloEqualASTContext) {}
 
 // ExitAssignmentStatementModuloEqualAST is called when production assignmentStatementModuloEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementModuloEqualAST(ctx *AssignmentStatementModuloEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementModuloEqualAST(ctx *AssignmentStatementModuloEqualASTContext) {}
 
 // EnterAssignmentStatementDivideEqualAST is called when production assignmentStatementDivideEqualAST is entered.
-func (s *BaseMiniGoParserListener) EnterAssignmentStatementDivideEqualAST(ctx *AssignmentStatementDivideEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterAssignmentStatementDivideEqualAST(ctx *AssignmentStatementDivideEqualASTContext) {}
 
 // ExitAssignmentStatementDivideEqualAST is called when production assignmentStatementDivideEqualAST is exited.
-func (s *BaseMiniGoParserListener) ExitAssignmentStatementDivideEqualAST(ctx *AssignmentStatementDivideEqualASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitAssignmentStatementDivideEqualAST(ctx *AssignmentStatementDivideEqualASTContext) {}
 
 // EnterIfStatementAST is called when production ifStatementAST is entered.
 func (s *BaseMiniGoParserListener) EnterIfStatementAST(ctx *IfStatementASTContext) {}
@@ -757,20 +699,16 @@ func (s *BaseMiniGoParserListener) EnterIfSimpleStatementAST(ctx *IfSimpleStatem
 func (s *BaseMiniGoParserListener) ExitIfSimpleStatementAST(ctx *IfSimpleStatementASTContext) {}
 
 // EnterIfSimpleElseIfStatementAST is called when production ifSimpleElseIfStatementAST is entered.
-func (s *BaseMiniGoParserListener) EnterIfSimpleElseIfStatementAST(ctx *IfSimpleElseIfStatementASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterIfSimpleElseIfStatementAST(ctx *IfSimpleElseIfStatementASTContext) {}
 
 // ExitIfSimpleElseIfStatementAST is called when production ifSimpleElseIfStatementAST is exited.
-func (s *BaseMiniGoParserListener) ExitIfSimpleElseIfStatementAST(ctx *IfSimpleElseIfStatementASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitIfSimpleElseIfStatementAST(ctx *IfSimpleElseIfStatementASTContext) {}
 
 // EnterIfSimpleElseStatementAST is called when production ifSimpleElseStatementAST is entered.
-func (s *BaseMiniGoParserListener) EnterIfSimpleElseStatementAST(ctx *IfSimpleElseStatementASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterIfSimpleElseStatementAST(ctx *IfSimpleElseStatementASTContext) {}
 
 // ExitIfSimpleElseStatementAST is called when production ifSimpleElseStatementAST is exited.
-func (s *BaseMiniGoParserListener) ExitIfSimpleElseStatementAST(ctx *IfSimpleElseStatementASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitIfSimpleElseStatementAST(ctx *IfSimpleElseStatementASTContext) {}
 
 // EnterLoopBlockAST is called when production loopBlockAST is entered.
 func (s *BaseMiniGoParserListener) EnterLoopBlockAST(ctx *LoopBlockASTContext) {}
@@ -785,43 +723,34 @@ func (s *BaseMiniGoParserListener) EnterLoopExpressionBlockAST(ctx *LoopExpressi
 func (s *BaseMiniGoParserListener) ExitLoopExpressionBlockAST(ctx *LoopExpressionBlockASTContext) {}
 
 // EnterLoopSimpleStatementExpressionSimpleStatementBlockAST is called when production loopSimpleStatementExpressionSimpleStatementBlockAST is entered.
-func (s *BaseMiniGoParserListener) EnterLoopSimpleStatementExpressionSimpleStatementBlockAST(ctx *LoopSimpleStatementExpressionSimpleStatementBlockASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterLoopSimpleStatementExpressionSimpleStatementBlockAST(ctx *LoopSimpleStatementExpressionSimpleStatementBlockASTContext) {}
 
 // ExitLoopSimpleStatementExpressionSimpleStatementBlockAST is called when production loopSimpleStatementExpressionSimpleStatementBlockAST is exited.
-func (s *BaseMiniGoParserListener) ExitLoopSimpleStatementExpressionSimpleStatementBlockAST(ctx *LoopSimpleStatementExpressionSimpleStatementBlockASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitLoopSimpleStatementExpressionSimpleStatementBlockAST(ctx *LoopSimpleStatementExpressionSimpleStatementBlockASTContext) {}
 
 // EnterLoopSimpleStatementSimpleStatementBlockAST is called when production loopSimpleStatementSimpleStatementBlockAST is entered.
-func (s *BaseMiniGoParserListener) EnterLoopSimpleStatementSimpleStatementBlockAST(ctx *LoopSimpleStatementSimpleStatementBlockASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterLoopSimpleStatementSimpleStatementBlockAST(ctx *LoopSimpleStatementSimpleStatementBlockASTContext) {}
 
 // ExitLoopSimpleStatementSimpleStatementBlockAST is called when production loopSimpleStatementSimpleStatementBlockAST is exited.
-func (s *BaseMiniGoParserListener) ExitLoopSimpleStatementSimpleStatementBlockAST(ctx *LoopSimpleStatementSimpleStatementBlockASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitLoopSimpleStatementSimpleStatementBlockAST(ctx *LoopSimpleStatementSimpleStatementBlockASTContext) {}
 
 // EnterSwitchStmtSimpleStatementAST is called when production switchStmtSimpleStatementAST is entered.
-func (s *BaseMiniGoParserListener) EnterSwitchStmtSimpleStatementAST(ctx *SwitchStmtSimpleStatementASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterSwitchStmtSimpleStatementAST(ctx *SwitchStmtSimpleStatementASTContext) {}
 
 // ExitSwitchStmtSimpleStatementAST is called when production switchStmtSimpleStatementAST is exited.
-func (s *BaseMiniGoParserListener) ExitSwitchStmtSimpleStatementAST(ctx *SwitchStmtSimpleStatementASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitSwitchStmtSimpleStatementAST(ctx *SwitchStmtSimpleStatementASTContext) {}
 
 // EnterSwitchStmtExpressionAST is called when production switchStmtExpressionAST is entered.
-func (s *BaseMiniGoParserListener) EnterSwitchStmtExpressionAST(ctx *SwitchStmtExpressionASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterSwitchStmtExpressionAST(ctx *SwitchStmtExpressionASTContext) {}
 
 // ExitSwitchStmtExpressionAST is called when production switchStmtExpressionAST is exited.
 func (s *BaseMiniGoParserListener) ExitSwitchStmtExpressionAST(ctx *SwitchStmtExpressionASTContext) {}
 
 // EnterSwitchStmtSimpleStatementBlockAST is called when production switchStmtSimpleStatementBlockAST is entered.
-func (s *BaseMiniGoParserListener) EnterSwitchStmtSimpleStatementBlockAST(ctx *SwitchStmtSimpleStatementBlockASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterSwitchStmtSimpleStatementBlockAST(ctx *SwitchStmtSimpleStatementBlockASTContext) {}
 
 // ExitSwitchStmtSimpleStatementBlockAST is called when production switchStmtSimpleStatementBlockAST is exited.
-func (s *BaseMiniGoParserListener) ExitSwitchStmtSimpleStatementBlockAST(ctx *SwitchStmtSimpleStatementBlockASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitSwitchStmtSimpleStatementBlockAST(ctx *SwitchStmtSimpleStatementBlockASTContext) {}
 
 // EnterSwitchStmtBlockAST is called when production switchStmtBlockAST is entered.
 func (s *BaseMiniGoParserListener) EnterSwitchStmtBlockAST(ctx *SwitchStmtBlockASTContext) {}
@@ -830,20 +759,16 @@ func (s *BaseMiniGoParserListener) EnterSwitchStmtBlockAST(ctx *SwitchStmtBlockA
 func (s *BaseMiniGoParserListener) ExitSwitchStmtBlockAST(ctx *SwitchStmtBlockASTContext) {}
 
 // EnterExpressionCaseClauseListEmptyAST is called when production expressionCaseClauseListEmptyAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionCaseClauseListEmptyAST(ctx *ExpressionCaseClauseListEmptyASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionCaseClauseListEmptyAST(ctx *ExpressionCaseClauseListEmptyASTContext) {}
 
 // ExitExpressionCaseClauseListEmptyAST is called when production expressionCaseClauseListEmptyAST is exited.
-func (s *BaseMiniGoParserListener) ExitExpressionCaseClauseListEmptyAST(ctx *ExpressionCaseClauseListEmptyASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitExpressionCaseClauseListEmptyAST(ctx *ExpressionCaseClauseListEmptyASTContext) {}
 
 // EnterExpressionCaseClauseListAST is called when production expressionCaseClauseListAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionCaseClauseListAST(ctx *ExpressionCaseClauseListASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionCaseClauseListAST(ctx *ExpressionCaseClauseListASTContext) {}
 
 // ExitExpressionCaseClauseListAST is called when production expressionCaseClauseListAST is exited.
-func (s *BaseMiniGoParserListener) ExitExpressionCaseClauseListAST(ctx *ExpressionCaseClauseListASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitExpressionCaseClauseListAST(ctx *ExpressionCaseClauseListASTContext) {}
 
 // EnterExpressionCaseClause is called when production expressionCaseClause is entered.
 func (s *BaseMiniGoParserListener) EnterExpressionCaseClause(ctx *ExpressionCaseClauseContext) {}
@@ -852,19 +777,16 @@ func (s *BaseMiniGoParserListener) EnterExpressionCaseClause(ctx *ExpressionCase
 func (s *BaseMiniGoParserListener) ExitExpressionCaseClause(ctx *ExpressionCaseClauseContext) {}
 
 // EnterExpressionSwitchCaseAST is called when production expressionSwitchCaseAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionSwitchCaseAST(ctx *ExpressionSwitchCaseASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionSwitchCaseAST(ctx *ExpressionSwitchCaseASTContext) {}
 
 // ExitExpressionSwitchCaseAST is called when production expressionSwitchCaseAST is exited.
 func (s *BaseMiniGoParserListener) ExitExpressionSwitchCaseAST(ctx *ExpressionSwitchCaseASTContext) {}
 
 // EnterExpressionSwitchDefaultAST is called when production expressionSwitchDefaultAST is entered.
-func (s *BaseMiniGoParserListener) EnterExpressionSwitchDefaultAST(ctx *ExpressionSwitchDefaultASTContext) {
-}
+func (s *BaseMiniGoParserListener) EnterExpressionSwitchDefaultAST(ctx *ExpressionSwitchDefaultASTContext) {}
 
 // ExitExpressionSwitchDefaultAST is called when production expressionSwitchDefaultAST is exited.
-func (s *BaseMiniGoParserListener) ExitExpressionSwitchDefaultAST(ctx *ExpressionSwitchDefaultASTContext) {
-}
+func (s *BaseMiniGoParserListener) ExitExpressionSwitchDefaultAST(ctx *ExpressionSwitchDefaultASTContext) {}
 
 // EnterEpsilon is called when production epsilon is entered.
 func (s *BaseMiniGoParserListener) EnterEpsilon(ctx *EpsilonContext) {}

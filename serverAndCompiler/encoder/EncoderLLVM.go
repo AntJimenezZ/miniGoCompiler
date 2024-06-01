@@ -2,7 +2,6 @@ package encoder
 
 import (
 	"Proyecto_Compiladores/parser"
-	"fmt"
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/llir/llvm/ir"
 	"github.com/llir/llvm/ir/constant"
@@ -77,13 +76,20 @@ var typeConversion map[string]types.Type = map[string]types.Type{
 }
 var printFunction *ir.Func
 var declaringFunc = false
+var funcArgs []funcArg
+
+func getPointer(value value.Value, block *ir.Block) value.Value {
+	if p, ok := value.Type().(*types.PointerType); ok {
+		val := block.NewLoad(p.ElemType, value)
+		return val
+	}
+	return value
+}
 
 type funcArg struct {
 	name string
 	typ  types.Type
 }
-
-var list []funcArg
 
 func (v *EncoderLLVM) VisitTerminal(node antlr.TerminalNode) interface{} {
 	return nil
@@ -105,8 +111,6 @@ func (v *EncoderLLVM) VisitTopDeclarationList(ctx *parser.TopDeclarationListCont
 }
 
 func (v *EncoderLLVM) VisitVariableDeclAST(ctx *parser.VariableDeclASTContext) interface{} {
-	//TODO implement me
-	fmt.Println("VariableDeclAST", ctx.GetText())
 	return v.VisitChildren(ctx)
 }
 
@@ -187,17 +191,17 @@ func (v *EncoderLLVM) VisitSingleVarDeclNoExpsAST(ctx *parser.SingleVarDeclNoExp
 }
 
 func (v *EncoderLLVM) VisitSingleVarDeclNoExps(ctx *parser.SingleVarDeclNoExpsContext) interface{} {
-
 	if generalStackBlocks.IsEmpty() {
 		ids := ctx.IdentifierList().(*parser.IdentifierListContext).AllIDENTIFIER()
 		value := v.Visit(ctx.DeclType()).(types.Type)
 		for i := 0; i < len(ids); i++ {
 			if !declaringFunc {
 				v.mainModule.NewGlobalDef(ids[i].GetText(), constant.NewZeroInitializer(value))
+			} else {
+				funcArgs = append(funcArgs, funcArg{name: ids[i].GetText(), typ: value})
 			}
-			list = append(list, funcArg{name: ids[i].GetText(), typ: value})
 		}
-		return list
+		return funcArgs
 	} else {
 		blockactual, _ := generalStackBlocks.Peek()
 		ids := ctx.IdentifierList().(*parser.IdentifierListContext).AllIDENTIFIER()
@@ -235,7 +239,13 @@ func (v *EncoderLLVM) VisitSingleTypeDecl(ctx *parser.SingleTypeDeclContext) int
 }
 
 func (v *EncoderLLVM) VisitFuncDecl(ctx *parser.FuncDeclContext) interface{} {
-	return v.VisitChildren(ctx)
+	v.Visit(ctx.FuncFrontDecl())
+	v.Visit(ctx.Block())
+	block, _ := generalStackBlocks.Peek()
+	if block.Term == nil {
+		block.NewRet(nil)
+	}
+	return nil
 }
 
 func (v *EncoderLLVM) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) interface{} {
@@ -254,15 +264,21 @@ func (v *EncoderLLVM) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) inter
 	if ctx.FuncArgDecls() != nil {
 		args, ok := v.Visit(ctx.FuncArgDecls()).([]funcArg)
 		if ok {
+			block := funcActual.NewBlock("")
+			generalStackBlocks.Push(block)
 			for _, arg := range args {
-				funcActual.Params = append(funcActual.Params, ir.NewParam(arg.name, arg.typ))
+				param := ir.NewParam("", arg.typ)
+				funcActual.Params = append(funcActual.Params, param)
+				alloca := block.NewAlloca(arg.typ)
+				block.NewStore(param, alloca)
+				localVariables.AddVariable(block, arg.name, alloca)
 			}
+			clear(funcArgs)
 		}
-		//list = nil
 	}
 	declaringFunc = false
 
-	return v.VisitChildren(ctx)
+	return funcActual
 }
 
 func (v *EncoderLLVM) VisitMultipleReturnTypes(ctx *parser.MultipleReturnTypesContext) interface{} {
@@ -401,9 +417,9 @@ func (v *EncoderLLVM) VisitExpressionBitwiseXorUnaryAST(ctx *parser.ExpressionBi
 }
 
 func (v *EncoderLLVM) VisitExpressionEqualAST(ctx *parser.ExpressionEqualASTContext) interface{} {
-	valExpression1 := v.Visit(ctx.Expression(0)).(value.Value)
-	valExpression2 := v.Visit(ctx.Expression(1)).(value.Value)
 	blockActual, _ := generalStackBlocks.Peek()
+	valExpression1 := getPointer(v.Visit(ctx.Expression(0)).(value.Value), blockActual)
+	valExpression2 := getPointer(v.Visit(ctx.Expression(1)).(value.Value), blockActual)
 	valReturn := blockActual.NewICmp(enum.IPredEQ, valExpression1, valExpression2)
 
 	return valReturn
@@ -420,27 +436,27 @@ func (v *EncoderLLVM) VisitExpressionBitwiseClearAST(ctx *parser.ExpressionBitwi
 }
 
 func (v *EncoderLLVM) VisitExpressionGreaterEqualAST(ctx *parser.ExpressionGreaterEqualASTContext) interface{} {
-	valExpression1 := v.Visit(ctx.Expression(0)).(value.Value)
-	valExpression2 := v.Visit(ctx.Expression(1)).(value.Value)
 	blockActual, _ := generalStackBlocks.Peek()
+	valExpression1 := getPointer(v.Visit(ctx.Expression(0)).(value.Value), blockActual)
+	valExpression2 := getPointer(v.Visit(ctx.Expression(1)).(value.Value), blockActual)
 	valReturn := blockActual.NewICmp(enum.IPredSGE, valExpression1, valExpression2)
 
 	return valReturn
 }
 
 func (v *EncoderLLVM) VisitExpressionLessEqualAST(ctx *parser.ExpressionLessEqualASTContext) interface{} {
-	valExpression1 := v.Visit(ctx.Expression(0)).(value.Value)
-	valExpression2 := v.Visit(ctx.Expression(1)).(value.Value)
 	blockActual, _ := generalStackBlocks.Peek()
+	valExpression1 := getPointer(v.Visit(ctx.Expression(0)).(value.Value), blockActual)
+	valExpression2 := getPointer(v.Visit(ctx.Expression(1)).(value.Value), blockActual)
 	valReturn := blockActual.NewICmp(enum.IPredSLE, valExpression1, valExpression2)
 
 	return valReturn
 }
 
 func (v *EncoderLLVM) VisitExpressionNotEqualAST(ctx *parser.ExpressionNotEqualASTContext) interface{} {
-	valExpression1 := v.Visit(ctx.Expression(0)).(value.Value)
-	valExpression2 := v.Visit(ctx.Expression(1)).(value.Value)
 	blockActual, _ := generalStackBlocks.Peek()
+	valExpression1 := getPointer(v.Visit(ctx.Expression(0)).(value.Value), blockActual)
+	valExpression2 := getPointer(v.Visit(ctx.Expression(1)).(value.Value), blockActual)
 	valReturn := blockActual.NewICmp(enum.IPredNE, valExpression1, valExpression2)
 
 	return valReturn
@@ -456,9 +472,9 @@ func (v *EncoderLLVM) VisitExpressionBitwiseAndAST(ctx *parser.ExpressionBitwise
 }
 
 func (v *EncoderLLVM) VisitExpressionGreaterAST(ctx *parser.ExpressionGreaterASTContext) interface{} {
-	valExpression1 := v.Visit(ctx.Expression(0)).(value.Value)
-	valExpression2 := v.Visit(ctx.Expression(1)).(value.Value)
 	blockActual, _ := generalStackBlocks.Peek()
+	valExpression1 := getPointer(v.Visit(ctx.Expression(0)).(value.Value), blockActual)
+	valExpression2 := getPointer(v.Visit(ctx.Expression(1)).(value.Value), blockActual)
 	valReturn := blockActual.NewICmp(enum.IPredSGT, valExpression1, valExpression2)
 
 	return valReturn
@@ -490,9 +506,9 @@ func (v *EncoderLLVM) VisitExpressionBitwiseOrAST(ctx *parser.ExpressionBitwiseO
 }
 
 func (v *EncoderLLVM) VisitExpressionLessAST(ctx *parser.ExpressionLessASTContext) interface{} {
-	valExpression1 := v.Visit(ctx.Expression(0)).(value.Value)
-	valExpression2 := v.Visit(ctx.Expression(1)).(value.Value)
 	blockActual, _ := generalStackBlocks.Peek()
+	valExpression1 := getPointer(v.Visit(ctx.Expression(0)).(value.Value), blockActual)
+	valExpression2 := getPointer(v.Visit(ctx.Expression(1)).(value.Value), blockActual)
 	valReturn := blockActual.NewICmp(enum.IPredSLT, valExpression1, valExpression2)
 
 	return valReturn
@@ -554,10 +570,8 @@ func (v *EncoderLLVM) VisitOperandLiteralAST(ctx *parser.OperandLiteralASTContex
 }
 
 func (v *EncoderLLVM) VisitOperandIdentifierAST(ctx *parser.OperandIdentifierASTContext) interface{} {
-	blockActual, _ := generalStackBlocks.Peek()
-	val, _ := localVariables.GetVariable(blockActual, ctx.IDENTIFIER().GetText())
-	valReturn := blockActual.NewLoad(types.I32, val)
-	return valReturn
+	val, _ := localVariables.GetVariable(generalStackBlocks, ctx.IDENTIFIER().GetText())
+	return val
 }
 
 func (v *EncoderLLVM) VisitOperandParenAST(ctx *parser.OperandParenASTContext) interface{} {
@@ -630,12 +644,12 @@ func (v *EncoderLLVM) VisitStatementList(ctx *parser.StatementListContext) inter
 }
 
 func (v *EncoderLLVM) VisitBlock(ctx *parser.BlockContext) interface{} {
-	generalStackBlocks.Push(funcActual.NewBlock(""))
+	//generalStackBlocks.Push(funcActual.NewBlock(""))
 
 	v.VisitChildren(ctx)
 
-	returnBlock, _ := generalStackBlocks.Peek()
-	return returnBlock
+	//returnBlock, _ := generalStackBlocks.Peek()
+	return nil //returnBlock
 }
 
 func (v *EncoderLLVM) VisitStatementPrintAST(ctx *parser.StatementPrintASTContext) interface{} {
@@ -662,12 +676,12 @@ func (v *EncoderLLVM) VisitStatementPrintlnAST(ctx *parser.StatementPrintlnASTCo
 }
 
 func (v *EncoderLLVM) VisitStatementReturnAST(ctx *parser.StatementReturnASTContext) interface{} {
-	if generalStackBlocks.Size() == 1 {
+	/*if generalStackBlocks.Size() == 1 {
 		blockCuerpo, _ := generalStackBlocks.Peek()
 		generalStackBlocks.Push(funcActual.NewBlock(""))
 		blockEnd, _ := generalStackBlocks.Peek()
 		blockCuerpo.NewBr(blockEnd)
-	}
+	}*/
 	blockActual, _ := generalStackBlocks.Peek()
 
 	retValue := v.Visit(ctx.Expression())
@@ -685,10 +699,7 @@ func (v *EncoderLLVM) VisitStatementContinueAST(ctx *parser.StatementContinueAST
 }
 
 func (v *EncoderLLVM) VisitStatementSimpleAST(ctx *parser.StatementSimpleASTContext) interface{} {
-	/*statement := ctx.SimpleStatement().(*parser.SimpleStatementAssignmentASTContext)
-	return v.Visit(statement)*/
-	//TODO implement me
-	panic("implement me")
+	return v.VisitChildren(ctx)
 }
 
 func (v *EncoderLLVM) VisitStatementBlockAST(ctx *parser.StatementBlockASTContext) interface{} {
@@ -740,8 +751,15 @@ func (v *EncoderLLVM) VisitSimpleStatementExpressionListAssignAST(ctx *parser.Si
 }
 
 func (v *EncoderLLVM) VisitAssignmentStatementAST(ctx *parser.AssignmentStatementASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	ids := ctx.ExpressionList(0).AllExpression()
+	assings := ctx.ExpressionList(1).AllExpression()
+	blockActual, _ := generalStackBlocks.Peek()
+	for i, id := range ids {
+		ident := v.Visit(id).(value.Value)
+		assign := v.Visit(assings[i]).(value.Value)
+		blockActual.NewStore(assign, ident)
+	}
+	return nil
 }
 
 func (v *EncoderLLVM) VisitAssignmentStatementPlusEqualAST(ctx *parser.AssignmentStatementPlusEqualASTContext) interface{} {
@@ -802,16 +820,17 @@ func (v *EncoderLLVM) VisitAssignmentStatementDivideEqualAST(ctx *parser.Assignm
 func (v *EncoderLLVM) VisitIfStatementAST(ctx *parser.IfStatementASTContext) interface{} {
 	blockAnteriorIf, _ := generalStackBlocks.Peek()
 	valCond := v.Visit(ctx.Expression()).(value.Value)
-
+	trueBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(trueBlock)
 	v.Visit(ctx.Block())
 
-	blockCuerpoIf, _ := generalStackBlocks.Peek()
+	blockCuerpoIf, _ := generalStackBlocks.Pop()
 
 	generalStackBlocks.Push(funcActual.NewBlock(""))
 	blockEndIf, _ := generalStackBlocks.Peek()
 	blockCuerpoIf.NewBr(blockEndIf)
 
-	blockAnteriorIf.NewCondBr(valCond, blockCuerpoIf, blockEndIf)
+	blockAnteriorIf.NewCondBr(valCond, trueBlock, blockEndIf)
 
 	return nil
 }
