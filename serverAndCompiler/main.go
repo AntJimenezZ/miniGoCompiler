@@ -28,7 +28,7 @@ func (d *MyErrorListener) SyntaxError(_ antlr.Recognizer, _ interface{}, line, c
 	err := fmt.Sprintf("Error in line %d:%d %s\n", line, column, msg)
 	errors = append(errors, err)
 	// Abre el archivo en modo append
-	f, errFile := os.OpenFile("errors.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, errFile := os.OpenFile("txtFiles/errors.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if errFile != nil {
 		fmt.Println(errFile)
 		return
@@ -62,12 +62,12 @@ func handler(w http.ResponseWriter, r *http.Request) { // In this function are a
 		return
 	}
 	//Save the message on test.txt
-	file, err := os.Create("test.txt")
+	file, err := os.Create("txtFiles/test.txt")
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
-	file2, err := os.OpenFile("errors.txt", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
+	file2, err := os.OpenFile("txtFiles/errors.txt", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0644)
 	if err != nil {
 		fmt.Println("Error al abrir el archivo:", err)
 		return
@@ -101,7 +101,7 @@ func handler(w http.ResponseWriter, r *http.Request) { // In this function are a
 func compiler() *ir.Module {
 
 	//Send the file to parser
-	input, _ := antlr.NewFileStream("test.txt")
+	input, _ := antlr.NewFileStream("txtFiles/test.txt")
 	lexer := parser.NewMiniGoScanner(input)
 	stream := antlr.NewCommonTokenStream(lexer, antlr.TokenDefaultChannel)
 	p := parser.NewMiniGoParser(stream)
@@ -140,7 +140,7 @@ func consoleTests(clientMsg Message) {
 
 func runModule(module *ir.Module) {
 	// Escribir el módulo LLVM en un archivo
-	f, err := os.Create("module.ll")
+	f, err := os.Create("modules/module.ll")
 	if err != nil {
 		fmt.Println("Error al crear el archivo:", err)
 		return
@@ -152,7 +152,7 @@ func runModule(module *ir.Module) {
 	}
 
 	// Compilar el módulo LLVM a código objeto
-	cmd := exec.Command("clang", "", "module.ll", "-o", "module.exe")
+	cmd := exec.Command("clang", "", "modules/module.ll", "-o", "modules/module.exe")
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 	if err := cmd.Run(); err != nil {
@@ -162,13 +162,13 @@ func runModule(module *ir.Module) {
 
 	fmt.Println("El archivo ejecutable .exe ha sido generado correctamente.")
 
-	if _, err := os.Stat("module.exe"); os.IsNotExist(err) {
-		fmt.Println("Error: module.exe no existe")
+	if _, err := os.Stat("modules/module.exe"); os.IsNotExist(err) {
+		fmt.Println("Error: modules/module.exe no existe")
 		return
 	}
 
 	//ejecute el programa
-	cmd = exec.Command("./module.exe")
+	cmd = exec.Command("./modules/module.exe")
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = os.Stderr
