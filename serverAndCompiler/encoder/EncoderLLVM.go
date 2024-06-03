@@ -977,8 +977,26 @@ func (v *EncoderLLVM) VisitLoopSimpleStatementExpressionSimpleStatementBlockAST(
 }
 
 func (v *EncoderLLVM) VisitLoopSimpleStatementSimpleStatementBlockAST(ctx *parser.LoopSimpleStatementSimpleStatementBlockASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	blockBeforeLoop, _ := generalStackBlocks.Peek()
+	forbool = true
+	conditionalBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(conditionalBlock)
+
+	v.Visit(ctx.SimpleStatement(0))
+
+	loopBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(loopBlock)
+
+	v.Visit(ctx.SimpleStatement(1))
+	v.Visit(ctx.Block())
+
+	blockBeforeLoop.NewBr(conditionalBlock)
+	loopBlock.NewBr(conditionalBlock)
+
+	conditionalBlock.NewBr(loopBlock)
+	generalStackBlocks.Push(funcActual.NewBlock(""))
+
+	return nil
 }
 
 func (v *EncoderLLVM) VisitSwitchStmtSimpleStatementAST(ctx *parser.SwitchStmtSimpleStatementASTContext) interface{} {

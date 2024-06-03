@@ -21,18 +21,16 @@ define i32 @main() {
 1:
 	%2 = alloca i32
 	store i32 0, i32* %2
-	%3 = load i32, i32* %2
-	%4 = icmp slt i32 %3, 10
-	br i1 %4, label %5, label %10
+	br label %3
 
-5:
+3:
+	%4 = load i32, i32* %2
+	%5 = add i32 %4, 1
+	store i32 %5, i32* %2
 	%6 = load i32, i32* %2
-	%7 = add i32 %6, 1
-	store i32 %7, i32* %2
-	%8 = load i32, i32* %2
-	%9 = call i32 (i8*, ...) @printf([4 x i8]* @0, i32 %8)
+	%7 = call i32 (i8*, ...) @printf([4 x i8]* @0, i32 %6)
 	br label %1
 
-10:
+8:
 	ret i32 0
 }

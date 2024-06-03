@@ -31,7 +31,7 @@ func caca(z int) int{
 
 func main() int{
 
-    for i=0; i<10; i++{
+    for i=0; ; i++{
         println(i);
     };
     return 0;
