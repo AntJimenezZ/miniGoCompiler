@@ -2,7 +2,6 @@ package encoder
 
 import (
 	"Proyecto_Compiladores/parser"
-	"fmt"
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/llir/llvm/ir"
 	"github.com/llir/llvm/ir/constant"
@@ -375,6 +374,10 @@ func (v *EncoderLLVM) VisitExpressionMultiplyAST(ctx *parser.ExpressionMultiplyA
 	valExpression1 := v.Visit(exprs[0]).(value.Value)
 	valExpression2 := v.Visit(exprs[1]).(value.Value)
 
+	block, _ := generalStackBlocks.Peek()
+	valExpression1 = getPointer(valExpression1, block)
+	valExpression2 = getPointer(valExpression2, block)
+
 	blockActual, _ := generalStackBlocks.Peek()
 	valReturn := blockActual.NewMul(valExpression1, valExpression2)
 	return valReturn
@@ -385,6 +388,10 @@ func (v *EncoderLLVM) VisitExpressionPlusAST(ctx *parser.ExpressionPlusASTContex
 	valExpression1 := v.Visit(exprs[0]).(value.Value)
 	valExpression2 := v.Visit(exprs[1]).(value.Value)
 
+	block, _ := generalStackBlocks.Peek()
+	valExpression1 = getPointer(valExpression1, block)
+	valExpression2 = getPointer(valExpression2, block)
+
 	blockActual, _ := generalStackBlocks.Peek()
 	valReturn := blockActual.NewAdd(valExpression1, valExpression2)
 	return valReturn
@@ -394,6 +401,10 @@ func (v *EncoderLLVM) VisitExpressionModuloAST(ctx *parser.ExpressionModuloASTCo
 	exprs := ctx.AllExpression()
 	valExpression1 := v.Visit(exprs[0]).(value.Value)
 	valExpression2 := v.Visit(exprs[1]).(value.Value)
+
+	block, _ := generalStackBlocks.Peek()
+	valExpression1 = getPointer(valExpression1, block)
+	valExpression2 = getPointer(valExpression2, block)
 
 	blockActual, _ := generalStackBlocks.Peek()
 	valReturn := blockActual.NewSRem(valExpression1, valExpression2)
@@ -414,6 +425,10 @@ func (v *EncoderLLVM) VisitExpressionMinusAST(ctx *parser.ExpressionMinusASTCont
 	exprs := ctx.AllExpression()
 	valExpression1 := v.Visit(exprs[0]).(value.Value)
 	valExpression2 := v.Visit(exprs[1]).(value.Value)
+
+	block, _ := generalStackBlocks.Peek()
+	valExpression1 = getPointer(valExpression1, block)
+	valExpression2 = getPointer(valExpression2, block)
 
 	blockActual, _ := generalStackBlocks.Peek()
 	valReturn := blockActual.NewSub(valExpression1, valExpression2)
@@ -493,6 +508,10 @@ func (v *EncoderLLVM) VisitExpressionDivideAST(ctx *parser.ExpressionDivideASTCo
 	exprs := ctx.AllExpression()
 	valExpression1 := v.Visit(exprs[0]).(value.Value)
 	valExpression2 := v.Visit(exprs[1]).(value.Value)
+
+	block, _ := generalStackBlocks.Peek()
+	valExpression1 = getPointer(valExpression1, block)
+	valExpression2 = getPointer(valExpression2, block)
 
 	blockActual, _ := generalStackBlocks.Peek()
 	valReturn := blockActual.NewSDiv(valExpression1, valExpression2)
@@ -686,6 +705,7 @@ func (v *EncoderLLVM) VisitStatementPrintlnAST(ctx *parser.StatementPrintlnASTCo
 func (v *EncoderLLVM) VisitStatementReturnAST(ctx *parser.StatementReturnASTContext) interface{} {
 	blockActual, _ := generalStackBlocks.Peek()
 	retValue := v.Visit(ctx.Expression())
+	retValue = getPointer(retValue.(value.Value), blockActual)
 	return blockActual.NewRet(retValue.(value.Value))
 }
 
@@ -774,7 +794,6 @@ func (v *EncoderLLVM) VisitAssignmentStatementAST(ctx *parser.AssignmentStatemen
 		}
 		ident := v.Visit(id).(value.Value)
 		assign := v.Visit(assings[i]).(value.Value)
-		fmt.Println(ident, assign)
 		blockActual.NewStore(assign, ident)
 	}
 	return nil

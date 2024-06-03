@@ -140,7 +140,7 @@ func consoleTests(clientMsg Message) {
 
 func runModule(module *ir.Module) {
 	// Escribir el módulo LLVM en un archivo
-	f, err := os.Create("simplesCompExprsModule.ll")
+	f, err := os.Create("module.ll")
 	if err != nil {
 		fmt.Println("Error al crear el archivo:", err)
 		return
@@ -152,7 +152,7 @@ func runModule(module *ir.Module) {
 	}
 
 	// Compilar el módulo LLVM a código objeto
-	cmd := exec.Command("clang", "", "simplesCompExprsModule.ll", "-o", "simplesCompExprsModule.exe")
+	cmd := exec.Command("clang", "", "module.ll", "-o", "module.exe")
 	cmd.Stderr = os.Stderr
 	cmd.Stdout = os.Stdout
 	if err := cmd.Run(); err != nil {
@@ -162,13 +162,13 @@ func runModule(module *ir.Module) {
 
 	fmt.Println("El archivo ejecutable .exe ha sido generado correctamente.")
 
-	if _, err := os.Stat("simplesCompExprsModule.exe"); os.IsNotExist(err) {
-		fmt.Println("Error: simplesCompExprsModule.exe no existe")
+	if _, err := os.Stat("module.exe"); os.IsNotExist(err) {
+		fmt.Println("Error: module.exe no existe")
 		return
 	}
 
 	//ejecute el programa
-	cmd = exec.Command("./simplesCompExprsModule.exe")
+	cmd = exec.Command("./module.exe")
 	var out bytes.Buffer
 	cmd.Stdout = &out
 	cmd.Stderr = os.Stderr

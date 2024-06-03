@@ -1,27 +1,43 @@
 package main;
 
+var global = 10;
+
+var a, b, c = 34,"Hola",30.5;
+
+func suma(i int) int{
+
+    i = 25;
+
+    var suma int = i + 10;
+
+    return suma;
+}
+
 func main() int{
 
-    var add =  1+2;
-    var sub = 3-2;
-    var mult = 3*3;
-    var div = 2/2;
-    var mod = 2%10;
-    var greater = 10 > 12;
-    var comp = (10*2)*5 - 2/(5+2);
-    var notEqual = add != sub;
-    var equal = add == 3;
-    var lessEqual = mult <= 8;
+    var array [10]int;
+    println(len(array));
 
-    println(add);
-    println(sub);
-    println(mult);
-    println(div);
-    println(mod);
-    println(greater);
-    println(notEqual);
-    println(equal);
-    println(comp);
-    println(lessEqual);
+    var cond = 10;
+
+
+    if (cond <= 9){
+        println(1);
+    } else{
+        //suma(2);
+        println(2);
+    };
+
+    for x < {
+        println(1111);
+    };
+
+    if (cond == 11){
+        println(23);
+    } else if (cond >= 11){
+        println(0);
+    }; /*else{
+        println(11);
+    };*/
     return 0;
 };
