@@ -1,17 +1,49 @@
 package main;
 
+//var a int;
+//var b = 10;
+//var c int = 11;
 
-var x int = 10;
+//var d float;
+//var e = 1.0;
+//var f float = 10.0;
 
+//var g string;
+//var h = "hola";
+//var i string = "kevin";
 
+//var ();
+//var j bool;
 
-func main(z int, q int) int{
+//var arreglo [5]int;
+
+//var (k int; l = 12; m int = 15; n float; o = 15.0; p float = 2.0; q string; r = "ver"; s string = "aaaa";);
+
+//var t,u,v = 1.0,2,"carro";
+
+//func caca
+
+func caca(z int) int{
     z = 10;
+    println(10);
+    return 0;
+};
 
+func main() int{
+    //z = 10;
+    //q = 12;
+    var arr [5]int;
+
+    var f int = len(arr);
+    println(len(arr));
+
+    var aaa = 3 < 5;
+    println(aaa);
     var x int = 10;
-    if (z == 10){
-        var x int = 20;
-        println(x);
+    if (x == 10){
+        var x int = 10.0;
+        println(10.0);
+        //println("string");
     };
     return 0;
 };

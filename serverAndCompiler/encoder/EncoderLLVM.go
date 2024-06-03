@@ -78,6 +78,14 @@ var printFunction *ir.Func
 var declaringFunc = false
 var funcArgs []funcArg
 
+func (v *EncoderLLVM) getValue(val value.Value) value.Value {
+	if val, ok := val.(*ir.InstAlloca); ok {
+		blockActual, _ := generalStackBlocks.Peek()
+		return blockActual.NewLoad(val.ElemType, val)
+	}
+	return val
+}
+
 func getPointer(value value.Value, block *ir.Block) value.Value {
 	if p, ok := value.Type().(*types.PointerType); ok {
 		val := block.NewLoad(p.ElemType, value)
@@ -191,7 +199,7 @@ func (v *EncoderLLVM) VisitSingleVarDeclNoExpsAST(ctx *parser.SingleVarDeclNoExp
 }
 
 func (v *EncoderLLVM) VisitSingleVarDeclNoExps(ctx *parser.SingleVarDeclNoExpsContext) interface{} {
-	if generalStackBlocks.IsEmpty() {
+	if generalStackBlocks.IsEmpty() || declaringFunc {
 		ids := ctx.IdentifierList().(*parser.IdentifierListContext).AllIDENTIFIER()
 		value := v.Visit(ctx.DeclType()).(types.Type)
 		for i := 0; i < len(ids); i++ {
@@ -254,18 +262,20 @@ func (v *EncoderLLVM) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) inter
 	var returnType types.Type
 	if ctx.SingleReturnType() != nil {
 		returnType = v.Visit(ctx.SingleReturnType()).(types.Type)
+		funcActual = v.mainModule.NewFunc(funcName, returnType)
 	} else if ctx.MultipleReturnTypes() != nil {
 		returnType = v.Visit(ctx.MultipleReturnTypes()).(types.Type)
+		funcActual = v.mainModule.NewFunc(funcName, returnType)
+	} else {
+		funcActual = v.mainModule.NewFunc(funcName, types.Void)
 	}
 
-	funcActual = v.mainModule.NewFunc(funcName, returnType)
-
 	declaringFunc = true
+	block := funcActual.NewBlock("")
+	generalStackBlocks.Push(block)
 	if ctx.FuncArgDecls() != nil {
 		args, ok := v.Visit(ctx.FuncArgDecls()).([]funcArg)
 		if ok {
-			block := funcActual.NewBlock("")
-			generalStackBlocks.Push(block)
 			for _, arg := range args {
 				param := ir.NewParam("", arg.typ)
 				funcActual.Params = append(funcActual.Params, param)
@@ -277,7 +287,6 @@ func (v *EncoderLLVM) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) inter
 		}
 	}
 	declaringFunc = false
-
 	return funcActual
 }
 
@@ -292,13 +301,11 @@ func (v *EncoderLLVM) VisitReturnTypeList(ctx *parser.ReturnTypeListContext) int
 }
 
 func (v *EncoderLLVM) VisitSingleReturnTypeAST(ctx *parser.SingleReturnTypeASTContext) interface{} {
-	// Obtener el tipo de retorno del declType
 	return v.Visit(ctx.DeclType())
 }
 
 func (v *EncoderLLVM) VisitSingleReturnTypeEmptyAST(ctx *parser.SingleReturnTypeEmptyASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	return types.Void
 }
 
 func (v *EncoderLLVM) VisitFuncArgDecls(ctx *parser.FuncArgDeclsContext) interface{} {
@@ -529,8 +536,7 @@ func (v *EncoderLLVM) VisitExpressionList(ctx *parser.ExpressionListContext) int
 }
 
 func (v *EncoderLLVM) VisitPrimaryExpressionLengthAST(ctx *parser.PrimaryExpressionLengthASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	return v.Visit(ctx.LengthExpression()).(value.Value)
 }
 
 func (v *EncoderLLVM) VisitPrimaryExpressionOperandAST(ctx *parser.PrimaryExpressionOperandASTContext) interface{} {
@@ -629,8 +635,11 @@ func (v *EncoderLLVM) VisitAppendExpression(ctx *parser.AppendExpressionContext)
 }
 
 func (v *EncoderLLVM) VisitLengthExpression(ctx *parser.LengthExpressionContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	exprValue := v.Visit(ctx.Expression()).(value.Value)
+
+	arraySize := exprValue.Type().(*types.PointerType).ElemType.(*types.ArrayType).Len
+
+	return constant.NewInt(types.I32, int64(arraySize))
 }
 
 func (v *EncoderLLVM) VisitCapExpression(ctx *parser.CapExpressionContext) interface{} {
@@ -639,17 +648,12 @@ func (v *EncoderLLVM) VisitCapExpression(ctx *parser.CapExpressionContext) inter
 }
 
 func (v *EncoderLLVM) VisitStatementList(ctx *parser.StatementListContext) interface{} {
-
 	return v.VisitChildren(ctx)
 }
 
 func (v *EncoderLLVM) VisitBlock(ctx *parser.BlockContext) interface{} {
-	//generalStackBlocks.Push(funcActual.NewBlock(""))
-
 	v.VisitChildren(ctx)
-
-	//returnBlock, _ := generalStackBlocks.Peek()
-	return nil //returnBlock
+	return nil
 }
 
 func (v *EncoderLLVM) VisitStatementPrintAST(ctx *parser.StatementPrintASTContext) interface{} {
@@ -660,13 +664,13 @@ func (v *EncoderLLVM) VisitStatementPrintAST(ctx *parser.StatementPrintASTContex
 func (v *EncoderLLVM) VisitStatementPrintlnAST(ctx *parser.StatementPrintlnASTContext) interface{} {
 	exprList := ctx.ExpressionList().(*parser.ExpressionListContext).AllExpression()
 	for _, expr := range exprList {
-		value := v.Visit(expr).(value.Value)
+		value := v.getValue(v.Visit(expr).(value.Value))
 		blockActual, _ := generalStackBlocks.Peek()
 		if value.Type() == types.I32 {
 			blockActual.NewCall(printFunction, v.intFormat, value)
 		} else if value.Type() == types.Float {
 			blockActual.NewCall(printFunction, v.floatFormat, value)
-		} else if value.Type() == types.I8Ptr {
+		} else if value.Type().Equal(types.I8) {
 			blockActual.NewCall(printFunction, v.stringFormat, value)
 		} else if value.Type() == types.I8 {
 			blockActual.NewCall(printFunction, v.runeFormat, value)
@@ -676,14 +680,7 @@ func (v *EncoderLLVM) VisitStatementPrintlnAST(ctx *parser.StatementPrintlnASTCo
 }
 
 func (v *EncoderLLVM) VisitStatementReturnAST(ctx *parser.StatementReturnASTContext) interface{} {
-	/*if generalStackBlocks.Size() == 1 {
-		blockCuerpo, _ := generalStackBlocks.Peek()
-		generalStackBlocks.Push(funcActual.NewBlock(""))
-		blockEnd, _ := generalStackBlocks.Peek()
-		blockCuerpo.NewBr(blockEnd)
-	}*/
 	blockActual, _ := generalStackBlocks.Peek()
-
 	retValue := v.Visit(ctx.Expression())
 	return blockActual.NewRet(retValue.(value.Value))
 }
@@ -736,8 +733,7 @@ func (v *EncoderLLVM) VisitSimpleStatementEmptyAST(ctx *parser.SimpleStatementEm
 }
 
 func (v *EncoderLLVM) VisitSimpleStatementExpressionAST(ctx *parser.SimpleStatementExpressionASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	return v.VisitChildren(ctx)
 }
 
 func (v *EncoderLLVM) VisitSimpleStatementAssignmentAST(ctx *parser.SimpleStatementAssignmentASTContext) interface{} {
