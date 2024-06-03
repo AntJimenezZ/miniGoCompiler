@@ -2,6 +2,7 @@ package encoder
 
 import (
 	"Proyecto_Compiladores/parser"
+	"fmt"
 	"github.com/antlr4-go/antlr/v4"
 	"github.com/llir/llvm/ir"
 	"github.com/llir/llvm/ir/constant"
@@ -76,6 +77,7 @@ var typeConversion map[string]types.Type = map[string]types.Type{
 }
 var printFunction *ir.Func
 var declaringFunc = false
+var forbool = false
 var funcArgs []funcArg
 
 func (v *EncoderLLVM) getValue(val value.Value) value.Value {
@@ -716,8 +718,7 @@ func (v *EncoderLLVM) VisitStatementIfAST(ctx *parser.StatementIfASTContext) int
 }
 
 func (v *EncoderLLVM) VisitStatementLoopAST(ctx *parser.StatementLoopASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	return v.VisitChildren(ctx)
 }
 
 func (v *EncoderLLVM) VisitStatementTypeDeclAST(ctx *parser.StatementTypeDeclASTContext) interface{} {
@@ -735,7 +736,18 @@ func (v *EncoderLLVM) VisitSimpleStatementEmptyAST(ctx *parser.SimpleStatementEm
 }
 
 func (v *EncoderLLVM) VisitSimpleStatementExpressionAST(ctx *parser.SimpleStatementExpressionASTContext) interface{} {
-	return v.VisitChildren(ctx)
+	blockActual, _ := generalStackBlocks.Peek()
+	tempAlloca, _ := localVariables.GetVariable(generalStackBlocks, ctx.Expression().GetText())
+	tempLoad := blockActual.NewLoad(tempAlloca.Type().(*types.PointerType).ElemType, tempAlloca)
+
+	if ctx.DECREMENT() != nil {
+		tempAllocaDec := blockActual.NewSub(tempLoad, constant.NewInt(types.I32, 1))
+		blockActual.NewStore(tempAllocaDec, tempAlloca)
+	} else if ctx.INCREMENT() != nil {
+		tempAllocaInc := blockActual.NewAdd(tempLoad, constant.NewInt(types.I32, 1))
+		blockActual.NewStore(tempAllocaInc, tempAlloca)
+	}
+	return nil
 }
 
 func (v *EncoderLLVM) VisitSimpleStatementAssignmentAST(ctx *parser.SimpleStatementAssignmentASTContext) interface{} {
@@ -752,9 +764,17 @@ func (v *EncoderLLVM) VisitAssignmentStatementAST(ctx *parser.AssignmentStatemen
 	ids := ctx.ExpressionList(0).AllExpression()
 	assings := ctx.ExpressionList(1).AllExpression()
 	blockActual, _ := generalStackBlocks.Peek()
+
 	for i, id := range ids {
+		if forbool {
+
+			alloca := blockActual.NewAlloca(types.I32)
+			localVariables.AddVariable(blockActual, id.GetText(), alloca)
+
+		}
 		ident := v.Visit(id).(value.Value)
 		assign := v.Visit(assings[i]).(value.Value)
+		fmt.Println(ident, assign)
 		blockActual.NewStore(assign, ident)
 	}
 	return nil
@@ -822,11 +842,9 @@ func (v *EncoderLLVM) VisitIfStatementAST(ctx *parser.IfStatementASTContext) int
 	generalStackBlocks.Push(trueBlock)
 	v.Visit(ctx.Block())
 
-	blockCuerpoIf, _ := generalStackBlocks.Pop()
-
 	generalStackBlocks.Push(funcActual.NewBlock(""))
 	blockEndIf, _ := generalStackBlocks.Peek()
-	blockCuerpoIf.NewBr(blockEndIf)
+	trueBlock.NewBr(blockEndIf)
 
 	blockAnteriorIf.NewCondBr(valCond, trueBlock, blockEndIf)
 
@@ -834,13 +852,51 @@ func (v *EncoderLLVM) VisitIfStatementAST(ctx *parser.IfStatementASTContext) int
 }
 
 func (v *EncoderLLVM) VisitIfElseIfStatementAST(ctx *parser.IfElseIfStatementASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	elseIfCtx := ctx.IfStatement().(*parser.IfStatementASTContext)
+	blockAnteriorIf, _ := generalStackBlocks.Peek()
+	valCondIf := v.Visit(ctx.Expression()).(value.Value)
+
+	trueBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(trueBlock)
+	v.Visit(ctx.Block())
+
+	falseBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(falseBlock)
+	v.Visit(elseIfCtx.Block())
+
+	valCondElseIf := v.Visit(elseIfCtx.Expression()).(value.Value)
+
+	generalStackBlocks.Push(funcActual.NewBlock(""))
+	blockEndIfElseIf, _ := generalStackBlocks.Peek()
+
+	trueBlock.NewBr(blockEndIfElseIf)
+
+	blockAnteriorIf.NewCondBr(valCondIf, trueBlock, falseBlock)
+	falseBlock.NewCondBr(valCondElseIf, falseBlock, blockEndIfElseIf)
+
+	return nil
 }
 
 func (v *EncoderLLVM) VisitIfElseStatementAST(ctx *parser.IfElseStatementASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	blockAnteriorIf, _ := generalStackBlocks.Peek()
+	valCond := v.Visit(ctx.Expression()).(value.Value)
+
+	trueBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(trueBlock)
+	v.Visit(ctx.Block(0))
+
+	falseBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(falseBlock)
+	v.Visit(ctx.Block(1))
+
+	generalStackBlocks.Push(funcActual.NewBlock(""))
+	blockEndIfElse, _ := generalStackBlocks.Peek()
+	trueBlock.NewBr(blockEndIfElse)
+	falseBlock.NewBr(blockEndIfElse)
+
+	blockAnteriorIf.NewCondBr(valCond, trueBlock, falseBlock)
+
+	return nil
 }
 
 func (v *EncoderLLVM) VisitIfSimpleStatementAST(ctx *parser.IfSimpleStatementASTContext) interface{} {
@@ -859,23 +915,90 @@ func (v *EncoderLLVM) VisitIfSimpleElseStatementAST(ctx *parser.IfSimpleElseStat
 }
 
 func (v *EncoderLLVM) VisitLoopBlockAST(ctx *parser.LoopBlockASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	blockbeforeLoop, _ := generalStackBlocks.Peek()
+
+	infinityLoop := funcActual.NewBlock("")
+	generalStackBlocks.Push(infinityLoop)
+	v.Visit(ctx.Block())
+
+	blockbeforeLoop.NewBr(infinityLoop)
+	infinityLoop.NewBr(infinityLoop)
+
+	generalStackBlocks.Push(funcActual.NewBlock(""))
+
+	return nil
 }
 
 func (v *EncoderLLVM) VisitLoopExpressionBlockAST(ctx *parser.LoopExpressionBlockASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	blockBeforeLoop, _ := generalStackBlocks.Peek()
+	conditionalBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(conditionalBlock)
+	forCond := v.Visit(ctx.Expression()).(value.Value)
+
+	loopBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(loopBlock)
+	v.Visit(ctx.Block())
+
+	generalStackBlocks.Push(funcActual.NewBlock(""))
+	endBlock, _ := generalStackBlocks.Peek()
+
+	blockBeforeLoop.NewBr(conditionalBlock)
+	conditionalBlock.NewBr(loopBlock)
+	loopBlock.NewBr(conditionalBlock)
+
+	conditionalBlock.NewCondBr(forCond, conditionalBlock, endBlock)
+
+	return nil
+
 }
 
 func (v *EncoderLLVM) VisitLoopSimpleStatementExpressionSimpleStatementBlockAST(ctx *parser.LoopSimpleStatementExpressionSimpleStatementBlockASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	blockBeforeLoop, _ := generalStackBlocks.Peek()
+	forbool = true
+	conditionalBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(conditionalBlock)
+
+	v.Visit(ctx.SimpleStatement(0))
+	forCond := v.Visit(ctx.Expression()).(value.Value)
+
+	loopBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(loopBlock)
+
+	v.Visit(ctx.SimpleStatement(1))
+	v.Visit(ctx.Block())
+
+	generalStackBlocks.Push(funcActual.NewBlock(""))
+	endBlock, _ := generalStackBlocks.Peek()
+
+	blockBeforeLoop.NewBr(conditionalBlock)
+	loopBlock.NewBr(conditionalBlock)
+
+	conditionalBlock.NewCondBr(forCond, loopBlock, endBlock)
+
+	return nil
 }
 
 func (v *EncoderLLVM) VisitLoopSimpleStatementSimpleStatementBlockAST(ctx *parser.LoopSimpleStatementSimpleStatementBlockASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	blockBeforeLoop, _ := generalStackBlocks.Peek()
+	forbool = true
+	conditionalBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(conditionalBlock)
+
+	v.Visit(ctx.SimpleStatement(0))
+
+	loopBlock := funcActual.NewBlock("")
+	generalStackBlocks.Push(loopBlock)
+
+	v.Visit(ctx.SimpleStatement(1))
+	v.Visit(ctx.Block())
+
+	blockBeforeLoop.NewBr(conditionalBlock)
+	loopBlock.NewBr(conditionalBlock)
+
+	conditionalBlock.NewBr(loopBlock)
+	generalStackBlocks.Push(funcActual.NewBlock(""))
+
+	return nil
 }
 
 func (v *EncoderLLVM) VisitSwitchStmtSimpleStatementAST(ctx *parser.SwitchStmtSimpleStatementASTContext) interface{} {
