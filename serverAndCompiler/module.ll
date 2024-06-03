@@ -16,28 +16,23 @@ define i32 @caca(i32 %0) {
 
 define i32 @main() {
 0:
-	%1 = alloca [5 x i32]
-	store [5 x i32] zeroinitializer, [5 x i32]* %1
+	br label %1
+
+1:
 	%2 = alloca i32
-	store i32 5, i32* %2
-	%3 = call i32 (i8*, ...) @printf([4 x i8]* @0, i32 5)
-	%4 = icmp slt i32 3, 5
-	%5 = alloca i1
-	store i1 %4, i1* %5
-	%6 = load i1, i1* %5
-	%7 = load i1, i1* %5
-	%8 = alloca i32
-	store i32 10, i32* %8
-	%9 = load i32, i32* %8
-	%10 = icmp eq i32 %9, 10
-	br i1 %10, label %11, label %14
+	store i32 0, i32* %2
+	%3 = load i32, i32* %2
+	%4 = icmp slt i32 %3, 10
+	br i1 %4, label %5, label %10
 
-11:
-	%12 = alloca float
-	store float 10.0, float* %12
-	%13 = call i32 (i8*, ...) @printf([4 x i8]* @1, float 10.0)
-	br label %14
+5:
+	%6 = load i32, i32* %2
+	%7 = add i32 %6, 1
+	store i32 %7, i32* %2
+	%8 = load i32, i32* %2
+	%9 = call i32 (i8*, ...) @printf([4 x i8]* @0, i32 %8)
+	br label %1
 
-14:
+10:
 	ret i32 0
 }

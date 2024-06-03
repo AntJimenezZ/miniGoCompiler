@@ -30,20 +30,9 @@ func caca(z int) int{
 };
 
 func main() int{
-    //z = 10;
-    //q = 12;
-    var arr [5]int;
 
-    var f int = len(arr);
-    println(len(arr));
-
-    var aaa = 3 < 5;
-    println(aaa);
-    var x int = 10;
-    if (x == 10){
-        var x int = 10.0;
-        println(10.0);
-        //println("string");
+    for i=0; i<10; i++{
+        println(i);
     };
     return 0;
 };

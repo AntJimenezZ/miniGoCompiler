@@ -285,7 +285,7 @@ func (v *EncoderLLVM) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) inter
 				block.NewStore(param, alloca)
 				localVariables.AddVariable(block, arg.name, alloca)
 			}
-			clear(funcArgs)
+			funcArgs = []funcArg{}
 		}
 	}
 	declaringFunc = false

@@ -1,4 +1,4 @@
-ERROR, MULTIPLE VAR DECLARATION 
+ ERROR, MULTIPLE VAR DECLARATION
 Variable: 'culito' its declared multiple times
 ERROR, MULTIPLE VAR DECLARATION 
 Variable: 'culito' its declared multiple times
@@ -69,3 +69,6 @@ Error in line 41:11 no viable alternative at input 'hola=println'
 Error in line 40:18 no viable alternative at input ')'
 Error in line 40:25 no viable alternative at input '/'
 Error in line 42:4 missing ';' at 'var'
+Error in line 34:9 no viable alternative at input 'fori:'
+Error in line 34:9 no viable alternative at input ':'
+Error in line 34:23 missing ';' at '{'
