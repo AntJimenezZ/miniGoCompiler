@@ -283,7 +283,7 @@ func (v *EncoderLLVM) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) inter
 				block.NewStore(param, alloca)
 				localVariables.AddVariable(block, arg.name, alloca)
 			}
-			clear(funcArgs)
+			funcArgs = []funcArg{}
 		}
 	}
 	declaringFunc = false
@@ -674,6 +674,8 @@ func (v *EncoderLLVM) VisitStatementPrintlnAST(ctx *parser.StatementPrintlnASTCo
 			blockActual.NewCall(printFunction, v.stringFormat, value)
 		} else if value.Type() == types.I8 {
 			blockActual.NewCall(printFunction, v.runeFormat, value)
+		} else if value.Type() == types.I1 {
+			blockActual.NewCall(printFunction, v.intFormat, value)
 		}
 	}
 	return nil
