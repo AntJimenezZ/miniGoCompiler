@@ -150,7 +150,7 @@ assignmentStatement : expressionList ASSIGN expressionList                      
                   | expression MULTIPLYEQUAL expression                                                                 #assignmentStatementMultiplyEqualAST
                   | expression BITWISEXOREQUAL expression                                                               #assignmentStatementBitwiseXorEqualAST
                   | expression SHIFTLEFTEQUAL expression                                                                #assignmentStatementShiftLeftEqualAST
-                  | expression SHIFTRIGHTEQUAL expression                                                               #assignmentStatementShiftRightEqualAST
+                  | expression SHIFTRIGHTEQUAL expression                                                             #assignmentStatementShiftRightEqualAST
                   | expression BITWISECLEAREQUAL expression                                                             #assignmentStatementBitwiseClearEqualAST
                   | expression MODULOEQUAL expression                                                                   #assignmentStatementModuloEqualAST
                   | expression DIVIDEEQUAL expression                                                                   #assignmentStatementDivideEqualAST
