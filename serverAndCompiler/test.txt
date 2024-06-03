@@ -1,0 +1,54 @@
+package main;
+
+var global = 20;
+
+var (palabra string; puntoFlotante = 10.2;);
+
+var a, b, c = 34,"Hola",30.5;
+
+func suma(i int) int{
+
+    i = 25;
+
+    var sumar int = i + 10;
+
+    return sumar;
+}
+
+func imprimir(){
+    println(55);
+};
+
+func main() int{
+
+    var comparison = 1!=2;
+
+    var array [10]int;
+
+    var lenVariable int = len(array);
+
+    println(lenVariable);
+
+    var cond = 10;
+
+/*
+    for i = 0; i < cond ;i++{
+        println(1111);
+    };
+*/
+
+    if (cond <= global){
+        println(1);
+    } else{
+        println(2);
+    };
+
+    if (cond >= 50){
+        println(23);
+    } else if (cond == 10){
+        var compExp = ((5*2)+2)-(8/2)*4;
+        println(compExp);
+    };
+
+    return 0;
+};

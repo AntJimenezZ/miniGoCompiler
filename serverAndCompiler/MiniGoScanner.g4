@@ -2,7 +2,6 @@ lexer grammar MiniGoScanner;
 
 // Tokens
 
-
 INTLITERAL      : [0-9]+;
 FLOATLITERAL    : [0-9]+'.'[0-9]+;
 RUNELITERAL     : '\'' . '\'';

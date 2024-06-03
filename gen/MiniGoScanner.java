@@ -1,4 +1,4 @@
-// Generated from c:/Users/noni4/Desktop/miniGoCompiler/serverAndCompiler/MiniGoScanner.g4 by ANTLR 4.13.1
+// Generated from C:/Users/fabia/Desktop/Compiladores/miniGoCompiler/serverAndCompiler/MiniGoScanner.g4 by ANTLR 4.13.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

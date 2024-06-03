@@ -1,0 +1,5 @@
+----- SYMBOL TABLE ------
+|    Name    |  Level  |  Type  |
+|------------|---------|--------|
+|  x         |    0   |   int |
+----- END TABLE ------

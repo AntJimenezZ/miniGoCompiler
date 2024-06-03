@@ -1,13 +1,17 @@
 package main
 
 import (
-	"Proyecto_Compiladores/checker"
+	"Proyecto_Compiladores/encoder"
 	"Proyecto_Compiladores/parser"
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/antlr4-go/antlr/v4"
+	"github.com/llir/llvm/ir"
+	"log"
 	"net/http"
 	"os"
+	"os/exec"
 )
 
 type MyErrorListener struct {
@@ -94,7 +98,7 @@ func handler(w http.ResponseWriter, r *http.Request) { // In this function are a
 	errors = []string{}
 }
 
-func compiler() {
+func compiler() *ir.Module {
 
 	//Send the file to parser
 	input, _ := antlr.NewFileStream("test.txt")
@@ -108,13 +112,22 @@ func compiler() {
 	lexer.AddErrorListener(listener)
 
 	tree := p.Root()
-	globalSymbolTable := checker.NewSymbolTable()
-	check := &checker.Checker{
-		SymbolTable: globalSymbolTable,
-	}
 
-	check.Visit(tree)
+	encoder := encoder.NewEncoderLLVM()
+	module := encoder.Visit(tree).(*ir.Module)
+	fmt.Println(module)
 
+	//fmt.Println("Compilation failed")
+
+	/*
+		globalSymbolTable := checker.NewSymbolTable()
+		check := &checker.Checker{
+			SymbolTable: globalSymbolTable,
+		}
+
+		check.Visit(tree)*/
+
+	return module
 }
 
 func consoleTests(clientMsg Message) {
@@ -125,13 +138,64 @@ func consoleTests(clientMsg Message) {
 	fmt.Printf("Errors list:\n %v\n", errors)
 }
 
-func main() {
-
-	http.HandleFunc("/json", handler)
-
-	fmt.Println("Server is running on localhost")
-	if err := http.ListenAndServe(":8080", nil); err != nil {
-		fmt.Printf("Error starting server: %s\n", err)
+func runModule(module *ir.Module) {
+	// Escribir el módulo LLVM en un archivo
+	f, err := os.Create("module.ll")
+	if err != nil {
+		fmt.Println("Error al crear el archivo:", err)
+		return
+	}
+	defer f.Close()
+	if _, err := module.WriteTo(f); err != nil {
+		fmt.Println("Error al escribir el módulo:", err)
+		return
 	}
 
+	// Compilar el módulo LLVM a código objeto
+	cmd := exec.Command("clang", "", "module.ll", "-o", "module.exe")
+	cmd.Stderr = os.Stderr
+	cmd.Stdout = os.Stdout
+	if err := cmd.Run(); err != nil {
+		fmt.Println("Error al compilar el módulo:", err)
+		return
+	}
+
+	fmt.Println("El archivo ejecutable .exe ha sido generado correctamente.")
+
+	if _, err := os.Stat("module.exe"); os.IsNotExist(err) {
+		fmt.Println("Error: module.exe no existe")
+		return
+	}
+
+	//ejecute el programa
+	cmd = exec.Command("./module.exe")
+	var out bytes.Buffer
+	cmd.Stdout = &out
+	cmd.Stderr = os.Stderr
+
+	if err := cmd.Run(); err != nil {
+		log.Fatal(err)
+		fmt.Println("Error al ejecutar el comando:", err)
+		return
+	}
+
+	fmt.Println("Salida de la consola:", out.String())
+}
+
+func main() {
+
+	module := compiler()
+	if module != nil {
+		runModule(module)
+	} else {
+		fmt.Println("No module generated")
+	}
+	/*
+		http.HandleFunc("/json", handler)
+
+		fmt.Println("Server is running on localhost")
+		if err := http.ListenAndServe(":8080", nil); err != nil {
+			fmt.Printf("Error starting server: %s\n", err)
+		}
+	*/
 }

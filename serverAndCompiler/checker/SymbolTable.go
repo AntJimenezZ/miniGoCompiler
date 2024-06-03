@@ -3,6 +3,7 @@ package checker
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 type Ident struct {
@@ -27,6 +28,11 @@ type TypeIdent struct {
 }
 
 type StructIdent struct {
+	Ident
+	fields []string
+}
+
+type SliceIdent struct {
 	Ident
 	fields []string
 }
@@ -88,6 +94,11 @@ var (
 	Object = Ident{
 		token: "Object",
 		Type:  8,
+		level: 0,
+	}
+	Slice = Ident{
+		token: "Slice",
+		Type:  9,
 		level: 0,
 	}
 )
@@ -156,9 +167,53 @@ func (t *SymbolTable) InsertObject(token string, _type string) {
 	}
 }
 
+func (t *SymbolTable) InsertSlice(token string, _type string, fields string) int {
+
+	_types := []string{"int", "string", "bool", "rune", "float"}
+
+	allowed := false
+	//TODO Implements object slices
+	if t.Find(token) == false {
+		return 0
+	}
+
+	for _, x := range _types {
+		if x == _type {
+			allowed = true
+		}
+	}
+	if allowed == false {
+		fmt.Printf("ERROR, TYPE NOT FOUND IT", _type, " its not suported")
+		errorMsg := fmt.Sprintf("\nERROR, TYPE NOT FOUND IT ", _type, " its not suported")
+		t.WriteErrorToFile(errorMsg)
+		return 0
+	}
+
+	//TODO IMPLEMENTS CHECK IF SLICE VALUES ARE THE SAME TYPE
+
+	parts := strings.Split(fields, ",")
+	var content []string
+	for _, part := range parts {
+		content = append(content, strings.TrimSpace(part))
+	}
+
+	i := SliceIdent{
+		Ident: Ident{
+			token:      token,
+			Type:       9,
+			level:      0,
+			objectType: "[]" + _type,
+		},
+		fields: content,
+	}
+
+	t.table = append(t.table, i.Ident)
+	return 1
+}
+
 func (t *SymbolTable) Find(name string) bool {
 	for _, id := range t.table {
-		if id.token == name {
+		if id.token == name && id.level == t.actualLevel {
 			fmt.Printf("ERROR, MULTIPLE VAR DECLARATION \nVariable: '%s' its declared multiple times\n", id.token)
 			errorMsg := fmt.Sprintf("ERROR, MULTIPLE VAR DECLARATION \nVariable: '%s' its declared multiple times", id.token)
 			t.WriteErrorToFile(errorMsg)
@@ -240,41 +295,43 @@ func (t *SymbolTable) PrintTable() {
 	fmt.Println("----- END TABLE ------")
 }
 func (t *SymbolTable) ExportTable() {
-    _type := ""
+	_type := ""
 
-    // Abre el archivo en modo de escritura y trunca cualquier contenido existente
-    f, err := os.OpenFile("symbolTableView.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
-    if err != nil {
-        fmt.Println(err)
-        return
-    }
-    defer f.Close()
+	// Abre el archivo en modo de escritura y trunca cualquier contenido existente
+	f, err := os.OpenFile("symbolTableView.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer f.Close()
 
-    fmt.Fprintln(f, "----- SYMBOL TABLE ------")
-    fmt.Fprintln(f, "|    Name    |  Level  |  Type  |")
-    fmt.Fprintln(f, "|------------|---------|--------|")
-    for _, s := range t.table {
-        if s.Type == 1 {
-            _type = "boolean"
-        } else if s.Type == 2 {
-            _type = "int"
-        } else if s.Type == 3 {
-            _type = "float"
-        } else if s.Type == 4 {
-            _type = "string"
-        } else if s.Type == 5 {
-            _type = "rune"
-        } else if s.Type == 6 {
-            _type = "func"
-        } else if s.Type == 7 {
-            _type = "struct"
-        } else if s.Type == 8 {
-            _type = s.objectType
-        } else {
-            _type = "unknown"
-        }
+	fmt.Fprintln(f, "----- SYMBOL TABLE ------")
+	fmt.Fprintln(f, "|    Name    |  Level  |  Type  |")
+	fmt.Fprintln(f, "|------------|---------|--------|")
+	for _, s := range t.table {
+		if s.Type == 1 {
+			_type = "boolean"
+		} else if s.Type == 2 {
+			_type = "int"
+		} else if s.Type == 3 {
+			_type = "float"
+		} else if s.Type == 4 {
+			_type = "string"
+		} else if s.Type == 5 {
+			_type = "rune"
+		} else if s.Type == 6 {
+			_type = "func"
+		} else if s.Type == 7 {
+			_type = "struct"
+		} else if s.Type == 8 {
+			_type = s.objectType
+		} else if s.Type == 9 {
+			_type = s.objectType //SLICE
+		} else {
+			_type = "unknown"
+		}
 
-        fmt.Fprintf(f, "|  %-10s|    %-4d|   %-4s|\n", s.token, s.level, _type)
-    }
-    fmt.Fprintln(f, "----- END TABLE ------")
+		fmt.Fprintf(f, "|  %-10s|    %-4d|   %-4s|\n", s.token, s.level, _type)
+	}
+	fmt.Fprintln(f, "----- END TABLE ------")
 }
