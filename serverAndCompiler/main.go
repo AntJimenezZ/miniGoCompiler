@@ -178,7 +178,6 @@ func runModule(module *ir.Module) {
 		return
 	}
 
-	fmt.Println("Salida de la consola:", out.String())
 }
 
 func main() {

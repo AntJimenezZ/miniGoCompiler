@@ -1,5 +1,11 @@
 ----- SYMBOL TABLE ------
 |    Name    |  Level  |  Type  |
 |------------|---------|--------|
-|  x         |    0   |   int |
+|  global    |    0   |   int |
+|  a         |    0   |   int |
+|  b         |    0   |   string|
+|  comparison|    2   |   int |
+|  lenVariable|    2   |   unknown|
+|  cond      |    2   |   int |
+|  compExp   |    2   |   int |
 ----- END TABLE ------

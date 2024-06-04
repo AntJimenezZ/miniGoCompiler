@@ -105,7 +105,7 @@ var (
 
 func (t *SymbolTable) WriteErrorToFile(errMsg string) {
 	// Abre el archivo en modo append
-	f, err := os.OpenFile("errors.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	f, err := os.OpenFile("txtFiles/errors.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -146,10 +146,7 @@ func (t *SymbolTable) InsertStruct(tok string, typ int, fields []string) {
 func (t *SymbolTable) InsertObject(token string, _type string) {
 	objectExist := false
 	for _, id := range t.table {
-		fmt.Println("comparacion1:", id.token)
-		fmt.Println("comparacion2", token)
 		if id.Type == 7 && id.token == _type {
-			fmt.Println("el test definito", id.token)
 			if t.Find(token) == true {
 				i := ObjectIdent{Ident: Ident{token: token, Type: 8, level: t.actualLevel, objectType: _type}, _type: _type}
 
@@ -160,7 +157,6 @@ func (t *SymbolTable) InsertObject(token string, _type string) {
 		}
 	}
 	if objectExist == false {
-		fmt.Println("ERROR, STRUCT DONT DEFINED \nOBJECT: '", _type, "' its not declared ") //TODO PASAR AL SERVER
 
 		errorMsg := fmt.Sprintf("ERROR, STRUCT DONT DEFINED \nOBJECT: '%s' its not declared ", _type)
 		t.WriteErrorToFile(errorMsg)
@@ -183,7 +179,6 @@ func (t *SymbolTable) InsertSlice(token string, _type string, fields string) int
 		}
 	}
 	if allowed == false {
-		fmt.Printf("ERROR, TYPE NOT FOUND IT", _type, " its not suported")
 		errorMsg := fmt.Sprintf("\nERROR, TYPE NOT FOUND IT ", _type, " its not suported")
 		t.WriteErrorToFile(errorMsg)
 		return 0
@@ -214,7 +209,6 @@ func (t *SymbolTable) InsertSlice(token string, _type string, fields string) int
 func (t *SymbolTable) Find(name string) bool {
 	for _, id := range t.table {
 		if id.token == name && id.level == t.actualLevel {
-			fmt.Printf("ERROR, MULTIPLE VAR DECLARATION \nVariable: '%s' its declared multiple times\n", id.token)
 			errorMsg := fmt.Sprintf("ERROR, MULTIPLE VAR DECLARATION \nVariable: '%s' its declared multiple times", id.token)
 			t.WriteErrorToFile(errorMsg)
 			return false
@@ -226,7 +220,6 @@ func (t *SymbolTable) Find(name string) bool {
 func (t *SymbolTable) FindFunc(name string) *Ident {
 	for _, id := range t.table {
 		if id.token == name {
-			fmt.Println("ERROR, MULTIPLE VAR DECLARATION \nVariable: '", id.token, "' its declared multiple times") //TODO PASAR AL SERVER
 			errorMsg := fmt.Sprintf("ERROR, MULTIPLE VAR DECLARATION \nVariable: '%s' its declared multiple times", id.token)
 			t.WriteErrorToFile(errorMsg)
 			return &id
@@ -298,7 +291,7 @@ func (t *SymbolTable) ExportTable() {
 	_type := ""
 
 	// Abre el archivo en modo de escritura y trunca cualquier contenido existente
-	f, err := os.OpenFile("symbolTableView.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+	f, err := os.OpenFile("txtFiles/symbolTableView.txt", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 	if err != nil {
 		fmt.Println(err)
 		return

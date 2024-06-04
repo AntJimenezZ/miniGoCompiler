@@ -46,10 +46,8 @@ func (c *Checker) VisitRoot(ctx *parser.RootContext) interface{} {
 
 	for _, fn := range funcs {
 		fun := fn.FuncFrontDecl()
-		fmt.Println("FUNC", fun.IDENTIFIER())
 
 		if fun.FuncArgDecls() != nil {
-			fmt.Println("ARGS", fun.FuncArgDecls().GetText())
 		}
 	}
 
@@ -58,14 +56,11 @@ func (c *Checker) VisitRoot(ctx *parser.RootContext) interface{} {
 
 func (c *Checker) VisitTopDeclarationList(ctx *parser.TopDeclarationListContext) interface{} {
 
-	fmt.Println("primer lugar de debug")
-
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitVariableDeclBlockAST(ctx *parser.VariableDeclBlockASTContext) interface{} {
 	//TODO implement me
-	fmt.Println("VisitVariableDeclBlockAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -76,7 +71,6 @@ func (c *Checker) VisitVariableDeclEmptyAST(ctx *parser.VariableDeclEmptyASTCont
 
 func (c *Checker) VisitInnerVarDecls(ctx *parser.InnerVarDeclsContext) interface{} {
 
-	fmt.Println("VisitInnerVarDecls: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -86,9 +80,7 @@ func (c *Checker) VisitSingleVarDeclAST(ctx *parser.SingleVarDeclASTContext) int
 	for i, ident := range idents {
 		expression := expressions[i]
 		var result = c.Visit(expression).(int)
-		//c.SymbolTable.OpenScope()
 		c.SymbolTable.InsertVar(ident.GetText(), result)
-		//c.SymbolTable.CloseScope()
 	}
 
 	return nil
@@ -100,7 +92,6 @@ func (c *Checker) VisitSingleVarDeclAssignAST(ctx *parser.SingleVarDeclAssignAST
 	expressions := ctx.ExpressionList().AllExpression()
 	for i, ident := range idents {
 
-		fmt.Println("jummm 3", ident)
 		expression := expressions[i]
 
 		var result = c.Visit(expression)
@@ -110,17 +101,13 @@ func (c *Checker) VisitSingleVarDeclAssignAST(ctx *parser.SingleVarDeclAssignAST
 			// Si no hay error, se puede convertir a entero
 			c.SymbolTable.InsertVar(ident.GetText(), result)
 
-			// Hacer algo aquí
 		} else {
 			// Si hay error, no se puede convertir a entero
-			fmt.Println("digaleeees: ", ident)
 			c.SymbolTable.InsertObject(ident.GetText(), castResult)
 
-			// Hacer otra cosa aquí
 		}
 
 	}
-	//c.SymbolTable.PrintTable()
 	c.SymbolTable.ExportTable()
 
 	return nil
@@ -128,13 +115,12 @@ func (c *Checker) VisitSingleVarDeclAssignAST(ctx *parser.SingleVarDeclAssignAST
 
 func (c *Checker) VisitSingleVarDeclNoExpsAST(ctx *parser.SingleVarDeclNoExpsASTContext) interface{} {
 
-	return ctx.GetChildren() //sospechoso
+	return ctx.GetChildren()
 }
 
 func (c *Checker) VisitSingleVarDeclNoExps(ctx *parser.SingleVarDeclNoExpsContext) interface{} {
 	//TODO implement me
 
-	fmt.Println("test")
 	return c.VisitChildren(ctx)
 }
 
@@ -163,7 +149,6 @@ func (c *Checker) VisitInnerTypeDecls(ctx *parser.InnerTypeDeclsContext) interfa
 func (c *Checker) VisitSingleTypeDecl(ctx *parser.SingleTypeDeclContext) interface{} {
 
 	structName := ctx.IDENTIFIER()
-	fmt.Println("NOMBRE STRUCT:", structName)
 
 	structValues := ctx.DeclType().GetText()
 	structValues = strings.TrimPrefix(structValues, "struct{")
@@ -179,13 +164,6 @@ func (c *Checker) VisitSingleTypeDecl(ctx *parser.SingleTypeDeclContext) interfa
 		structValuesList = append(structValuesList, strings.TrimSpace(field))
 	}
 
-	fmt.Println("I ESTO: ", structValues)
-	fmt.Println("testing: ", structValuesList)
-
-	//METER LOS STRUCTS A LA SYMBOL TABLE, Y DESPUÉS FIJARSE QUE NO SE PUEDA HACER p.edad si es un "string"
-	//vamos noni que se puede :V
-
-	//this actually bullshit, sorry
 	structNameString := fmt.Sprintf("%v", structName)
 
 	if strings.HasPrefix(structValues, "[") {
@@ -194,11 +172,6 @@ func (c *Checker) VisitSingleTypeDecl(ctx *parser.SingleTypeDeclContext) interfa
 			insideBrackets := structValues[1:endIndex]
 			afterBrackets := structValues[endIndex+1:]
 
-			fmt.Println("Slice name: ", structName)
-			fmt.Println("Inside brackets:", insideBrackets)
-			fmt.Println("After brackets:", afterBrackets)
-
-			//var name, type, inside values
 			c.SymbolTable.InsertSlice(structNameString, afterBrackets, insideBrackets)
 
 		} else {
@@ -208,33 +181,19 @@ func (c *Checker) VisitSingleTypeDecl(ctx *parser.SingleTypeDeclContext) interfa
 	} else {
 
 		c.SymbolTable.InsertStruct(structNameString, 7, structValuesList)
-		//c.SymbolTable.PrintTable()
 		c.SymbolTable.ExportTable()
 		return c.VisitChildren(ctx)
 	}
-	//panic("implement me")
 }
 
 func (c *Checker) VisitFuncDecl(ctx *parser.FuncDeclContext) interface{} {
 
 	c.SymbolTable.OpenScope()
-	fmt.Println("Soy peruano: " + ctx.GetText())
 
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) interface{} {
-
-	// Get the function name
-	funcName := ctx.IDENTIFIER().GetText()
-
-	// Get the function arguments
-	if ctx.FuncArgDecls() != nil {
-
-		args := ctx.FuncArgDecls().GetText()
-		fmt.Println("Func args: " + args)
-	}
-	fmt.Println("func name: " + funcName)
 
 	return c.VisitChildren(ctx)
 }
@@ -252,24 +211,17 @@ func (c *Checker) VisitReturnTypeList(ctx *parser.ReturnTypeListContext) interfa
 func (c *Checker) VisitSingleReturnTypeAST(ctx *parser.SingleReturnTypeASTContext) interface{} {
 	//TODO implement me
 
-	fmt.Println("visit single return typeast: " + ctx.GetText())
 	return nil
 }
 
 func (c *Checker) VisitSingleReturnTypeEmptyAST(ctx *parser.SingleReturnTypeEmptyASTContext) interface{} {
 
-	fmt.Println("VisitSingleReturnTypeEmptyAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitFuncArgDecls(ctx *parser.FuncArgDeclsContext) interface{} {
 	//TODO implement me
-
-	fmt.Println("sexo tilin:" + ctx.GetText())
-
 	return c.VisitChildren(ctx)
-	//panic("implement me")
-	//TODO WIP
 
 }
 
@@ -280,61 +232,40 @@ func (c *Checker) VisitDeclTypeParenAST(ctx *parser.DeclTypeParenASTContext) int
 
 func (c *Checker) VisitDeclTypeIdentifierAST(ctx *parser.DeclTypeIdentifierASTContext) interface{} {
 	//TODO implement me
-	fmt.Println("esto que es 2:", ctx.IDENTIFIER())
-
 	return ctx.IDENTIFIER()
 }
 
 func (c *Checker) VisitDeclTypeSliceAST(ctx *parser.DeclTypeSliceASTContext) interface{} {
-
-	fmt.Println("VisitDeclTypeSliceAST:", ctx.GetText())
-
 	return c.VisitChildren(ctx)
-	//panic("implement me")
 }
 
 func (c *Checker) VisitDeclTypeArrayAST(ctx *parser.DeclTypeArrayASTContext) interface{} {
-
-	fmt.Println("VisitDeclTypeArrayAST:", ctx.GetText())
 	return c.VisitChildren(ctx)
-
 }
 
 func (c *Checker) VisitDeclTypeStructAST(ctx *parser.DeclTypeStructASTContext) interface{} {
-
-	fmt.Println("struct con llaves1: ", ctx.GetText())
 
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitSliceDeclType(ctx *parser.SliceDeclTypeContext) interface{} {
-	fmt.Println("VisitSliceDeclType:", ctx.GetText())
 
 	return ctx.GetText()
 }
 
 func (c *Checker) VisitArrayDeclType(ctx *parser.ArrayDeclTypeContext) interface{} {
 	//TODO implement me
-	fmt.Println("VisitArrayDeclType:", ctx.GetText())
 
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitStructDeclType(ctx *parser.StructDeclTypeContext) interface{} {
 
-	fmt.Println("struct con llaves2: ", ctx.GetText())
-
 	return c.VisitChildren(ctx)
-	//WIP
-	//Aqui lo que ocupo hacer es guardarlo, si uno intenta hacer
-	//Person.age = "caca" le tire error porque no es del tipo
 }
 
 func (c *Checker) VisitStructMemDecls(ctx *parser.StructMemDeclsContext) interface{} {
 	//TODO implement me
-	fmt.Println("datos del struct sin llaves:", ctx.GetText())
-
-	//testing := ctx.GetText()
 
 	return c.VisitChildren(ctx)
 }
@@ -345,12 +276,10 @@ func (c *Checker) VisitExpressionNotUnaryAST(ctx *parser.ExpressionNotUnaryASTCo
 }
 
 func (c *Checker) VisitExpressionMultiplyAST(ctx *parser.ExpressionMultiplyASTContext) interface{} {
-	fmt.Println("VisitExpressionMultiplyAST: ", ctx.GetText(), ctx.AllExpression())
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionPlusAST(ctx *parser.ExpressionPlusASTContext) interface{} {
-	fmt.Println("VisitExpressionPlusAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -370,7 +299,6 @@ func (c *Checker) VisitExpressionBitwiseXorAST(ctx *parser.ExpressionBitwiseXorA
 }
 
 func (c *Checker) VisitExpressionMinusAST(ctx *parser.ExpressionMinusASTContext) interface{} {
-	fmt.Println("VisitExpressionMinusAST: ", ctx.GetText(), ctx.Expression(0), ctx.Expression(1))
 	return c.VisitChildren(ctx)
 }
 
@@ -381,7 +309,6 @@ func (c *Checker) VisitExpressionBitwiseXorUnaryAST(ctx *parser.ExpressionBitwis
 
 func (c *Checker) VisitExpressionEqualAST(ctx *parser.ExpressionEqualASTContext) interface{} {
 
-	fmt.Println("VisitExpressionEqualAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -397,17 +324,14 @@ func (c *Checker) VisitExpressionBitwiseClearAST(ctx *parser.ExpressionBitwiseCl
 
 func (c *Checker) VisitExpressionGreaterEqualAST(ctx *parser.ExpressionGreaterEqualASTContext) interface{} {
 
-	fmt.Println("VisitExpressionGreaterEqualAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionLessEqualAST(ctx *parser.ExpressionLessEqualASTContext) interface{} {
-	fmt.Println("VisitExpressionLessEqualAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionNotEqualAST(ctx *parser.ExpressionNotEqualASTContext) interface{} {
-	fmt.Println("VisitExpressionNotEqualAST: ", ctx.GetText(), ctx.Expression(0), ctx.Expression(1))
 	return c.VisitChildren(ctx)
 }
 
@@ -427,7 +351,6 @@ func (c *Checker) VisitExpressionGreaterAST(ctx *parser.ExpressionGreaterASTCont
 }
 
 func (c *Checker) VisitExpressionDivideAST(ctx *parser.ExpressionDivideASTContext) interface{} {
-	fmt.Println("VisitExpressionDivideAST: ", ctx.GetText(), ctx.Expression(0), ctx.Expression(1))
 	return c.VisitChildren(ctx)
 }
 
@@ -462,13 +385,11 @@ func (c *Checker) VisitExpressionShiftLeftAST(ctx *parser.ExpressionShiftLeftAST
 }
 
 func (c *Checker) VisitExpressionList(ctx *parser.ExpressionListContext) interface{} {
-	fmt.Println("VisitExpressionList: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitPrimaryExpressionLengthAST(ctx *parser.PrimaryExpressionLengthASTContext) interface{} {
 
-	fmt.Println("VisitPrimaryExpressionLength: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -510,16 +431,10 @@ func (c *Checker) VisitOperandLiteralAST(ctx *parser.OperandLiteralASTContext) i
 func (c *Checker) VisitOperandIdentifierAST(ctx *parser.OperandIdentifierASTContext) interface{} {
 	//TODO implement me
 
-	fmt.Println("uuuuuuuuuuuuuuuuuuuuu", ctx.GetText())
-
-	fmt.Println("eeeeeeeeeeeee", ctx.IDENTIFIER())
-
 	return ctx.GetText()
-	//panic("implement me")
 }
 
 func (c *Checker) VisitOperandParenAST(ctx *parser.OperandParenASTContext) interface{} {
-	fmt.Println("VisitOperandParenAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -529,8 +444,6 @@ func (c *Checker) VisitLiteralIntAST(ctx *parser.LiteralIntASTContext) interface
 }
 
 func (c *Checker) VisitLiteralFloatAST(ctx *parser.LiteralFloatASTContext) interface{} {
-
-	fmt.Println("VisitLiteralFloatAST: ", ctx.GetText())
 
 	return c.VisitChildren(ctx)
 }
@@ -576,7 +489,6 @@ func (c *Checker) VisitAppendExpression(ctx *parser.AppendExpressionContext) int
 }
 
 func (c *Checker) VisitLengthExpression(ctx *parser.LengthExpressionContext) interface{} {
-	fmt.Println("VisitLenghtExpression: ", ctx.GetText(), ctx.Expression())
 	return 10
 }
 
@@ -587,15 +499,12 @@ func (c *Checker) VisitCapExpression(ctx *parser.CapExpressionContext) interface
 
 func (c *Checker) VisitStatementList(ctx *parser.StatementListContext) interface{} {
 
-	fmt.Println("Peruano: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 
 }
 
 func (c *Checker) VisitBlock(ctx *parser.BlockContext) interface{} {
 
-	fmt.Println("GG")
-	fmt.Println(ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -605,14 +514,12 @@ func (c *Checker) VisitStatementPrintAST(ctx *parser.StatementPrintASTContext) i
 }
 
 func (c *Checker) VisitStatementPrintlnAST(ctx *parser.StatementPrintlnASTContext) interface{} {
-	fmt.Println("VisitStatementPrintlnAst:", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitStatementReturnAST(ctx *parser.StatementReturnASTContext) interface{} {
 	//TODO implement me
 
-	fmt.Println("VisitStatementReturn", ctx.GetText())
 	c.SymbolTable.CloseScope()
 	return c.VisitChildren(ctx)
 }
@@ -629,8 +536,6 @@ func (c *Checker) VisitStatementContinueAST(ctx *parser.StatementContinueASTCont
 
 func (c *Checker) VisitStatementSimpleAST(ctx *parser.StatementSimpleASTContext) interface{} {
 
-	fmt.Println("VisitStatementSimple", ctx.GetText())
-
 	return c.VisitChildren(ctx)
 }
 
@@ -645,7 +550,6 @@ func (c *Checker) VisitStatementSwitchAST(ctx *parser.StatementSwitchASTContext)
 }
 
 func (c *Checker) VisitStatementIfAST(ctx *parser.StatementIfASTContext) interface{} {
-	fmt.Println("VisitStatementIfAST: ", ctx.GetText(), ctx.IfStatement().GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -661,10 +565,7 @@ func (c *Checker) VisitStatementTypeDeclAST(ctx *parser.StatementTypeDeclASTCont
 
 func (c *Checker) VisitStatementVariableDeclAST(ctx *parser.StatementVariableDeclASTContext) interface{} {
 	//TODO implement me
-	//JUM
 
-	fmt.Println("VisitStatmentVariableDecl: ", ctx.GetText())
-	//panic("implement me")
 	return c.VisitChildren(ctx)
 }
 
@@ -680,7 +581,6 @@ func (c *Checker) VisitSimpleStatementExpressionAST(ctx *parser.SimpleStatementE
 
 func (c *Checker) VisitSimpleStatementAssignmentAST(ctx *parser.SimpleStatementAssignmentASTContext) interface{} {
 
-	fmt.Println("VisitSimpleStatementAssignment: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -691,7 +591,6 @@ func (c *Checker) VisitSimpleStatementExpressionListAssignAST(ctx *parser.Simple
 
 func (c *Checker) VisitAssignmentStatementAST(ctx *parser.AssignmentStatementASTContext) interface{} {
 
-	fmt.Println("VisitAssignmentStatementAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -751,18 +650,15 @@ func (c *Checker) VisitAssignmentStatementDivideEqualAST(ctx *parser.AssignmentS
 }
 
 func (c *Checker) VisitIfStatementAST(ctx *parser.IfStatementASTContext) interface{} {
-	fmt.Println("VisitIfStatementAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitIfElseIfStatementAST(ctx *parser.IfElseIfStatementASTContext) interface{} {
-	fmt.Println("VisitIfElseIfStatementAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitIfElseStatementAST(ctx *parser.IfElseStatementASTContext) interface{} {
 
-	fmt.Println("VisitIfElseStatementAST: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
@@ -848,13 +744,10 @@ func (c *Checker) VisitExpressionSwitchDefaultAST(ctx *parser.ExpressionSwitchDe
 
 func (c *Checker) VisitEpsilon(ctx *parser.EpsilonContext) interface{} {
 	//TODO implement me
-	fmt.Println("VisitEpsilon: ", ctx.GetText())
 	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitIdentifierList(ctx *parser.IdentifierListContext) interface{} {
-
-	fmt.Println("esto que es: ", ctx.IDENTIFIER(0))
 
 	return ctx.IDENTIFIER(0)
 }
