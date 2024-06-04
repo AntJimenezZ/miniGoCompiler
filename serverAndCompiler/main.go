@@ -1,6 +1,7 @@
 package main
 
 import (
+	"Proyecto_Compiladores/checker"
 	"Proyecto_Compiladores/encoder"
 	"Proyecto_Compiladores/parser"
 	"bytes"
@@ -119,14 +120,12 @@ func compiler() *ir.Module {
 
 	//fmt.Println("Compilation failed")
 
-	/*
-		globalSymbolTable := checker.NewSymbolTable()
-		check := &checker.Checker{
-			SymbolTable: globalSymbolTable,
-		}
+	globalSymbolTable := checker.NewSymbolTable()
+	check := &checker.Checker{
+		SymbolTable: globalSymbolTable,
+	}
 
-		check.Visit(tree)*/
-
+	check.Visit(tree)
 	return module
 }
 

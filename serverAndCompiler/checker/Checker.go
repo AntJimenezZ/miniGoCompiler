@@ -48,8 +48,9 @@ func (c *Checker) VisitRoot(ctx *parser.RootContext) interface{} {
 		fun := fn.FuncFrontDecl()
 		fmt.Println("FUNC", fun.IDENTIFIER())
 
-		fmt.Println("ARGS", fun.FuncArgDecls().GetText())
-
+		if fun.FuncArgDecls() != nil {
+			fmt.Println("ARGS", fun.FuncArgDecls().GetText())
+		}
 	}
 
 	return c.VisitChildren(ctx)
@@ -64,7 +65,8 @@ func (c *Checker) VisitTopDeclarationList(ctx *parser.TopDeclarationListContext)
 
 func (c *Checker) VisitVariableDeclBlockAST(ctx *parser.VariableDeclBlockASTContext) interface{} {
 	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitVariableDeclBlockAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitVariableDeclEmptyAST(ctx *parser.VariableDeclEmptyASTContext) interface{} {
@@ -73,8 +75,9 @@ func (c *Checker) VisitVariableDeclEmptyAST(ctx *parser.VariableDeclEmptyASTCont
 }
 
 func (c *Checker) VisitInnerVarDecls(ctx *parser.InnerVarDeclsContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitInnerVarDecls: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitSingleVarDeclAST(ctx *parser.SingleVarDeclASTContext) interface{} {
@@ -226,9 +229,11 @@ func (c *Checker) VisitFuncFrontDecl(ctx *parser.FuncFrontDeclContext) interface
 	funcName := ctx.IDENTIFIER().GetText()
 
 	// Get the function arguments
-	args := ctx.FuncArgDecls().GetText()
+	if ctx.FuncArgDecls() != nil {
 
-	fmt.Println("Func args: " + args)
+		args := ctx.FuncArgDecls().GetText()
+		fmt.Println("Func args: " + args)
+	}
 	fmt.Println("func name: " + funcName)
 
 	return c.VisitChildren(ctx)
@@ -252,8 +257,9 @@ func (c *Checker) VisitSingleReturnTypeAST(ctx *parser.SingleReturnTypeASTContex
 }
 
 func (c *Checker) VisitSingleReturnTypeEmptyAST(ctx *parser.SingleReturnTypeEmptyASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitSingleReturnTypeEmptyAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitFuncArgDecls(ctx *parser.FuncArgDeclsContext) interface{} {
@@ -302,7 +308,6 @@ func (c *Checker) VisitDeclTypeStructAST(ctx *parser.DeclTypeStructASTContext) i
 }
 
 func (c *Checker) VisitSliceDeclType(ctx *parser.SliceDeclTypeContext) interface{} {
-	//TODO implement me
 	fmt.Println("VisitSliceDeclType:", ctx.GetText())
 
 	return ctx.GetText()
@@ -340,13 +345,13 @@ func (c *Checker) VisitExpressionNotUnaryAST(ctx *parser.ExpressionNotUnaryASTCo
 }
 
 func (c *Checker) VisitExpressionMultiplyAST(ctx *parser.ExpressionMultiplyASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitExpressionMultiplyAST: ", ctx.GetText(), ctx.AllExpression())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionPlusAST(ctx *parser.ExpressionPlusASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitExpressionPlusAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionModuloAST(ctx *parser.ExpressionModuloASTContext) interface{} {
@@ -365,8 +370,8 @@ func (c *Checker) VisitExpressionBitwiseXorAST(ctx *parser.ExpressionBitwiseXorA
 }
 
 func (c *Checker) VisitExpressionMinusAST(ctx *parser.ExpressionMinusASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitExpressionMinusAST: ", ctx.GetText(), ctx.Expression(0), ctx.Expression(1))
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionBitwiseXorUnaryAST(ctx *parser.ExpressionBitwiseXorUnaryASTContext) interface{} {
@@ -375,8 +380,9 @@ func (c *Checker) VisitExpressionBitwiseXorUnaryAST(ctx *parser.ExpressionBitwis
 }
 
 func (c *Checker) VisitExpressionEqualAST(ctx *parser.ExpressionEqualASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitExpressionEqualAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionMinusUnaryAST(ctx *parser.ExpressionMinusUnaryASTContext) interface{} {
@@ -390,18 +396,19 @@ func (c *Checker) VisitExpressionBitwiseClearAST(ctx *parser.ExpressionBitwiseCl
 }
 
 func (c *Checker) VisitExpressionGreaterEqualAST(ctx *parser.ExpressionGreaterEqualASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitExpressionGreaterEqualAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionLessEqualAST(ctx *parser.ExpressionLessEqualASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitExpressionLessEqualAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionNotEqualAST(ctx *parser.ExpressionNotEqualASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitExpressionNotEqualAST: ", ctx.GetText(), ctx.Expression(0), ctx.Expression(1))
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionPrimaryAST(ctx *parser.ExpressionPrimaryASTContext) interface{} {
@@ -420,8 +427,8 @@ func (c *Checker) VisitExpressionGreaterAST(ctx *parser.ExpressionGreaterASTCont
 }
 
 func (c *Checker) VisitExpressionDivideAST(ctx *parser.ExpressionDivideASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitExpressionDivideAST: ", ctx.GetText(), ctx.Expression(0), ctx.Expression(1))
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitExpressionOrAST(ctx *parser.ExpressionOrASTContext) interface{} {
@@ -455,13 +462,14 @@ func (c *Checker) VisitExpressionShiftLeftAST(ctx *parser.ExpressionShiftLeftAST
 }
 
 func (c *Checker) VisitExpressionList(ctx *parser.ExpressionListContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitExpressionList: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitPrimaryExpressionLengthAST(ctx *parser.PrimaryExpressionLengthASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitPrimaryExpressionLength: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitPrimaryExpressionOperandAST(ctx *parser.PrimaryExpressionOperandASTContext) interface{} {
@@ -511,8 +519,8 @@ func (c *Checker) VisitOperandIdentifierAST(ctx *parser.OperandIdentifierASTCont
 }
 
 func (c *Checker) VisitOperandParenAST(ctx *parser.OperandParenASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitOperandParenAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitLiteralIntAST(ctx *parser.LiteralIntASTContext) interface{} {
@@ -521,8 +529,10 @@ func (c *Checker) VisitLiteralIntAST(ctx *parser.LiteralIntASTContext) interface
 }
 
 func (c *Checker) VisitLiteralFloatAST(ctx *parser.LiteralFloatASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitLiteralFloatAST: ", ctx.GetText())
+
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitLiteralRuneAST(ctx *parser.LiteralRuneASTContext) interface{} {
@@ -566,8 +576,8 @@ func (c *Checker) VisitAppendExpression(ctx *parser.AppendExpressionContext) int
 }
 
 func (c *Checker) VisitLengthExpression(ctx *parser.LengthExpressionContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitLenghtExpression: ", ctx.GetText(), ctx.Expression())
+	return 10
 }
 
 func (c *Checker) VisitCapExpression(ctx *parser.CapExpressionContext) interface{} {
@@ -595,8 +605,8 @@ func (c *Checker) VisitStatementPrintAST(ctx *parser.StatementPrintASTContext) i
 }
 
 func (c *Checker) VisitStatementPrintlnAST(ctx *parser.StatementPrintlnASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitStatementPrintlnAst:", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitStatementReturnAST(ctx *parser.StatementReturnASTContext) interface{} {
@@ -618,8 +628,10 @@ func (c *Checker) VisitStatementContinueAST(ctx *parser.StatementContinueASTCont
 }
 
 func (c *Checker) VisitStatementSimpleAST(ctx *parser.StatementSimpleASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitStatementSimple", ctx.GetText())
+
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitStatementBlockAST(ctx *parser.StatementBlockASTContext) interface{} {
@@ -633,8 +645,8 @@ func (c *Checker) VisitStatementSwitchAST(ctx *parser.StatementSwitchASTContext)
 }
 
 func (c *Checker) VisitStatementIfAST(ctx *parser.StatementIfASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitStatementIfAST: ", ctx.GetText(), ctx.IfStatement().GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitStatementLoopAST(ctx *parser.StatementLoopASTContext) interface{} {
@@ -652,7 +664,6 @@ func (c *Checker) VisitStatementVariableDeclAST(ctx *parser.StatementVariableDec
 	//JUM
 
 	fmt.Println("VisitStatmentVariableDecl: ", ctx.GetText())
-
 	//panic("implement me")
 	return c.VisitChildren(ctx)
 }
@@ -668,8 +679,9 @@ func (c *Checker) VisitSimpleStatementExpressionAST(ctx *parser.SimpleStatementE
 }
 
 func (c *Checker) VisitSimpleStatementAssignmentAST(ctx *parser.SimpleStatementAssignmentASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitSimpleStatementAssignment: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitSimpleStatementExpressionListAssignAST(ctx *parser.SimpleStatementExpressionListAssignASTContext) interface{} {
@@ -678,8 +690,9 @@ func (c *Checker) VisitSimpleStatementExpressionListAssignAST(ctx *parser.Simple
 }
 
 func (c *Checker) VisitAssignmentStatementAST(ctx *parser.AssignmentStatementASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitAssignmentStatementAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitAssignmentStatementPlusEqualAST(ctx *parser.AssignmentStatementPlusEqualASTContext) interface{} {
@@ -738,18 +751,19 @@ func (c *Checker) VisitAssignmentStatementDivideEqualAST(ctx *parser.AssignmentS
 }
 
 func (c *Checker) VisitIfStatementAST(ctx *parser.IfStatementASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitIfStatementAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitIfElseIfStatementAST(ctx *parser.IfElseIfStatementASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitIfElseIfStatementAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitIfElseStatementAST(ctx *parser.IfElseStatementASTContext) interface{} {
-	//TODO implement me
-	panic("implement me")
+
+	fmt.Println("VisitIfElseStatementAST: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitIfSimpleStatementAST(ctx *parser.IfSimpleStatementASTContext) interface{} {
@@ -834,7 +848,8 @@ func (c *Checker) VisitExpressionSwitchDefaultAST(ctx *parser.ExpressionSwitchDe
 
 func (c *Checker) VisitEpsilon(ctx *parser.EpsilonContext) interface{} {
 	//TODO implement me
-	panic("implement me")
+	fmt.Println("VisitEpsilon: ", ctx.GetText())
+	return c.VisitChildren(ctx)
 }
 
 func (c *Checker) VisitIdentifierList(ctx *parser.IdentifierListContext) interface{} {
