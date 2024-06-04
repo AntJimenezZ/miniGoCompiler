@@ -33,7 +33,7 @@ NOTA: Si se desea usar el bloc de notas, comentar el handler en el main e invoca
 La parte web se encuentra comentada, si se quiere usar, simplemente descomentar las lineas de handler en el main
 
 Una vez realizados los pasos anteriores, se debe mostrar en la terminal del servidor que se está ejecutando correctamente
-lo mismo con la terminal de la interfaz web, que debe mostrar una dirrecion localhost donde se encuentra alojada la página
+lo mismo con la terminal de la interfaz web, que debe mostrar una direcion localhost donde se encuentra alojada la página
 
 La pagina cuenta con 2 bloques de texto, en el de la izquierda se debe escribir el código, una vez terminado de escribir
 se debe presionar en el botón "compile" y enviará un mensaje al servidor, el parser procesará el código y se retornará
