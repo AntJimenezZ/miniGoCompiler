@@ -1,4 +1,1 @@
-No dio tiempo de mostrar la symbol table en la interfaz gráfica,
-tampoco los errores relacionados con redeclaración de variables, funcs, structs
-,etc. pero los muestra en consola y en un archivo txt, los muestra
-duplicados por un error. 
+Ejecutar el module.exe
