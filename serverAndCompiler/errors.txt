@@ -2,3 +2,11 @@ ERROR, STRUCT DONT DEFINED
 OBJECT: '<nil>' its not declared 
 ERROR, STRUCT DONT DEFINED 
 OBJECT: '<nil>' its not declared 
+ERROR, STRUCT DONT DEFINED 
+OBJECT: '<nil>' its not declared 
+ERROR, STRUCT DONT DEFINED 
+OBJECT: '<nil>' its not declared 
+ERROR, STRUCT DONT DEFINED 
+OBJECT: '<nil>' its not declared 
+ERROR, STRUCT DONT DEFINED 
+OBJECT: '<nil>' its not declared 
