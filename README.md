@@ -30,6 +30,8 @@ NOTA: Si se desea usar el bloc de notas, comentar el handler en el main e invoca
 
 ### **Funcionamiento**
 
+La parte web se encuentra comentada, si se quiere usar, simplemente descomentar las lineas de handler en el main
+
 Una vez realizados los pasos anteriores, se debe mostrar en la terminal del servidor que se está ejecutando correctamente
 lo mismo con la terminal de la interfaz web, que debe mostrar una dirrecion localhost donde se encuentra alojada la página
 
