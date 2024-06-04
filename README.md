@@ -41,7 +41,7 @@ una respuesta que se mostrará en el bloque de texto de la derecha, si se encuen
 mostrará que no hay errores
 
 
-Se adjunta un enlace de YouTube donde se muestra el funcionamiento del proyecto
+Se adjunta un enlace de YouTube donde se muestra el funcionamiento del proyecto para la etapa 1 y 2:
 https://youtu.be/pYxynzg-Cyo
 
 Manual de uso:
