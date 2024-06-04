@@ -38,8 +38,9 @@ se debe presionar en el botón "compile" y enviará un mensaje al servidor, el p
 una respuesta que se mostrará en el bloque de texto de la derecha, si se encuentran errores, los mostrará enumerados y si no,
 mostrará que no hay errores
 
-### **Documentacion**
-https://docs.google.com/document/d/1QZJTp6kOn7bUCHdml65SLu3LjsLNhZ5rIZFESMR902U/edit?usp=sharing
 
 Se adjunta un enlace de YouTube donde se muestra el funcionamiento del proyecto
 https://youtu.be/pYxynzg-Cyo
+
+Manual de uso:
+https://youtu.be/NlSxTWceM2A
